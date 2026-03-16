@@ -8,6 +8,7 @@ declare global {
             getAppVersion: () => Promise<string>;
             openLogFile: () => Promise<void>;
             openFile: (filePath: string) => Promise<void>;
+            selectDirectory: (defaultPath?: string) => Promise<string | null>;
             getSettings: () => Promise<Settings>;
             setSettings: (settings: Settings) => Promise<void>;
             getRecentlyAdded: () => Promise<(Movie | TvShow)[]>;

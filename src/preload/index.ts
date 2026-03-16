@@ -8,6 +8,8 @@ const api = {
     openLogFile: (): Promise<void> => ipcRenderer.invoke('open-log-file'),
     openFile: (filePath: string): Promise<void> =>
         ipcRenderer.invoke('open-file', filePath),
+    selectDirectory: (defaultPath?: string): Promise<string | null> =>
+        ipcRenderer.invoke('select-directory', defaultPath),
     getSettings: (): Promise<Settings> => ipcRenderer.invoke('get-settings'),
     setSettings: (settings: Settings): Promise<void> =>
         ipcRenderer.invoke('set-settings', settings),

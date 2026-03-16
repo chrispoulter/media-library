@@ -35,6 +35,7 @@ const settingsSchema = z.object({
 
 export const SettingsView = (): React.JSX.Element => {
     const { data: settings, isLoading, error: loadError } = useSettingsQuery();
+
     const {
         mutate,
         isPending,
@@ -46,6 +47,8 @@ export const SettingsView = (): React.JSX.Element => {
         register,
         handleSubmit,
         reset,
+        setValue,
+        getValues,
         formState: { errors },
     } = useForm<Settings>({ resolver: zodResolver(settingsSchema) });
 
@@ -56,6 +59,17 @@ export const SettingsView = (): React.JSX.Element => {
     }, [settings, reset]);
 
     const onSaveSettings = (data: Settings): void => mutate(data);
+
+    const onOpenDirectory = async (
+        field: 'moviesDirectory' | 'tvShowsDirectory'
+    ): Promise<void> => {
+        const currentPath = getValues(field) || undefined;
+        const dir = await window.api.selectDirectory(currentPath);
+
+        if (dir) {
+            setValue(field, dir, { shouldValidate: true });
+        }
+    };
 
     if (isLoading) {
         return (
@@ -108,14 +122,24 @@ export const SettingsView = (): React.JSX.Element => {
                     >
                         Movie Directory
                     </label>
-                    <input
-                        id="moviesDirectory"
-                        type="text"
-                        placeholder="/path/to/movies"
-                        {...register('moviesDirectory')}
-                        disabled={isPending}
-                        className="mb-1 w-full rounded border border-gray-400 p-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-                    />
+                    <div className="mb-1 flex gap-2">
+                        <input
+                            id="moviesDirectory"
+                            type="text"
+                            placeholder="/path/to/movies"
+                            {...register('moviesDirectory')}
+                            disabled={isPending}
+                            className="w-full rounded border border-gray-400 p-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                        />
+                        <button
+                            type="button"
+                            disabled={isPending}
+                            className="cursor-pointer rounded border border-gray-400 px-3 py-2 hover:bg-gray-200 dark:border-gray-600 dark:hover:bg-gray-700"
+                            onClick={() => onOpenDirectory('moviesDirectory')}
+                        >
+                            Browse
+                        </button>
+                    </div>
                     {errors.moviesDirectory ? (
                         <p className="text-sm text-red-500 dark:text-red-400">
                             {errors.moviesDirectory.message}
@@ -133,14 +157,24 @@ export const SettingsView = (): React.JSX.Element => {
                     >
                         TV Shows Directory
                     </label>
-                    <input
-                        id="tvShowsDirectory"
-                        type="text"
-                        placeholder="/path/to/tv-shows"
-                        {...register('tvShowsDirectory')}
-                        disabled={isPending}
-                        className="mb-1 w-full rounded border border-gray-300 p-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-                    />
+                    <div className="mb-1 flex gap-2">
+                        <input
+                            id="tvShowsDirectory"
+                            type="text"
+                            placeholder="/path/to/tv-shows"
+                            {...register('tvShowsDirectory')}
+                            disabled={isPending}
+                            className="w-full rounded border border-gray-300 p-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                        />
+                        <button
+                            type="button"
+                            disabled={isPending}
+                            className="cursor-pointer rounded border border-gray-400 px-3 py-2 hover:bg-gray-200 dark:border-gray-600 dark:hover:bg-gray-700"
+                            onClick={() => onOpenDirectory('tvShowsDirectory')}
+                        >
+                            Browse
+                        </button>
+                    </div>
                     {errors.tvShowsDirectory ? (
                         <p className="text-sm text-red-500 dark:text-red-400">
                             {errors.tvShowsDirectory.message}

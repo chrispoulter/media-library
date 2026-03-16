@@ -1,4 +1,4 @@
-import { app, shell, ipcMain } from 'electron';
+import { app, shell, ipcMain, dialog } from 'electron';
 import log from 'electron-log/main';
 import type { Settings } from '../shared/types';
 import { getSettings, setSettings } from './settingsStore';
@@ -12,6 +12,13 @@ export const registerHandlers = (): void => {
     ipcMain.handle('open-file', (_, filePath: string) =>
         shell.openPath(filePath)
     );
+    ipcMain.handle('select-directory', async (_, defaultPath?: string) => {
+        const result = await dialog.showOpenDialog({
+            properties: ['openDirectory'],
+            ...(defaultPath ? { defaultPath } : {}),
+        });
+        return result.canceled ? null : result.filePaths[0];
+    });
     ipcMain.handle('get-settings', () => getSettings());
     ipcMain.handle('set-settings', (_, settings: Settings) =>
         setSettings(settings)
