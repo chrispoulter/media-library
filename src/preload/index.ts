@@ -6,8 +6,10 @@ import { Settings, Movie, TvShow, Poster, QueueStatus } from '../shared/types';
 const api = {
     getAppVersion: (): Promise<string> => ipcRenderer.invoke('get-app-version'),
     openLogFile: (): Promise<void> => ipcRenderer.invoke('open-log-file'),
-    openFile: (filePath: string): Promise<void> =>
-        ipcRenderer.invoke('open-file', filePath),
+    openMoveFile: (filePath: string): Promise<void> =>
+        ipcRenderer.invoke('open-move-file', filePath),
+    openTvShowFile: (filePath: string): Promise<void> =>
+        ipcRenderer.invoke('open-tv-show-file', filePath),
     selectDirectory: (defaultPath?: string): Promise<string | null> =>
         ipcRenderer.invoke('select-directory', defaultPath),
     getSettings: (): Promise<Settings> => ipcRenderer.invoke('get-settings'),

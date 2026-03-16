@@ -15,9 +15,29 @@ export const registerHandlers = (): void => {
     ipcMain.handle('open-log-file', () =>
         shell.openPath(log.transports.file.getFile().path)
     );
-    ipcMain.handle('open-file', (_, filePath: string) =>
-        shell.openPath(filePath)
-    );
+    ipcMain.handle('open-move-file', (_, filePath: string) => {
+        const { moviesDirectory } = getSettings();
+        if (moviesDirectory && filePath.startsWith(moviesDirectory)) {
+            return shell.openPath(filePath);
+        }
+
+        return dialog.showErrorBox(
+            'Invalid File',
+            'The selected file is not in the movies directory.'
+        );
+    });
+    ipcMain.handle('open-tv-show-file', (_, filePath: string) => {
+        const { tvShowsDirectory } = getSettings();
+
+        if (tvShowsDirectory && filePath.startsWith(tvShowsDirectory)) {
+            return shell.openPath(filePath);
+        }
+
+        return dialog.showErrorBox(
+            'Invalid File',
+            'The selected file is not in the TV shows directory.'
+        );
+    });
     ipcMain.handle('select-directory', async (_, defaultPath?: string) => {
         const result = await dialog.showOpenDialog({
             properties: ['openDirectory'],

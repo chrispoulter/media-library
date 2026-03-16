@@ -62,7 +62,7 @@ export const TvShowCard = ({
                         <div
                             key={index}
                             onClick={() =>
-                                window.api.openFile(episode.filePath)
+                                window.api.openTvShowFile(episode.filePath)
                             }
                             className="flex cursor-pointer items-center gap-2 rounded bg-gray-100 p-2 transition-colors duration-150 hover:bg-gray-200 dark:bg-gray-600 dark:text-white dark:hover:bg-gray-500"
                         >

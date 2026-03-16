@@ -13,7 +13,8 @@ declare global {
         api: {
             getAppVersion: () => Promise<string>;
             openLogFile: () => Promise<void>;
-            openFile: (filePath: string) => Promise<void>;
+            openMoveFile: (filePath: string) => Promise<void>;
+            openTvShowFile: (filePath: string) => Promise<void>;
             selectDirectory: (defaultPath?: string) => Promise<string | null>;
             getSettings: () => Promise<Settings>;
             setSettings: (settings: Settings) => Promise<void>;
