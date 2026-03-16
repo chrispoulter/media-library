@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- Background: dark rounded square -->
+  <rect width="512" height="512" rx="96" ry="96" fill="#2b2d3a"/>
+
+  <!-- Film frame outer border -->
+  <rect x="72" y="100" width="368" height="312" rx="18" ry="18" fill="none" stroke="#64c8e8" stroke-width="20"/>
+
+  <!-- Film strip notches - top row -->
+  <rect x="108" y="78" width="32" height="44" rx="6" ry="6" fill="#64c8e8"/>
+  <rect x="180" y="78" width="32" height="44" rx="6" ry="6" fill="#64c8e8"/>
+  <rect x="252" y="78" width="32" height="44" rx="6" ry="6" fill="#64c8e8"/>
+  <rect x="324" y="78" width="32" height="44" rx="6" ry="6" fill="#64c8e8"/>
+  <rect x="396" y="78" width="32" height="44" rx="6" ry="6" fill="#64c8e8"/>
+
+  <!-- Film strip notches - bottom row -->
+  <rect x="108" y="390" width="32" height="44" rx="6" ry="6" fill="#64c8e8"/>
+  <rect x="180" y="390" width="32" height="44" rx="6" ry="6" fill="#64c8e8"/>
+  <rect x="252" y="390" width="32" height="44" rx="6" ry="6" fill="#64c8e8"/>
+  <rect x="324" y="390" width="32" height="44" rx="6" ry="6" fill="#64c8e8"/>
+  <rect x="396" y="390" width="32" height="44" rx="6" ry="6" fill="#64c8e8"/>
+
+  <!-- Play triangle centered -->
+  <polygon points="196,176 196,336 356,256" fill="#64c8e8" opacity="0.95"/>
+</svg>

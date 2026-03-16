@@ -1,0 +1,11 @@
+export const MovieCardSkeleton = (): React.JSX.Element => (
+    <div className="flex animate-pulse items-center gap-4 rounded bg-gray-200 p-2 shadow-sm dark:bg-gray-700">
+        <div className="h-8 w-8 shrink-0 rounded bg-gray-300 dark:bg-gray-600" />
+        <div className="h-4 w-40 rounded bg-gray-300 dark:bg-gray-600" />
+        <div className="ml-auto flex items-center gap-2">
+            <div className="h-5 w-12 rounded bg-gray-300 dark:bg-gray-600" />
+            <div className="h-5 w-10 rounded bg-gray-300 dark:bg-gray-600" />
+            <div className="h-5 w-5 rounded bg-gray-300 dark:bg-gray-600" />
+        </div>
+    </div>
+);

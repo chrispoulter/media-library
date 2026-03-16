@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 150" fill="none">
+  <!-- Background -->
+  <rect width="100" height="150" rx="8" fill="#2b2d3a"/>
+  <!-- Lucide tv icon, centered -->
+  <g transform="translate(25, 54) scale(2.083)" stroke="#64c8e8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <rect width="20" height="15" x="2" y="7" rx="2" ry="2"/>
+    <polyline points="17 2 12 7 7 2"/>
+  </g>
+</svg>

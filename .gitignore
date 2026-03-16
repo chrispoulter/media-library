@@ -1,0 +1,7 @@
+node_modules
+dist
+out
+.eslintcache
+
+.claude/settings.local.json
+test-media
