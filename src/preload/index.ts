@@ -17,6 +17,12 @@ const api = {
         ipcRenderer.invoke('get-recently-added'),
     getMovies: (): Promise<Movie[]> => ipcRenderer.invoke('get-movies'),
     getTvShows: (): Promise<TvShow[]> => ipcRenderer.invoke('get-tv-shows'),
+    clearPosterStore: (): Promise<void> =>
+        ipcRenderer.invoke('clear-poster-store'),
+    refetchFailedPosters: (): Promise<void> =>
+        ipcRenderer.invoke('refetch-failed-posters'),
+    refetchAllPosters: (): Promise<void> =>
+        ipcRenderer.invoke('refetch-all-posters'),
     onPosterUpdated: (callback: (data: Poster) => void) => {
         const listener = (_: Electron.IpcRendererEvent, data: Poster): void =>
             callback(data);

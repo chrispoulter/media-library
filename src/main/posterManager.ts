@@ -1,8 +1,15 @@
 import log from 'electron-log/main';
 import { BrowserWindow } from 'electron';
 import { Poster } from '../shared/types';
-import { getPosterUrl, setPosterUrl } from './posterStore';
+import {
+    getPosterUrl,
+    setPosterUrl,
+    deletePosterUrl,
+    getNullPosterKeys,
+    clearPosterStore,
+} from './posterStore';
 import { fetchPosterUrl } from './tmdbFetcher';
+import { getMovies, getTvShows } from './mediaScanner';
 
 type QueueItem = { type: 'movie' | 'tv-show'; title: string };
 
@@ -101,3 +108,18 @@ const broadcastPosterUpdate = (poster: Poster): void =>
     BrowserWindow.getAllWindows().forEach((win) =>
         win.webContents.send('poster-updated', poster)
     );
+
+export const refetchFailedPosters = (): void => {
+    const failed = getNullPosterKeys();
+    failed.forEach(({ type, title }) => {
+        deletePosterUrl(type, title);
+        enqueuePoster(type, title);
+    });
+};
+
+export const refetchAllPosters = async (): Promise<void> => {
+    clearPosterStore();
+    const [movies, tvShows] = await Promise.all([getMovies(), getTvShows()]);
+    movies.forEach((m) => enqueuePoster('movie', m.title));
+    tvShows.forEach((t) => enqueuePoster('tv-show', t.title));
+};

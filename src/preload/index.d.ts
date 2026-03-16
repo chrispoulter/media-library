@@ -14,6 +14,9 @@ declare global {
             getRecentlyAdded: () => Promise<(Movie | TvShow)[]>;
             getMovies: () => Promise<Movie[]>;
             getTvShows: () => Promise<TvShow[]>;
+            clearPosterStore: () => Promise<void>;
+            refetchFailedPosters: () => Promise<void>;
+            refetchAllPosters: () => Promise<void>;
             onPosterUpdated: (callback: (data: Poster) => void) => () => void;
         };
     }

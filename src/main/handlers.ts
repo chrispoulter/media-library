@@ -3,6 +3,8 @@ import log from 'electron-log/main';
 import type { Settings } from '../shared/types';
 import { getSettings, setSettings } from './settingsStore';
 import { getMovies, getRecentlyAdded, getTvShows } from './mediaScanner';
+import { clearPosterStore } from './posterStore';
+import { refetchFailedPosters, refetchAllPosters } from './posterManager';
 
 export const registerHandlers = (): void => {
     ipcMain.handle('get-app-version', () => app.getVersion());
@@ -26,6 +28,9 @@ export const registerHandlers = (): void => {
     ipcMain.handle('get-recently-added', () => getRecentlyAdded());
     ipcMain.handle('get-movies', () => getMovies());
     ipcMain.handle('get-tv-shows', () => getTvShows());
+    ipcMain.handle('clear-poster-store', () => clearPosterStore());
+    ipcMain.handle('refetch-failed-posters', () => refetchFailedPosters());
+    ipcMain.handle('refetch-all-posters', () => refetchAllPosters());
 
     // protocol.handle('poster', (request) => {
     //   const filePath = request.url.slice('poster://'.length).split('?')[0]
