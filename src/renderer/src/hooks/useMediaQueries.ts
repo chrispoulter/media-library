@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {
     useMutation,
     useQuery,
@@ -7,7 +7,13 @@ import {
     type UseQueryResult,
 } from '@tanstack/react-query';
 import log from 'electron-log/renderer';
-import type { Movie, TvShow, Settings, Poster } from '../../../shared/types';
+import type {
+    Movie,
+    TvShow,
+    Settings,
+    Poster,
+    QueueStatus,
+} from '../../../shared/types';
 import { applyTheme } from '../utils/theme';
 
 export const useVersionQuery = (): UseQueryResult<string> =>
@@ -61,6 +67,22 @@ export const useSaveSettingsMutation = (): UseMutationResult<
             queryClient.invalidateQueries({ queryKey: ['recently-added'] });
         },
     });
+};
+
+export const useQueueStatus = (): QueueStatus => {
+    const [status, setStatus] = useState<QueueStatus>({
+        total: 0,
+        remaining: 0,
+        isProcessing: false,
+    });
+
+    useEffect(() => {
+        window.api.getQueueStatus().then(setStatus);
+        const unsubscribe = window.api.onQueueStatusUpdated(setStatus);
+        return unsubscribe;
+    }, []);
+
+    return status;
 };
 
 export const usePosterUpdates = (): void => {

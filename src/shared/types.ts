@@ -28,6 +28,12 @@ export type Poster = {
     posterUrl: string | undefined | null;
 };
 
+export type QueueStatus = {
+    total: number;
+    remaining: number;
+    isProcessing: boolean;
+};
+
 export type Settings = {
     theme: 'light' | 'dark' | 'system';
     moviesDirectory: string;

@@ -1,6 +1,6 @@
 import log from 'electron-log/main';
 import { BrowserWindow } from 'electron';
-import { Poster } from '../shared/types';
+import { Poster, QueueStatus } from '../shared/types';
 import {
     getPosterUrl,
     setPosterUrl,
@@ -15,6 +15,24 @@ type QueueItem = { type: 'movie' | 'tv-show'; title: string };
 
 const queue: QueueItem[] = [];
 let isProcessing = false;
+let sessionTotal = 0;
+
+const broadcastQueueStatus = (): void => {
+    const status: QueueStatus = {
+        total: sessionTotal,
+        remaining: queue.length,
+        isProcessing,
+    };
+    BrowserWindow.getAllWindows().forEach((win) =>
+        win.webContents.send('queue-status-updated', status)
+    );
+};
+
+export const getQueueStatus = (): QueueStatus => ({
+    total: sessionTotal,
+    remaining: queue.length,
+    isProcessing,
+});
 
 export const enqueuePoster = (
     type: 'movie' | 'tv-show',
@@ -33,6 +51,8 @@ export const enqueuePoster = (
     }
 
     queue.push({ title, type });
+    sessionTotal++;
+    broadcastQueueStatus();
 
     if (!isProcessing) {
         processQueue();
@@ -48,11 +68,15 @@ const processQueue = async (): Promise<void> => {
             await processItem(item);
         }
 
+        broadcastQueueStatus();
+
         if (queue.length > 0) {
             await new Promise((resolve) => setTimeout(resolve, 1000));
         }
     }
     isProcessing = false;
+    sessionTotal = 0;
+    broadcastQueueStatus();
 };
 
 const processItem = async ({ title, type }: QueueItem): Promise<void> => {

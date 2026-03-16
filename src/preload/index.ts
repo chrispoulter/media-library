@@ -1,6 +1,6 @@
 import { contextBridge, ipcRenderer } from 'electron';
 import { electronAPI } from '@electron-toolkit/preload';
-import { Settings, Movie, TvShow, Poster } from '../shared/types';
+import { Settings, Movie, TvShow, Poster, QueueStatus } from '../shared/types';
 
 // Custom APIs for renderer
 const api = {
@@ -28,6 +28,17 @@ const api = {
             callback(data);
         ipcRenderer.on('poster-updated', listener);
         return () => ipcRenderer.removeListener('poster-updated', listener);
+    },
+    getQueueStatus: (): Promise<QueueStatus> =>
+        ipcRenderer.invoke('get-queue-status'),
+    onQueueStatusUpdated: (callback: (status: QueueStatus) => void) => {
+        const listener = (
+            _: Electron.IpcRendererEvent,
+            status: QueueStatus
+        ): void => callback(status);
+        ipcRenderer.on('queue-status-updated', listener);
+        return () =>
+            ipcRenderer.removeListener('queue-status-updated', listener);
     },
 };
 

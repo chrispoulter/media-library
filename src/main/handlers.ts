@@ -4,7 +4,11 @@ import type { Settings } from '../shared/types';
 import { getSettings, setSettings } from './settingsStore';
 import { getMovies, getRecentlyAdded, getTvShows } from './mediaScanner';
 import { clearPosterStore } from './posterStore';
-import { refetchFailedPosters, refetchAllPosters } from './posterManager';
+import {
+    refetchFailedPosters,
+    refetchAllPosters,
+    getQueueStatus,
+} from './posterManager';
 
 export const registerHandlers = (): void => {
     ipcMain.handle('get-app-version', () => app.getVersion());
@@ -31,6 +35,7 @@ export const registerHandlers = (): void => {
     ipcMain.handle('clear-poster-store', () => clearPosterStore());
     ipcMain.handle('refetch-failed-posters', () => refetchFailedPosters());
     ipcMain.handle('refetch-all-posters', () => refetchAllPosters());
+    ipcMain.handle('get-queue-status', () => getQueueStatus());
 
     // protocol.handle('poster', (request) => {
     //   const filePath = request.url.slice('poster://'.length).split('?')[0]

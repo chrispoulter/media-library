@@ -1,5 +1,11 @@
 import { ElectronAPI } from '@electron-toolkit/preload';
-import type { Settings, Movie, TvShow, Poster } from '../shared/types';
+import type {
+    Settings,
+    Movie,
+    TvShow,
+    Poster,
+    QueueStatus,
+} from '../shared/types';
 
 declare global {
     interface Window {
@@ -18,6 +24,10 @@ declare global {
             refetchFailedPosters: () => Promise<void>;
             refetchAllPosters: () => Promise<void>;
             onPosterUpdated: (callback: (data: Poster) => void) => () => void;
+            getQueueStatus: () => Promise<QueueStatus>;
+            onQueueStatusUpdated: (
+                callback: (status: QueueStatus) => void
+            ) => () => void;
         };
     }
 }
