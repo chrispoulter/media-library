@@ -1,4 +1,4 @@
 provider: github
 owner: chrispoulter
-repo: electron-vite-test
+repo: media-library
 updaterCacheDirName: media-library-updater
