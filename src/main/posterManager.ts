@@ -1,8 +1,8 @@
 import log from 'electron-log/main';
 import { BrowserWindow } from 'electron';
 import { Poster } from '../shared/types';
-import { getPoster, setPoster } from './posterStore';
-import { getPosterUrlForMovie, getPosterUrlForTvShow } from './tmdbFetcher';
+import { getPosterUrl, setPosterUrl } from './posterStore';
+import { fetchPosterUrl } from './tmdbFetcher';
 
 type QueueItem = { title: string; type: 'movie' | 'tv-show' };
 
@@ -15,7 +15,7 @@ export const enqueuePoster = (
 ): void => {
     log.info('Enqueuing poster image:', { type, title });
 
-    const posterUrl = getPoster(title);
+    const posterUrl = getPosterUrl(title);
 
     if (posterUrl !== undefined) {
         return;
@@ -55,15 +55,15 @@ const processItem = async ({ title, type }: QueueItem): Promise<void> => {
 
     switch (type) {
         case 'movie':
-            posterUrl = await getPosterUrlForMovie(title);
+            posterUrl = await fetchPosterUrl(title, 'movie');
             break;
 
         case 'tv-show':
-            posterUrl = await getPosterUrlForTvShow(title);
+            posterUrl = await fetchPosterUrl(title, 'tv');
             break;
     }
 
-    setPoster(title, posterUrl);
+    setPosterUrl(title, posterUrl);
 
     if (!posterUrl) {
         return;
