@@ -6,12 +6,18 @@ const store = new Store<Record<string, string | null>>({
     defaults: {},
 });
 
-export const getPosterUrl = (key: string): string | null | undefined =>
-    store.get(key);
+export const getPosterUrl = (
+    type: 'movie' | 'tv-show',
+    key: string
+): string | null | undefined => store.get(`${type}:${key}`);
 
-export const setPosterUrl = (key: string, posterUrl: string | null): void => {
+export const setPosterUrl = (
+    type: 'movie' | 'tv-show',
+    key: string,
+    posterUrl: string | null
+): void => {
     try {
-        store.set(key, posterUrl);
+        store.set(`${type}:${key}`, posterUrl);
     } catch (error) {
         log.error('Failed to save poster url:', error);
     }

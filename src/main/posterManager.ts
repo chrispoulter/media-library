@@ -13,15 +13,15 @@ export const enqueuePoster = (
     title: string,
     type: 'movie' | 'tv-show'
 ): void => {
-    log.info('Enqueuing poster image:', { type, title });
+    log.info('Enqueuing poster:', { type, title });
 
-    const posterUrl = getPosterUrl(title);
+    const posterUrl = getPosterUrl(type, title);
 
     if (posterUrl !== undefined) {
         return;
     }
 
-    if (queue.some((item) => item.title === title)) {
+    if (queue.some((item) => item.title === title && item.type === type)) {
         return;
     }
 
@@ -49,7 +49,7 @@ const processQueue = async (): Promise<void> => {
 };
 
 const processItem = async ({ title, type }: QueueItem): Promise<void> => {
-    log.info('Processing poster image:', { type, title });
+    log.info('Processing poster:', { type, title });
 
     let posterUrl: string | null;
 
@@ -63,7 +63,7 @@ const processItem = async ({ title, type }: QueueItem): Promise<void> => {
             break;
     }
 
-    setPosterUrl(title, posterUrl);
+    setPosterUrl(type, title, posterUrl);
 
     if (!posterUrl) {
         return;
@@ -78,7 +78,7 @@ const processItem = async ({ title, type }: QueueItem): Promise<void> => {
     //   const response = await fetch(posterUrl)
 
     //   if (!response.ok) {
-    //     console.error('Failed to fetch poster image for', title, 'Status:', response.status)
+    //     console.error('Failed to fetch poster for', title, 'Status:', response.status)
     //     return
     //   }
 
@@ -87,11 +87,11 @@ const processItem = async ({ title, type }: QueueItem): Promise<void> => {
     //   await writeFile(filePath, buffer)
 
     //   // posterUrl = `poster://${title}.jpg`
-    //   // await setPosterUrl(title, posterUrl)
+    //   // await setPosterUrl(type, title, posterUrl)
 
     //   console.log('Saved poster image for', title)
     // } catch (error) {
-    //   console.error('Error fetching/saving poster image for', title, error)
+    //   console.error('Error fetching/saving poster for', title, error)
     // }
 
     broadcastPosterUpdate({ title, type, posterUrl });

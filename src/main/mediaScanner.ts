@@ -62,7 +62,7 @@ export const getMovies = async (): Promise<Movie[]> => {
 
             const filePath = join(folderPath, file.name);
             const title = parseTitle(file.name);
-            const posterUrl = getPosterUrl(title);
+            const posterUrl = getPosterUrl('movie', title);
             const fileExtension = extname(file.name);
             const { mtimeMs: addedAt } = await stat(filePath);
 
@@ -140,7 +140,7 @@ export const getTvShows = async (): Promise<TvShow[]> => {
             continue;
         }
 
-        const posterUrl = getPosterUrl(folder.name);
+        const posterUrl = getPosterUrl('tv-show', folder.name);
         const latestAddedAt = Math.max(...episodes.map((e) => e.addedAt));
 
         enqueuePoster(folder.name, 'tv-show');
@@ -173,6 +173,6 @@ export const getRecentlyAdded = async (): Promise<(Movie | TvShow)[]> => {
 
     return items
         .sort((a, b) => b.addedAt - a.addedAt)
-        .slice(0, 20)
+        .slice(0, 30)
         .map(({ item }) => item);
 };

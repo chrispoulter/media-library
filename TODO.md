@@ -1,6 +1,5 @@
 # TODO
 
-- cache movie/tv show prefix
 - refresh button for null images
 - progress bar. queued item count? show in bottom of side bar
 
