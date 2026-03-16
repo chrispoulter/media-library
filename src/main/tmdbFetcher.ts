@@ -22,10 +22,10 @@ const parseQueryAndYear = (title: string): { query: string; year: string } => {
 };
 
 export const fetchPosterUrl = async (
-    title: string,
-    endpoint: 'movie' | 'tv'
+    endpoint: 'movie' | 'tv',
+    title: string
 ): Promise<string | null> => {
-    log.info('Fetching poster:', { title, endpoint });
+    log.info('Fetching poster:', { endpoint, title });
 
     const { tmdbApiKey } = getSettings();
 

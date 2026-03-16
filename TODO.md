@@ -1,5 +1,7 @@
 # TODO
 
+- native folder picker
+- Maintenence section in settings. Clear posters. Refetch missing. Refetch all.
 - refresh button for null images
 - progress bar. queued item count? show in bottom of side bar
 

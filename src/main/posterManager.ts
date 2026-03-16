@@ -4,14 +4,14 @@ import { Poster } from '../shared/types';
 import { getPosterUrl, setPosterUrl } from './posterStore';
 import { fetchPosterUrl } from './tmdbFetcher';
 
-type QueueItem = { title: string; type: 'movie' | 'tv-show' };
+type QueueItem = { type: 'movie' | 'tv-show'; title: string };
 
 const queue: QueueItem[] = [];
 let isProcessing = false;
 
 export const enqueuePoster = (
-    title: string,
-    type: 'movie' | 'tv-show'
+    type: 'movie' | 'tv-show',
+    title: string
 ): void => {
     log.info('Enqueuing poster:', { type, title });
 
@@ -21,7 +21,7 @@ export const enqueuePoster = (
         return;
     }
 
-    if (queue.some((item) => item.title === title && item.type === type)) {
+    if (queue.some((item) => item.type === type && item.title === title)) {
         return;
     }
 
@@ -55,11 +55,11 @@ const processItem = async ({ title, type }: QueueItem): Promise<void> => {
 
     switch (type) {
         case 'movie':
-            posterUrl = await fetchPosterUrl(title, 'movie');
+            posterUrl = await fetchPosterUrl('movie', title);
             break;
 
         case 'tv-show':
-            posterUrl = await fetchPosterUrl(title, 'tv');
+            posterUrl = await fetchPosterUrl('tv', title);
             break;
     }
 

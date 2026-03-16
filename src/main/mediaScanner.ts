@@ -66,7 +66,7 @@ export const getMovies = async (): Promise<Movie[]> => {
             const fileExtension = extname(file.name);
             const { mtimeMs: addedAt } = await stat(filePath);
 
-            enqueuePoster(title, 'movie');
+            enqueuePoster('movie', title);
 
             movies.push({
                 title,
@@ -143,7 +143,7 @@ export const getTvShows = async (): Promise<TvShow[]> => {
         const posterUrl = getPosterUrl('tv-show', folder.name);
         const latestAddedAt = Math.max(...episodes.map((e) => e.addedAt));
 
-        enqueuePoster(folder.name, 'tv-show');
+        enqueuePoster('tv-show', folder.name);
 
         tvShows.push({
             title: folder.name,

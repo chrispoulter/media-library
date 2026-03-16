@@ -23,8 +23,8 @@ export type TvShow = {
 };
 
 export type Poster = {
-    title: string;
     type: 'movie' | 'tv-show';
+    title: string;
     posterUrl: string | undefined | null;
 };
 
