@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -35,6 +35,8 @@ const settingsSchema = z.object({
 });
 
 export const SettingsView = (): React.JSX.Element => {
+    const [pendingRefetch, setPendingRefetch] = useState<boolean | null>(null);
+
     const { data: settings, isLoading, error: loadError } = useSettingsQuery();
 
     const {
@@ -79,9 +81,20 @@ export const SettingsView = (): React.JSX.Element => {
 
     const onSaveSettings = (data: Settings): void => saveSettings(data);
 
-    const onRefetchMissingPosters = (): void => refetchPosters(true);
+    const onRefetchMissingPosters = (): void => setPendingRefetch(true);
 
-    const onRefetchAllPosters = (): void => refetchPosters(false);
+    const onRefetchAllPosters = (): void => setPendingRefetch(false);
+
+    const onConfirmRefetch = (): void => {
+        if (pendingRefetch === null) {
+            return;
+        }
+
+        refetchPosters(pendingRefetch);
+        setPendingRefetch(null);
+    };
+
+    const onCancelRefetch = (): void => setPendingRefetch(null);
 
     if (isLoading) {
         return (
@@ -266,6 +279,31 @@ export const SettingsView = (): React.JSX.Element => {
                         Refetch All Posters
                     </button>
                 </div>
+                {pendingRefetch !== null && (
+                    <div className="mt-3 rounded border border-amber-200 bg-amber-50 px-3 py-3 dark:border-amber-800/50 dark:bg-amber-900/20">
+                        <p className="mb-2 text-sm text-amber-800 dark:text-amber-300">
+                            {pendingRefetch
+                                ? 'This will re-download posters that failed to load. Are you sure?'
+                                : 'This will clear all cached posters and re-download them. Are you sure?'}
+                        </p>
+                        <div className="flex gap-2">
+                            <button
+                                type="button"
+                                onClick={onConfirmRefetch}
+                                className="cursor-pointer rounded bg-amber-600 px-3 py-1 text-sm text-white hover:bg-amber-700"
+                            >
+                                Confirm
+                            </button>
+                            <button
+                                type="button"
+                                onClick={onCancelRefetch}
+                                className="cursor-pointer rounded border border-gray-300 px-3 py-1 text-sm hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-gray-700"
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                )}
                 {isRefetchSuccess && (
                     <p className="mt-3 rounded border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700 dark:border-green-800/50 dark:bg-green-900/20 dark:text-green-400">
                         Posters will be updated shortly.
