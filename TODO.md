@@ -1,7 +1,5 @@
 # TODO
 
-- only add posters to queue if tmdb is configured and no poster present
-- what happens if tmdb configuration changes during queue processing?
 - populate sidebar status message
 
 - **professional theme** - update the tailwind css theme to look more professional

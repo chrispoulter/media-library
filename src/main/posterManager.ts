@@ -3,6 +3,7 @@ import { BrowserWindow } from 'electron';
 import { Poster } from '../shared/types';
 import { setPosterUrl } from './posterStore';
 import { fetchPosterUrl } from './tmdbFetcher';
+import { getSettings } from './settingsStore';
 
 type QueueItem = { type: 'movie' | 'tv-show'; title: string };
 
@@ -13,7 +14,13 @@ export const enqueuePoster = (
     type: 'movie' | 'tv-show',
     title: string
 ): void => {
-    log.info('Enqueuing poster:', { type, title });
+    log.debug('Enqueuing poster:', { type, title });
+
+    const { tmdbApiKey } = getSettings();
+
+    if (!tmdbApiKey) {
+        return;
+    }
 
     if (queue.some((item) => item.type === type && item.title === title)) {
         return;
@@ -24,6 +31,11 @@ export const enqueuePoster = (
     if (!isProcessing) {
         processQueue();
     }
+};
+
+export const clearQueue = (): void => {
+    log.debug('Clearing poster queue');
+    queue.length = 0;
 };
 
 const processQueue = async (): Promise<void> => {
@@ -45,7 +57,7 @@ const processQueue = async (): Promise<void> => {
 };
 
 const processItem = async ({ title, type }: QueueItem): Promise<void> => {
-    log.info('Processing poster:', { type, title });
+    log.debug('Processing poster:', { type, title });
 
     let posterUrl: string | null | undefined;
 
