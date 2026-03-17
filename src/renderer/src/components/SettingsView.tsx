@@ -64,10 +64,10 @@ export const SettingsView = (): React.JSX.Element => {
         field: 'moviesDirectory' | 'tvShowsDirectory'
     ): Promise<void> => {
         const currentPath = getValues(field) || undefined;
-        const dir = await window.api.selectDirectory(currentPath);
+        const selectedPath = await window.api.selectDirectory(currentPath);
 
-        if (dir) {
-            setValue(field, dir, { shouldValidate: true });
+        if (selectedPath) {
+            setValue(field, selectedPath, { shouldValidate: true });
         }
     };
 
