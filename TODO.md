@@ -1,6 +1,5 @@
 # TODO
 
-- scale up mock data
 - **professional theme** - update the tailwind css theme to look more professional
 
 # Bugfix

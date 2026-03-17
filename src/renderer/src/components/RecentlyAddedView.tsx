@@ -23,7 +23,7 @@ export const RecentlyAddedView = (): React.JSX.Element => {
             />
             {isLoading ? (
                 <div className="flex flex-col gap-2">
-                    {Array.from({ length: 6 }).map((_, i) => (
+                    {Array.from({ length: 15 }).map((_, i) => (
                         <MovieCardSkeleton key={i} />
                     ))}
                 </div>
