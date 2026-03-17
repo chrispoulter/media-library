@@ -5,6 +5,7 @@ import { z } from 'zod';
 import {
     useSettingsQuery,
     useSaveSettingsMutation,
+    useRefetchPostersMutation,
 } from '../hooks/useMediaQueries';
 import type { Settings } from '../../../shared/types';
 
@@ -37,11 +38,18 @@ export const SettingsView = (): React.JSX.Element => {
     const { data: settings, isLoading, error: loadError } = useSettingsQuery();
 
     const {
-        mutate,
-        isPending,
-        isSuccess,
+        mutate: saveSettings,
+        isPending: isSaving,
+        isSuccess: isSaveSuccess,
         error: saveError,
     } = useSaveSettingsMutation();
+
+    const {
+        mutate: refetchPosters,
+        isPending: isRefetching,
+        isSuccess: isRefetchSuccess,
+        error: refetchError,
+    } = useRefetchPostersMutation();
 
     const {
         register,
@@ -58,8 +66,6 @@ export const SettingsView = (): React.JSX.Element => {
         }
     }, [settings, reset]);
 
-    const onSaveSettings = (data: Settings): void => mutate(data);
-
     const onOpenDirectory = async (
         field: 'moviesDirectory' | 'tvShowsDirectory'
     ): Promise<void> => {
@@ -70,6 +76,12 @@ export const SettingsView = (): React.JSX.Element => {
             setValue(field, selectedPath, { shouldValidate: true });
         }
     };
+
+    const onSaveSettings = (data: Settings): void => saveSettings(data);
+
+    const onRefetchMissingPosters = (): void => refetchPosters(true);
+
+    const onRefetchAllPosters = (): void => refetchPosters(false);
 
     if (isLoading) {
         return (
@@ -107,7 +119,7 @@ export const SettingsView = (): React.JSX.Element => {
                     <select
                         id="theme"
                         {...register('theme')}
-                        disabled={isPending}
+                        disabled={isSaving}
                         className="mb-1 w-full rounded border border-gray-300 p-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                     >
                         <option value="light">Light</option>
@@ -128,12 +140,12 @@ export const SettingsView = (): React.JSX.Element => {
                             type="text"
                             placeholder="/path/to/movies"
                             {...register('moviesDirectory')}
-                            disabled={isPending}
+                            disabled={isSaving}
                             className="w-full rounded border border-gray-400 p-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                         />
                         <button
                             type="button"
-                            disabled={isPending}
+                            disabled={isSaving}
                             className="cursor-pointer rounded border border-gray-400 px-3 py-2 hover:bg-gray-200 dark:border-gray-600 dark:hover:bg-gray-700"
                             onClick={() => onOpenDirectory('moviesDirectory')}
                         >
@@ -163,12 +175,12 @@ export const SettingsView = (): React.JSX.Element => {
                             type="text"
                             placeholder="/path/to/tv-shows"
                             {...register('tvShowsDirectory')}
-                            disabled={isPending}
+                            disabled={isSaving}
                             className="w-full rounded border border-gray-300 p-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                         />
                         <button
                             type="button"
-                            disabled={isPending}
+                            disabled={isSaving}
                             className="cursor-pointer rounded border border-gray-400 px-3 py-2 hover:bg-gray-200 dark:border-gray-600 dark:hover:bg-gray-700"
                             onClick={() => onOpenDirectory('tvShowsDirectory')}
                         >
@@ -197,7 +209,7 @@ export const SettingsView = (): React.JSX.Element => {
                         type="password"
                         placeholder="Your TMDb API Key"
                         {...register('tmdbApiKey')}
-                        disabled={isPending}
+                        disabled={isSaving}
                         className="mb-1 w-full rounded border border-gray-300 p-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                     />
                     <p className="text-sm text-gray-400">
@@ -207,13 +219,13 @@ export const SettingsView = (): React.JSX.Element => {
                 <div className="flex flex-row gap-3">
                     <button
                         type="submit"
-                        disabled={isPending}
+                        disabled={isSaving}
                         className="cursor-pointer rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
                     >
-                        {isPending ? 'Saving...' : 'Save Settings'}
+                        {isSaving ? 'Saving...' : 'Save Settings'}
                     </button>
                 </div>
-                {isSuccess && (
+                {isSaveSuccess && (
                     <p className="mt-3 rounded border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700 dark:border-green-800/50 dark:bg-green-900/20 dark:text-green-400">
                         Settings saved successfully.
                     </p>
@@ -239,26 +251,31 @@ export const SettingsView = (): React.JSX.Element => {
                     </button>
                     <button
                         type="button"
+                        disabled={isRefetching}
+                        onClick={onRefetchMissingPosters}
                         className="cursor-pointer rounded bg-amber-600 px-4 py-2 text-white hover:bg-amber-700"
-                        onClick={() => {}}
                     >
-                        Clear Poster Store
+                        Refetch Missing Posters
                     </button>
                     <button
                         type="button"
+                        disabled={isRefetching}
+                        onClick={onRefetchAllPosters}
                         className="cursor-pointer rounded bg-amber-600 px-4 py-2 text-white hover:bg-amber-700"
-                        onClick={() => {}}
-                    >
-                        Refetch Failed Posters
-                    </button>
-                    <button
-                        type="button"
-                        className="cursor-pointer rounded bg-amber-600 px-4 py-2 text-white hover:bg-amber-700"
-                        onClick={() => {}}
                     >
                         Refetch All Posters
                     </button>
                 </div>
+                {isRefetchSuccess && (
+                    <p className="mt-3 rounded border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700 dark:border-green-800/50 dark:bg-green-900/20 dark:text-green-400">
+                        Posters will be updated shortly.
+                    </p>
+                )}
+                {refetchError && (
+                    <p className="mt-3 rounded border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700 dark:border-red-800/50 dark:bg-red-900/20 dark:text-red-400">
+                        {refetchError.message}
+                    </p>
+                )}
             </div>
         </div>
     );

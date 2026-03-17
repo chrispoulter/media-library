@@ -2,6 +2,7 @@ import { app, shell, ipcMain, dialog } from 'electron';
 import log from 'electron-log/main';
 import type { Settings } from '../shared/types';
 import { getSettings, setSettings } from './settingsStore';
+import { clearPosterUrls } from './posterStore';
 import { getMovies, getRecentlyAdded, getTvShows } from './mediaScanner';
 
 export const registerHandlers = (): void => {
@@ -53,4 +54,8 @@ export const registerHandlers = (): void => {
     ipcMain.handle('get-recently-added', () => getRecentlyAdded());
     ipcMain.handle('get-movies', () => getMovies());
     ipcMain.handle('get-tv-shows', () => getTvShows());
+
+    ipcMain.handle('refetch-posters', async (_, failedOnly?: boolean) =>
+        clearPosterUrls(failedOnly)
+    );
 };

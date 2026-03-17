@@ -22,3 +22,21 @@ export const setPosterUrl = (
         log.error('Failed to save poster url:', error);
     }
 };
+
+export const clearPosterUrls = async (failedOnly?: boolean): Promise<void> => {
+    try {
+        if (!failedOnly) {
+            return store.clear();
+        }
+
+        const keys = Object.keys(store.store ?? {});
+
+        for (const key of keys) {
+            if (store.get(key) === null) {
+                store.delete(key);
+            }
+        }
+    } catch (error) {
+        log.error('Failed to clear poster urls:', error);
+    }
+};

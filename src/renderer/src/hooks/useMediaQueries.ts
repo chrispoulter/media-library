@@ -63,6 +63,23 @@ export const useRecentlyAddedQuery = (): UseQueryResult<(Movie | TvShow)[]> =>
         staleTime: Infinity,
     });
 
+export const useRefetchPostersMutation = (): UseMutationResult<
+    void,
+    Error,
+    boolean | undefined
+> => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (failedOnly?: boolean) =>
+            window.api.refetchPosters(failedOnly),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['movies'] });
+            queryClient.invalidateQueries({ queryKey: ['tv-shows'] });
+            queryClient.invalidateQueries({ queryKey: ['recently-added'] });
+        },
+    });
+};
+
 export const usePosterUpdates = (): void => {
     const queryClient = useQueryClient();
 
