@@ -47,7 +47,7 @@ const processQueue = async (): Promise<void> => {
 const processItem = async ({ title, type }: QueueItem): Promise<void> => {
     log.info('Processing poster:', { type, title });
 
-    let posterUrl: string | null;
+    let posterUrl: string | null | undefined;
 
     switch (type) {
         case 'movie':
