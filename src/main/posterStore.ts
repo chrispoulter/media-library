@@ -23,18 +23,20 @@ export const setPosterUrl = (
     }
 };
 
-export const deletePosterUrl = (type: 'movie' | 'tv-show', key: string): void =>
-    store.delete(`${type}:${key}`);
+export const clearPosterUrls = async (failedOnly?: boolean): Promise<void> => {
+    try {
+        if (!failedOnly) {
+            return store.clear();
+        }
 
-export const getNullPosterKeys = (): {
-    type: 'movie' | 'tv-show';
-    title: string;
-}[] =>
-    (Object.entries(store.store) as [string, string | null][])
-        .filter(([, v]) => v === null)
-        .map(([k]) => {
-            const [type, ...rest] = k.split(':');
-            return { type: type as 'movie' | 'tv-show', title: rest.join(':') };
-        });
+        const keys = Object.keys(store.store ?? {});
 
-export const clearPosterStore = (): void => store.clear();
+        for (const key of keys) {
+            if (store.get(key) === null) {
+                store.delete(key);
+            }
+        }
+    } catch (error) {
+        log.error('Failed to clear poster urls:', error);
+    }
+};

@@ -29,7 +29,7 @@ const parseTitle = (fileName: string): string => {
 export const getMovies = async (): Promise<Movie[]> => {
     log.info('Scanning for movies shows');
 
-    const { moviesDirectory } = getSettings();
+    const { moviesDirectory, tmdbApiKey } = getSettings();
 
     if (!moviesDirectory) {
         return [];
@@ -66,7 +66,9 @@ export const getMovies = async (): Promise<Movie[]> => {
             const fileExtension = extname(file.name);
             const { mtimeMs: addedAt } = await stat(filePath);
 
-            enqueuePoster('movie', title);
+            if (posterUrl === undefined && tmdbApiKey) {
+                enqueuePoster('movie', title);
+            }
 
             movies.push({
                 title,
@@ -84,7 +86,7 @@ export const getMovies = async (): Promise<Movie[]> => {
 export const getTvShows = async (): Promise<TvShow[]> => {
     log.info('Scanning for tv shows');
 
-    const { tvShowsDirectory } = getSettings();
+    const { tvShowsDirectory, tmdbApiKey } = getSettings();
 
     if (!tvShowsDirectory) {
         return [];
@@ -143,7 +145,9 @@ export const getTvShows = async (): Promise<TvShow[]> => {
         const posterUrl = getPosterUrl('tv-show', folder.name);
         const latestAddedAt = Math.max(...episodes.map((e) => e.addedAt));
 
-        enqueuePoster('tv-show', folder.name);
+        if (posterUrl === undefined && tmdbApiKey) {
+            enqueuePoster('tv-show', folder.name);
+        }
 
         tvShows.push({
             title: folder.name,

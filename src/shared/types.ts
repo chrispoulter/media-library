@@ -1,3 +1,10 @@
+export type Settings = {
+    theme: 'light' | 'dark' | 'system';
+    moviesDirectory: string;
+    tvShowsDirectory: string;
+    tmdbApiKey: string;
+};
+
 export type Movie = {
     title: string;
     posterUrl: string | undefined | null;
@@ -26,17 +33,4 @@ export type Poster = {
     type: 'movie' | 'tv-show';
     title: string;
     posterUrl: string | undefined | null;
-};
-
-export type QueueStatus = {
-    total: number;
-    remaining: number;
-    isProcessing: boolean;
-};
-
-export type Settings = {
-    theme: 'light' | 'dark' | 'system';
-    moviesDirectory: string;
-    tvShowsDirectory: string;
-    tmdbApiKey: string;
 };

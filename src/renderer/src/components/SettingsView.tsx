@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import {
     useSettingsQuery,
     useSaveSettingsMutation,
+    useRefetchPostersMutation,
 } from '../hooks/useMediaQueries';
 import type { Settings } from '../../../shared/types';
 
@@ -34,14 +35,23 @@ const settingsSchema = z.object({
 });
 
 export const SettingsView = (): React.JSX.Element => {
+    const [pendingRefetch, setPendingRefetch] = useState<boolean | null>(null);
+
     const { data: settings, isLoading, error: loadError } = useSettingsQuery();
 
     const {
-        mutate,
-        isPending,
-        isSuccess,
+        mutate: saveSettings,
+        isPending: isSaving,
+        isSuccess: isSaveSuccess,
         error: saveError,
     } = useSaveSettingsMutation();
+
+    const {
+        mutate: refetchPosters,
+        isPending: isRefetching,
+        isSuccess: isRefetchSuccess,
+        error: refetchError,
+    } = useRefetchPostersMutation();
 
     const {
         register,
@@ -58,18 +68,33 @@ export const SettingsView = (): React.JSX.Element => {
         }
     }, [settings, reset]);
 
-    const onSaveSettings = (data: Settings): void => mutate(data);
-
     const onOpenDirectory = async (
         field: 'moviesDirectory' | 'tvShowsDirectory'
     ): Promise<void> => {
         const currentPath = getValues(field) || undefined;
-        const dir = await window.api.selectDirectory(currentPath);
+        const selectedPath = await window.api.selectDirectory(currentPath);
 
-        if (dir) {
-            setValue(field, dir, { shouldValidate: true });
+        if (selectedPath) {
+            setValue(field, selectedPath, { shouldValidate: true });
         }
     };
+
+    const onSaveSettings = (data: Settings): void => saveSettings(data);
+
+    const onRefetchMissingPosters = (): void => setPendingRefetch(true);
+
+    const onRefetchAllPosters = (): void => setPendingRefetch(false);
+
+    const onConfirmRefetch = (): void => {
+        if (pendingRefetch === null) {
+            return;
+        }
+
+        refetchPosters(pendingRefetch);
+        setPendingRefetch(null);
+    };
+
+    const onCancelRefetch = (): void => setPendingRefetch(null);
 
     if (isLoading) {
         return (
@@ -107,7 +132,7 @@ export const SettingsView = (): React.JSX.Element => {
                     <select
                         id="theme"
                         {...register('theme')}
-                        disabled={isPending}
+                        disabled={isSaving}
                         className="mb-1 w-full rounded border border-gray-300 p-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                     >
                         <option value="light">Light</option>
@@ -128,12 +153,12 @@ export const SettingsView = (): React.JSX.Element => {
                             type="text"
                             placeholder="/path/to/movies"
                             {...register('moviesDirectory')}
-                            disabled={isPending}
+                            disabled={isSaving}
                             className="w-full rounded border border-gray-400 p-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                         />
                         <button
                             type="button"
-                            disabled={isPending}
+                            disabled={isSaving}
                             className="cursor-pointer rounded border border-gray-400 px-3 py-2 hover:bg-gray-200 dark:border-gray-600 dark:hover:bg-gray-700"
                             onClick={() => onOpenDirectory('moviesDirectory')}
                         >
@@ -163,12 +188,12 @@ export const SettingsView = (): React.JSX.Element => {
                             type="text"
                             placeholder="/path/to/tv-shows"
                             {...register('tvShowsDirectory')}
-                            disabled={isPending}
+                            disabled={isSaving}
                             className="w-full rounded border border-gray-300 p-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                         />
                         <button
                             type="button"
-                            disabled={isPending}
+                            disabled={isSaving}
                             className="cursor-pointer rounded border border-gray-400 px-3 py-2 hover:bg-gray-200 dark:border-gray-600 dark:hover:bg-gray-700"
                             onClick={() => onOpenDirectory('tvShowsDirectory')}
                         >
@@ -197,7 +222,7 @@ export const SettingsView = (): React.JSX.Element => {
                         type="password"
                         placeholder="Your TMDb API Key"
                         {...register('tmdbApiKey')}
-                        disabled={isPending}
+                        disabled={isSaving}
                         className="mb-1 w-full rounded border border-gray-300 p-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                     />
                     <p className="text-sm text-gray-400">
@@ -207,13 +232,13 @@ export const SettingsView = (): React.JSX.Element => {
                 <div className="flex flex-row gap-3">
                     <button
                         type="submit"
-                        disabled={isPending}
+                        disabled={isSaving}
                         className="cursor-pointer rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
                     >
-                        {isPending ? 'Saving...' : 'Save Settings'}
+                        {isSaving ? 'Saving...' : 'Save Settings'}
                     </button>
                 </div>
-                {isSuccess && (
+                {isSaveSuccess && (
                     <p className="mt-3 rounded border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700 dark:border-green-800/50 dark:bg-green-900/20 dark:text-green-400">
                         Settings saved successfully.
                     </p>
@@ -239,26 +264,56 @@ export const SettingsView = (): React.JSX.Element => {
                     </button>
                     <button
                         type="button"
+                        disabled={isRefetching}
+                        onClick={onRefetchMissingPosters}
                         className="cursor-pointer rounded bg-amber-600 px-4 py-2 text-white hover:bg-amber-700"
-                        onClick={() => window.api.clearPosterStore()}
                     >
-                        Clear Poster Store
+                        Refetch Missing Posters
                     </button>
                     <button
                         type="button"
+                        disabled={isRefetching}
+                        onClick={onRefetchAllPosters}
                         className="cursor-pointer rounded bg-amber-600 px-4 py-2 text-white hover:bg-amber-700"
-                        onClick={() => window.api.refetchFailedPosters()}
-                    >
-                        Refetch Failed Posters
-                    </button>
-                    <button
-                        type="button"
-                        className="cursor-pointer rounded bg-amber-600 px-4 py-2 text-white hover:bg-amber-700"
-                        onClick={() => window.api.refetchAllPosters()}
                     >
                         Refetch All Posters
                     </button>
                 </div>
+                {pendingRefetch !== null && (
+                    <div className="mt-3 rounded border border-amber-200 bg-amber-50 px-3 py-3 dark:border-amber-800/50 dark:bg-amber-900/20">
+                        <p className="mb-2 text-sm text-amber-800 dark:text-amber-300">
+                            {pendingRefetch
+                                ? 'This will re-download posters that failed to load. Are you sure?'
+                                : 'This will clear all cached posters and re-download them. Are you sure?'}
+                        </p>
+                        <div className="flex gap-2">
+                            <button
+                                type="button"
+                                onClick={onConfirmRefetch}
+                                className="cursor-pointer rounded bg-amber-600 px-3 py-1 text-sm text-white hover:bg-amber-700"
+                            >
+                                Confirm
+                            </button>
+                            <button
+                                type="button"
+                                onClick={onCancelRefetch}
+                                className="cursor-pointer rounded border border-gray-300 px-3 py-1 text-sm hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-gray-700"
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                )}
+                {isRefetchSuccess && (
+                    <p className="mt-3 rounded border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700 dark:border-green-800/50 dark:bg-green-900/20 dark:text-green-400">
+                        Posters will be updated shortly.
+                    </p>
+                )}
+                {refetchError && (
+                    <p className="mt-3 rounded border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700 dark:border-red-800/50 dark:bg-red-900/20 dark:text-red-400">
+                        {refetchError.message}
+                    </p>
+                )}
             </div>
         </div>
     );
