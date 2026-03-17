@@ -1,18 +1,15 @@
-import { useQuery } from '@tanstack/react-query';
-import { MediaEvent } from 'src/shared/types';
+import { useEventsQuery } from '@renderer/hooks/useMediaQueries';
 
 export const Status = (): React.JSX.Element | null => {
-    const { data: mediaEvent } = useQuery<MediaEvent | undefined>({
-        queryKey: ['media-event'],
-    });
+    const { data: event } = useEventsQuery();
 
     let message: string | undefined = undefined;
 
-    switch (mediaEvent?.kind) {
+    switch (event?.kind) {
         case 'poster-updated':
-            message = mediaEvent.posterUrl
-                ? `Poster updated for "${mediaEvent.title}"`
-                : `Failed to fetch poster for "${mediaEvent.title}"`;
+            message = event.posterUrl
+                ? `Poster updated for "${event.title}"`
+                : `Failed to fetch poster for "${event.title}"`;
             break;
     }
 

@@ -1,7 +1,5 @@
 # TODO
 
-- populate sidebar status message
-
 - **professional theme** - update the tailwind css theme to look more professional
 
 # Bugfix

@@ -1,5 +1,5 @@
 import { ElectronAPI } from '@electron-toolkit/preload';
-import type { Settings, Movie, TvShow, MediaEvent } from '../shared/types';
+import type { Settings, Movie, TvShow, Event } from '../shared/types';
 
 declare global {
     interface Window {
@@ -16,7 +16,7 @@ declare global {
             getMovies: () => Promise<Movie[]>;
             getTvShows: () => Promise<TvShow[]>;
             refetchPosters: (failedOnly?: boolean) => Promise<void>;
-            onMediaEvent: (callback: (event: MediaEvent) => void) => () => void;
+            onEvent: (callback: (event: Event) => void) => () => void;
         };
     }
 }

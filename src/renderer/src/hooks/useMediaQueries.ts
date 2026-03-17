@@ -7,12 +7,7 @@ import {
     type UseQueryResult,
 } from '@tanstack/react-query';
 import log from 'electron-log/renderer';
-import type {
-    Movie,
-    TvShow,
-    Settings,
-    MediaEvent,
-} from '../../../shared/types';
+import type { Movie, TvShow, Settings, Event } from '../../../shared/types';
 import { applyTheme } from '../utils/theme';
 
 export const useVersionQuery = (): UseQueryResult<string> =>
@@ -85,66 +80,69 @@ export const useRefetchPostersMutation = (): UseMutationResult<
     });
 };
 
-export const useMediaEvents = (): void => {
+export const useEventsQuery = (): UseQueryResult<Event | undefined> =>
+    useQuery({
+        queryKey: ['events'],
+        queryFn: () => undefined,
+        staleTime: Infinity,
+    });
+
+export const useEventsListener = (): void => {
     const queryClient = useQueryClient();
 
     useEffect(() => {
-        const unsubscribe = window.api.onMediaEvent(
-            (event: MediaEvent): void => {
-                log.debug('Media event received:', event);
+        const unsubscribe = window.api.onEvent((event: Event): void => {
+            log.debug('Event received:', event);
 
-                queryClient.setQueryData(['media-event'], event);
+            queryClient.setQueryData(['events'], event);
 
-                switch (event.kind) {
-                    case 'poster-updated':
-                        if (!event.posterUrl) {
-                            break;
-                        }
+            switch (event.kind) {
+                case 'poster-updated':
+                    if (!event.posterUrl) {
+                        break;
+                    }
 
-                        if (event.type === 'movie') {
-                            queryClient.setQueryData<Movie[]>(
-                                ['movies'],
-                                (old) =>
-                                    old?.map((m) =>
-                                        event.title === m.title
-                                            ? {
-                                                  ...m,
-                                                  posterUrl: event.posterUrl,
-                                              }
-                                            : m
-                                    )
-                            );
-                        }
+                    if (event.type === 'movie') {
+                        queryClient.setQueryData<Movie[]>(['movies'], (old) =>
+                            old?.map((m) =>
+                                event.title === m.title
+                                    ? {
+                                          ...m,
+                                          posterUrl: event.posterUrl,
+                                      }
+                                    : m
+                            )
+                        );
+                    }
 
-                        if (event.type === 'tv-show') {
-                            queryClient.setQueryData<TvShow[]>(
-                                ['tv-shows'],
-                                (old) =>
-                                    old?.map((s) =>
-                                        event.title === s.title
-                                            ? {
-                                                  ...s,
-                                                  posterUrl: event.posterUrl,
-                                              }
-                                            : s
-                                    )
-                            );
-                        }
-
-                        queryClient.setQueryData<(Movie | TvShow)[]>(
-                            ['recently-added'],
+                    if (event.type === 'tv-show') {
+                        queryClient.setQueryData<TvShow[]>(
+                            ['tv-shows'],
                             (old) =>
-                                old?.map((r) =>
-                                    event.title === r.title
-                                        ? { ...r, posterUrl: event.posterUrl }
-                                        : r
+                                old?.map((s) =>
+                                    event.title === s.title
+                                        ? {
+                                              ...s,
+                                              posterUrl: event.posterUrl,
+                                          }
+                                        : s
                                 )
                         );
+                    }
 
-                        break;
-                }
+                    queryClient.setQueryData<(Movie | TvShow)[]>(
+                        ['recently-added'],
+                        (old) =>
+                            old?.map((r) =>
+                                event.title === r.title
+                                    ? { ...r, posterUrl: event.posterUrl }
+                                    : r
+                            )
+                    );
+
+                    break;
             }
-        );
+        });
 
         return unsubscribe;
     }, [queryClient]);

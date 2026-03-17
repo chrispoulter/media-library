@@ -1,6 +1,6 @@
 import log from 'electron-log/main';
 import { BrowserWindow } from 'electron';
-import { MediaEvent } from '../shared/types';
+import { Event } from '../shared/types';
 import { setPosterUrl } from './posterStore';
 import { fetchPosterUrl } from './tmdbFetcher';
 import { getSettings } from './settingsStore';
@@ -76,7 +76,7 @@ const processItem = async ({ title, type }: QueueItem): Promise<void> => {
     broadcast({ kind: 'poster-updated', type, title, posterUrl });
 };
 
-const broadcast = (event: MediaEvent): void =>
+const broadcast = (event: Event): void =>
     BrowserWindow.getAllWindows().forEach((win) =>
-        win.webContents.send('media-event', event)
+        win.webContents.send('event', event)
     );
