@@ -34,3 +34,10 @@ export type Poster = {
     title: string;
     posterUrl: string | undefined | null;
 };
+
+export type MediaEvent = {
+    kind: 'poster-updated';
+    type: 'movie' | 'tv-show';
+    title: string;
+    posterUrl: string | null | undefined;
+};

@@ -1,6 +1,6 @@
 import { contextBridge, ipcRenderer } from 'electron';
 import { electronAPI } from '@electron-toolkit/preload';
-import { Settings, Movie, TvShow, Poster } from '../shared/types';
+import { Settings, Movie, TvShow, MediaEvent } from '../shared/types';
 
 // Custom APIs for renderer
 const api = {
@@ -21,11 +21,13 @@ const api = {
     getTvShows: (): Promise<TvShow[]> => ipcRenderer.invoke('get-tv-shows'),
     refetchPosters: (failedOnly?: boolean): Promise<void> =>
         ipcRenderer.invoke('refetch-posters', failedOnly),
-    onPosterUpdated: (callback: (data: Poster) => void) => {
-        const listener = (_: Electron.IpcRendererEvent, data: Poster): void =>
-            callback(data);
-        ipcRenderer.on('poster-updated', listener);
-        return () => ipcRenderer.removeListener('poster-updated', listener);
+    onMediaEvent: (callback: (event: MediaEvent) => void) => {
+        const listener = (
+            _: Electron.IpcRendererEvent,
+            event: MediaEvent
+        ): void => callback(event);
+        ipcRenderer.on('media-event', listener);
+        return () => ipcRenderer.removeListener('media-event', listener);
     },
 };
 
