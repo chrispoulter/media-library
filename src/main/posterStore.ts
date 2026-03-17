@@ -14,9 +14,14 @@ export const getPosterUrl = (
 export const setPosterUrl = (
     type: 'movie' | 'tv-show',
     key: string,
-    posterUrl: string | null
+    posterUrl: string | null | undefined
 ): void => {
     try {
+        if (posterUrl === undefined) {
+            store.delete(`${type}:${key}`);
+            return;
+        }
+
         store.set(`${type}:${key}`, posterUrl);
     } catch (error) {
         log.error('Failed to save poster url:', error);

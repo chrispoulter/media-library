@@ -3,10 +3,11 @@ import log from 'electron-log/main';
 import type { Settings } from '../shared/types';
 import { getSettings, setSettings } from './settingsStore';
 import { clearPosterUrls } from './posterStore';
+import { clearQueue } from './posterManager';
 import { getMovies, getRecentlyAdded, getTvShows } from './mediaScanner';
 
 export const registerHandlers = (): void => {
-    ipcMain.handle('get-app-version', () => app.getVersion());
+    ipcMain.handle('get-version', () => app.getVersion());
 
     ipcMain.handle('open-log-file', () =>
         shell.openPath(log.transports.file.getFile().path)
@@ -22,9 +23,15 @@ export const registerHandlers = (): void => {
     });
 
     ipcMain.handle('get-settings', () => getSettings());
-    ipcMain.handle('set-settings', (_, settings: Settings) =>
-        setSettings(settings)
-    );
+    ipcMain.handle('set-settings', (_, settings: Settings) => {
+        const { tmdbApiKey: oldApiKey } = getSettings();
+
+        setSettings(settings);
+
+        if (oldApiKey !== settings.tmdbApiKey) {
+            clearQueue();
+        }
+    });
 
     ipcMain.handle('open-move-file', (_, filePath: string) => {
         const { moviesDirectory } = getSettings();

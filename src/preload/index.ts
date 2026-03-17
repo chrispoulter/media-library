@@ -1,10 +1,10 @@
 import { contextBridge, ipcRenderer } from 'electron';
 import { electronAPI } from '@electron-toolkit/preload';
-import { Settings, Movie, TvShow, Poster } from '../shared/types';
+import { Settings, Movie, TvShow, Event } from '../shared/types';
 
 // Custom APIs for renderer
 const api = {
-    getAppVersion: (): Promise<string> => ipcRenderer.invoke('get-app-version'),
+    getVersion: (): Promise<string> => ipcRenderer.invoke('get-version'),
     openLogFile: (): Promise<void> => ipcRenderer.invoke('open-log-file'),
     selectDirectory: (defaultPath?: string): Promise<string | null> =>
         ipcRenderer.invoke('select-directory', defaultPath),
@@ -21,11 +21,11 @@ const api = {
     getTvShows: (): Promise<TvShow[]> => ipcRenderer.invoke('get-tv-shows'),
     refetchPosters: (failedOnly?: boolean): Promise<void> =>
         ipcRenderer.invoke('refetch-posters', failedOnly),
-    onPosterUpdated: (callback: (data: Poster) => void) => {
-        const listener = (_: Electron.IpcRendererEvent, data: Poster): void =>
-            callback(data);
-        ipcRenderer.on('poster-updated', listener);
-        return () => ipcRenderer.removeListener('poster-updated', listener);
+    onEvent: (callback: (event: Event) => void) => {
+        const listener = (_: Electron.IpcRendererEvent, event: Event): void =>
+            callback(event);
+        ipcRenderer.on('event', listener);
+        return () => ipcRenderer.removeListener('event', listener);
     },
 };
 

@@ -3,14 +3,14 @@ import { Content } from './components/Content';
 import { Footer } from './components/Footer';
 import { Header } from './components/Header';
 import { Sidebar } from './components/Sidebar';
-import { useSettingsQuery, usePosterUpdates } from './hooks/useMediaQueries';
+import { useSettingsQuery, useEventsListener } from './hooks/useMediaQueries';
 import { applyTheme } from './utils/theme';
 
 function App(): React.JSX.Element {
     const [view, setView] = useState('recently-added');
     const { data: settings } = useSettingsQuery();
 
-    usePosterUpdates();
+    useEventsListener();
 
     useEffect(() => {
         if (settings) {

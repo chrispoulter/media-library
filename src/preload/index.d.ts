@@ -1,11 +1,11 @@
 import { ElectronAPI } from '@electron-toolkit/preload';
-import type { Settings, Movie, TvShow, Poster } from '../shared/types';
+import type { Settings, Movie, TvShow, Event } from '../shared/types';
 
 declare global {
     interface Window {
         electron: ElectronAPI;
         api: {
-            getAppVersion: () => Promise<string>;
+            getVersion: () => Promise<string>;
             openLogFile: () => Promise<void>;
             selectDirectory: (defaultPath?: string) => Promise<string | null>;
             getSettings: () => Promise<Settings>;
@@ -16,7 +16,7 @@ declare global {
             getMovies: () => Promise<Movie[]>;
             getTvShows: () => Promise<TvShow[]>;
             refetchPosters: (failedOnly?: boolean) => Promise<void>;
-            onPosterUpdated: (callback: (data: Poster) => void) => () => void;
+            onEvent: (callback: (event: Event) => void) => () => void;
         };
     }
 }

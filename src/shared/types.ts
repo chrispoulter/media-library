@@ -29,8 +29,9 @@ export type TvShow = {
     latestAddedAt: number;
 };
 
-export type Poster = {
+export type Event = {
+    kind: 'poster-updated';
     type: 'movie' | 'tv-show';
     title: string;
-    posterUrl: string | undefined | null;
+    posterUrl: string | null | undefined;
 };

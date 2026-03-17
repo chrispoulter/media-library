@@ -7,13 +7,13 @@ import {
     type UseQueryResult,
 } from '@tanstack/react-query';
 import log from 'electron-log/renderer';
-import type { Movie, TvShow, Settings, Poster } from '../../../shared/types';
+import type { Movie, TvShow, Settings, Event } from '../../../shared/types';
 import { applyTheme } from '../utils/theme';
 
 export const useVersionQuery = (): UseQueryResult<string> =>
     useQuery({
         queryKey: ['version'],
-        queryFn: () => window.api.getAppVersion(),
+        queryFn: () => window.api.getVersion(),
         staleTime: Infinity,
     });
 
@@ -80,42 +80,68 @@ export const useRefetchPostersMutation = (): UseMutationResult<
     });
 };
 
-export const usePosterUpdates = (): void => {
+export const useEventsQuery = (): UseQueryResult<Event | undefined> =>
+    useQuery({
+        queryKey: ['events'],
+        queryFn: () => undefined,
+        staleTime: Infinity,
+    });
+
+export const useEventsListener = (): void => {
     const queryClient = useQueryClient();
 
     useEffect(() => {
-        const unsubscribe = window.api.onPosterUpdated((data: Poster): void => {
-            log.debug('Poster update received:', data);
+        const unsubscribe = window.api.onEvent((event: Event): void => {
+            log.debug('Event received:', event);
 
-            if (data.type === 'movie') {
-                queryClient.setQueryData<Movie[]>(['movies'], (old) =>
-                    old?.map((m) =>
-                        data.title === m.title
-                            ? { ...m, posterUrl: data.posterUrl }
-                            : m
-                    )
-                );
+            queryClient.setQueryData(['events'], event);
+
+            switch (event.kind) {
+                case 'poster-updated':
+                    if (!event.posterUrl) {
+                        break;
+                    }
+
+                    if (event.type === 'movie') {
+                        queryClient.setQueryData<Movie[]>(['movies'], (old) =>
+                            old?.map((m) =>
+                                event.title === m.title
+                                    ? {
+                                          ...m,
+                                          posterUrl: event.posterUrl,
+                                      }
+                                    : m
+                            )
+                        );
+                    }
+
+                    if (event.type === 'tv-show') {
+                        queryClient.setQueryData<TvShow[]>(
+                            ['tv-shows'],
+                            (old) =>
+                                old?.map((s) =>
+                                    event.title === s.title
+                                        ? {
+                                              ...s,
+                                              posterUrl: event.posterUrl,
+                                          }
+                                        : s
+                                )
+                        );
+                    }
+
+                    queryClient.setQueryData<(Movie | TvShow)[]>(
+                        ['recently-added'],
+                        (old) =>
+                            old?.map((r) =>
+                                event.title === r.title
+                                    ? { ...r, posterUrl: event.posterUrl }
+                                    : r
+                            )
+                    );
+
+                    break;
             }
-
-            if (data.type === 'tv-show') {
-                queryClient.setQueryData<TvShow[]>(['tv-shows'], (old) =>
-                    old?.map((s) =>
-                        data.title === s.title
-                            ? { ...s, posterUrl: data.posterUrl }
-                            : s
-                    )
-                );
-            }
-
-            queryClient.setQueryData<(Movie | TvShow)[]>(
-                ['recently-added'],
-                (old) =>
-                    old?.map((r) =>
-                        data.title === r.title
-                            ? { ...r, posterUrl: data.posterUrl }
-                            : r
-                    )
-            );
         });
 
         return unsubscribe;
