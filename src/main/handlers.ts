@@ -14,8 +14,9 @@ export const registerHandlers = (): void => {
     ipcMain.handle('select-directory', async (_, defaultPath?: string) => {
         const result = await dialog.showOpenDialog({
             properties: ['openDirectory'],
-            ...(defaultPath ? { defaultPath } : {}),
+            defaultPath,
         });
+
         return result.canceled ? null : result.filePaths[0];
     });
 
