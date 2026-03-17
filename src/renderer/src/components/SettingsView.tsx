@@ -240,21 +240,21 @@ export const SettingsView = (): React.JSX.Element => {
                     <button
                         type="button"
                         className="cursor-pointer rounded bg-amber-600 px-4 py-2 text-white hover:bg-amber-700"
-                        onClick={() => window.api.clearPosterStore()}
+                        onClick={() => {}}
                     >
                         Clear Poster Store
                     </button>
                     <button
                         type="button"
                         className="cursor-pointer rounded bg-amber-600 px-4 py-2 text-white hover:bg-amber-700"
-                        onClick={() => window.api.refetchFailedPosters()}
+                        onClick={() => {}}
                     >
                         Refetch Failed Posters
                     </button>
                     <button
                         type="button"
                         className="cursor-pointer rounded bg-amber-600 px-4 py-2 text-white hover:bg-amber-700"
-                        onClick={() => window.api.refetchAllPosters()}
+                        onClick={() => {}}
                     >
                         Refetch All Posters
                     </button>

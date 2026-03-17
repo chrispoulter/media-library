@@ -1,38 +1,13 @@
 import log from 'electron-log/main';
 import { BrowserWindow } from 'electron';
-import { Poster, QueueStatus } from '../shared/types';
-import {
-    getPosterUrl,
-    setPosterUrl,
-    deletePosterUrl,
-    getNullPosterKeys,
-    clearPosterStore,
-} from './posterStore';
+import { Poster } from '../shared/types';
+import { getPosterUrl, setPosterUrl } from './posterStore';
 import { fetchPosterUrl } from './tmdbFetcher';
-import { getMovies, getTvShows } from './mediaScanner';
 
 type QueueItem = { type: 'movie' | 'tv-show'; title: string };
 
 const queue: QueueItem[] = [];
 let isProcessing = false;
-let sessionTotal = 0;
-
-const broadcastQueueStatus = (): void => {
-    const status: QueueStatus = {
-        total: sessionTotal,
-        remaining: queue.length,
-        isProcessing,
-    };
-    BrowserWindow.getAllWindows().forEach((win) =>
-        win.webContents.send('queue-status-updated', status)
-    );
-};
-
-export const getQueueStatus = (): QueueStatus => ({
-    total: sessionTotal,
-    remaining: queue.length,
-    isProcessing,
-});
 
 export const enqueuePoster = (
     type: 'movie' | 'tv-show',
@@ -51,8 +26,6 @@ export const enqueuePoster = (
     }
 
     queue.push({ title, type });
-    sessionTotal++;
-    broadcastQueueStatus();
 
     if (!isProcessing) {
         processQueue();
@@ -61,6 +34,7 @@ export const enqueuePoster = (
 
 const processQueue = async (): Promise<void> => {
     isProcessing = true;
+
     while (queue.length > 0) {
         const item = queue.shift();
 
@@ -68,15 +42,12 @@ const processQueue = async (): Promise<void> => {
             await processItem(item);
         }
 
-        broadcastQueueStatus();
-
         if (queue.length > 0) {
             await new Promise((resolve) => setTimeout(resolve, 1000));
         }
     }
+
     isProcessing = false;
-    sessionTotal = 0;
-    broadcastQueueStatus();
 };
 
 const processItem = async ({ title, type }: QueueItem): Promise<void> => {
@@ -100,31 +71,6 @@ const processItem = async ({ title, type }: QueueItem): Promise<void> => {
         return;
     }
 
-    // try {
-    //   const postersDir = join(app.getPath('userData'), 'posters')
-    //   await mkdir(postersDir, { recursive: true })
-
-    //   const filePath = join(postersDir, `${title}.jpg`)
-
-    //   const response = await fetch(posterUrl)
-
-    //   if (!response.ok) {
-    //     console.error('Failed to fetch poster for', title, 'Status:', response.status)
-    //     return
-    //   }
-
-    //   const arrayBuffer = await response.arrayBuffer()
-    //   const buffer = Buffer.from(arrayBuffer)
-    //   await writeFile(filePath, buffer)
-
-    //   // posterUrl = `poster://${title}.jpg`
-    //   // await setPosterUrl(type, title, posterUrl)
-
-    //   console.log('Saved poster image for', title)
-    // } catch (error) {
-    //   console.error('Error fetching/saving poster for', title, error)
-    // }
-
     broadcastPosterUpdate({ title, type, posterUrl });
 };
 
@@ -132,18 +78,3 @@ const broadcastPosterUpdate = (poster: Poster): void =>
     BrowserWindow.getAllWindows().forEach((win) =>
         win.webContents.send('poster-updated', poster)
     );
-
-export const refetchFailedPosters = (): void => {
-    const failed = getNullPosterKeys();
-    failed.forEach(({ type, title }) => {
-        deletePosterUrl(type, title);
-        enqueuePoster(type, title);
-    });
-};
-
-export const refetchAllPosters = async (): Promise<void> => {
-    clearPosterStore();
-    const [movies, tvShows] = await Promise.all([getMovies(), getTvShows()]);
-    movies.forEach((m) => enqueuePoster('movie', m.title));
-    tvShows.forEach((t) => enqueuePoster('tv-show', t.title));
-};

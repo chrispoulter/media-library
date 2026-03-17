@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import {
     useMutation,
     useQuery,
@@ -7,40 +7,13 @@ import {
     type UseQueryResult,
 } from '@tanstack/react-query';
 import log from 'electron-log/renderer';
-import type {
-    Movie,
-    TvShow,
-    Settings,
-    Poster,
-    QueueStatus,
-} from '../../../shared/types';
+import type { Movie, TvShow, Settings, Poster } from '../../../shared/types';
 import { applyTheme } from '../utils/theme';
 
 export const useVersionQuery = (): UseQueryResult<string> =>
     useQuery({
         queryKey: ['version'],
         queryFn: () => window.api.getAppVersion(),
-        staleTime: Infinity,
-    });
-
-export const useMoviesQuery = (): UseQueryResult<Movie[]> =>
-    useQuery({
-        queryKey: ['movies'],
-        queryFn: () => window.api.getMovies(),
-        staleTime: Infinity,
-    });
-
-export const useTvShowsQuery = (): UseQueryResult<TvShow[]> =>
-    useQuery({
-        queryKey: ['tv-shows'],
-        queryFn: () => window.api.getTvShows(),
-        staleTime: Infinity,
-    });
-
-export const useRecentlyAddedQuery = (): UseQueryResult<(Movie | TvShow)[]> =>
-    useQuery({
-        queryKey: ['recently-added'],
-        queryFn: () => window.api.getRecentlyAdded(),
         staleTime: Infinity,
     });
 
@@ -69,28 +42,33 @@ export const useSaveSettingsMutation = (): UseMutationResult<
     });
 };
 
-export const useQueueStatus = (): QueueStatus => {
-    const [status, setStatus] = useState<QueueStatus>({
-        total: 0,
-        remaining: 0,
-        isProcessing: false,
+export const useMoviesQuery = (): UseQueryResult<Movie[]> =>
+    useQuery({
+        queryKey: ['movies'],
+        queryFn: () => window.api.getMovies(),
+        staleTime: Infinity,
     });
 
-    useEffect(() => {
-        window.api.getQueueStatus().then(setStatus);
-        const unsubscribe = window.api.onQueueStatusUpdated(setStatus);
-        return unsubscribe;
-    }, []);
+export const useTvShowsQuery = (): UseQueryResult<TvShow[]> =>
+    useQuery({
+        queryKey: ['tv-shows'],
+        queryFn: () => window.api.getTvShows(),
+        staleTime: Infinity,
+    });
 
-    return status;
-};
+export const useRecentlyAddedQuery = (): UseQueryResult<(Movie | TvShow)[]> =>
+    useQuery({
+        queryKey: ['recently-added'],
+        queryFn: () => window.api.getRecentlyAdded(),
+        staleTime: Infinity,
+    });
 
 export const usePosterUpdates = (): void => {
     const queryClient = useQueryClient();
 
     useEffect(() => {
         const unsubscribe = window.api.onPosterUpdated((data: Poster): void => {
-            log.debug('Poster updated:', data);
+            log.debug('Poster update received:', data);
 
             if (data.type === 'movie') {
                 queryClient.setQueryData<Movie[]>(['movies'], (old) =>
