@@ -13,7 +13,7 @@ import { applyTheme } from '../utils/theme';
 export const useVersionQuery = (): UseQueryResult<string> =>
     useQuery({
         queryKey: ['version'],
-        queryFn: () => window.api.getAppVersion(),
+        queryFn: () => window.api.getVersion(),
         staleTime: Infinity,
     });
 

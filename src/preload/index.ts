@@ -4,7 +4,7 @@ import { Settings, Movie, TvShow, Event } from '../shared/types';
 
 // Custom APIs for renderer
 const api = {
-    getAppVersion: (): Promise<string> => ipcRenderer.invoke('get-app-version'),
+    getVersion: (): Promise<string> => ipcRenderer.invoke('get-version'),
     openLogFile: (): Promise<void> => ipcRenderer.invoke('open-log-file'),
     selectDirectory: (defaultPath?: string): Promise<string | null> =>
         ipcRenderer.invoke('select-directory', defaultPath),

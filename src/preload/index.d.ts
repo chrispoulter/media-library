@@ -5,7 +5,7 @@ declare global {
     interface Window {
         electron: ElectronAPI;
         api: {
-            getAppVersion: () => Promise<string>;
+            getVersion: () => Promise<string>;
             openLogFile: () => Promise<void>;
             selectDirectory: (defaultPath?: string) => Promise<string | null>;
             getSettings: () => Promise<Settings>;

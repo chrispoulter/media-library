@@ -7,7 +7,7 @@ import { clearQueue } from './posterManager';
 import { getMovies, getRecentlyAdded, getTvShows } from './mediaScanner';
 
 export const registerHandlers = (): void => {
-    ipcMain.handle('get-app-version', () => app.getVersion());
+    ipcMain.handle('get-version', () => app.getVersion());
 
     ipcMain.handle('open-log-file', () =>
         shell.openPath(log.transports.file.getFile().path)
