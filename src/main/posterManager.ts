@@ -1,7 +1,7 @@
 import log from 'electron-log/main';
 import { BrowserWindow } from 'electron';
 import { Poster } from '../shared/types';
-import { getPosterUrl, setPosterUrl } from './posterStore';
+import { setPosterUrl } from './posterStore';
 import { fetchPosterUrl } from './tmdbFetcher';
 
 type QueueItem = { type: 'movie' | 'tv-show'; title: string };
@@ -14,12 +14,6 @@ export const enqueuePoster = (
     title: string
 ): void => {
     log.info('Enqueuing poster:', { type, title });
-
-    const posterUrl = getPosterUrl(type, title);
-
-    if (posterUrl !== undefined) {
-        return;
-    }
 
     if (queue.some((item) => item.type === type && item.title === title)) {
         return;
