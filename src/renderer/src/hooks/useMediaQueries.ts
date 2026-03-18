@@ -80,10 +80,10 @@ export const useRefetchPostersMutation = (): UseMutationResult<
     });
 };
 
-export const useEventsQuery = (): UseQueryResult<Event | undefined> =>
+export const useEventsQuery = (): UseQueryResult<Event | null> =>
     useQuery({
         queryKey: ['events'],
-        queryFn: () => undefined,
+        queryFn: () => null,
         staleTime: Infinity,
     });
 
