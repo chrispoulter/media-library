@@ -1,5 +1,6 @@
 import React from 'react';
 import { useRecentlyAddedQuery } from '../hooks/useMediaQueries';
+import { useDebounce } from '../hooks/useDebounce';
 import { SearchBar } from './SearchBar';
 import { MovieCard } from './MovieCard';
 import { TvShowCard } from './TvShowCard';
@@ -7,10 +8,11 @@ import { MovieCardSkeleton } from './MovieCardSkeleton';
 
 export const RecentlyAddedView = (): React.JSX.Element => {
     const [search, setSearch] = React.useState('');
+    const debouncedSearch = useDebounce(search);
     const { data: recentlyAdded, isLoading, error } = useRecentlyAddedQuery();
 
     const filtered = recentlyAdded?.filter((item) =>
-        item.title.toLowerCase().includes(search.toLowerCase())
+        item.title.toLowerCase().includes(debouncedSearch.toLowerCase())
     );
 
     return (

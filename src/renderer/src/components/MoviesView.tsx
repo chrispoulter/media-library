@@ -1,15 +1,17 @@
 import React from 'react';
 import { useMoviesQuery } from '../hooks/useMediaQueries';
+import { useDebounce } from '../hooks/useDebounce';
 import { SearchBar } from './SearchBar';
 import { MovieCard } from './MovieCard';
 import { MovieCardSkeleton } from './MovieCardSkeleton';
 
 export const MoviesView = (): React.JSX.Element => {
     const [search, setSearch] = React.useState('');
+    const debouncedSearch = useDebounce(search);
     const { data: movies, isLoading, error } = useMoviesQuery();
 
     const filtered = movies?.filter((movie) =>
-        movie.title.toLowerCase().includes(search.toLowerCase())
+        movie.title.toLowerCase().includes(debouncedSearch.toLowerCase())
     );
 
     return (
