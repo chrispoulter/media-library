@@ -9,6 +9,7 @@ import { MovieCardSkeleton } from './MovieCardSkeleton';
 export const MoviesView = (): React.JSX.Element => {
     const [search, setSearch] = React.useState('');
     const debouncedSearch = useDebounce(search);
+
     const { data: movies, isLoading, error } = useMoviesQuery();
 
     const filtered = movies?.filter((movie) =>

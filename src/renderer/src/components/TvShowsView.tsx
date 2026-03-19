@@ -9,6 +9,7 @@ import { TvShowCardSkeleton } from './TvShowCardSkeleton';
 export const TvShowsView = (): React.JSX.Element => {
     const [search, setSearch] = React.useState('');
     const debouncedSearch = useDebounce(search);
+
     const { data: tvShows, isLoading, error } = useTvShowsQuery();
 
     const filtered = tvShows?.filter((show) =>
