@@ -1,6 +1,11 @@
 import React from 'react';
 import { useMoviesQuery } from '../hooks/useMediaQueries';
 import { useDebounce } from '../hooks/useDebounce';
+import {
+    getAlphabeticalSectionId,
+    groupItemsByAlphabet,
+} from '../utils/alphabeticalSections';
+import { AlphabetBar } from './AlphabetBar';
 import { SearchBar } from './SearchBar';
 import { MovieCard } from './MovieCard';
 import { MovieCardSkeleton } from './MovieCardSkeleton';
@@ -13,6 +18,20 @@ export const MoviesView = (): React.JSX.Element => {
     const filtered = movies?.filter((movie) =>
         movie.title.toLowerCase().includes(debouncedSearch.toLowerCase())
     );
+    const sections = React.useMemo(
+        () => groupItemsByAlphabet(filtered ?? [], (movie) => movie.title),
+        [filtered]
+    );
+    const handleJump = React.useCallback((label: string) => {
+        const sectionElement = document.getElementById(
+            getAlphabeticalSectionId('movies', label)
+        );
+
+        sectionElement?.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start',
+        });
+    }, []);
 
     return (
         <div className="dark:text-white">
@@ -22,6 +41,12 @@ export const MoviesView = (): React.JSX.Element => {
                 value={search}
                 onChange={setSearch}
             />
+            {!!sections.length && (
+                <AlphabetBar
+                    availableLabels={sections.map((section) => section.label)}
+                    onJump={handleJump}
+                />
+            )}
             {isLoading ? (
                 <div className="flex flex-col gap-2">
                     {Array.from({ length: 15 }).map((_, i) => (
@@ -46,9 +71,26 @@ export const MoviesView = (): React.JSX.Element => {
                         : 'No movies found. Check your Movies folder in Settings.'}
                 </div>
             ) : (
-                <div className="flex flex-col gap-2">
-                    {filtered.map((movie, index) => (
-                        <MovieCard key={index} movie={movie} />
+                <div className="flex flex-col gap-6">
+                    {sections.map((section) => (
+                        <section
+                            key={section.label}
+                            id={getAlphabeticalSectionId(
+                                'movies',
+                                section.label
+                            )}
+                            className="flex scroll-mt-4 flex-col gap-2"
+                        >
+                            <div className="flex items-center gap-3">
+                                <h3 className="text-sm font-semibold tracking-[0.3em] text-gray-500 uppercase dark:text-gray-400">
+                                    {section.label}
+                                </h3>
+                                <div className="h-px flex-1 bg-gray-300 dark:bg-gray-600" />
+                            </div>
+                            {section.items.map((movie) => (
+                                <MovieCard key={movie.filePath} movie={movie} />
+                            ))}
+                        </section>
                     ))}
                 </div>
             )}

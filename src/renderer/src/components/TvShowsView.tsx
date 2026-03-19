@@ -1,6 +1,11 @@
 import React from 'react';
 import { useTvShowsQuery } from '../hooks/useMediaQueries';
 import { useDebounce } from '../hooks/useDebounce';
+import {
+    getAlphabeticalSectionId,
+    groupItemsByAlphabet,
+} from '../utils/alphabeticalSections';
+import { AlphabetBar } from './AlphabetBar';
 import { SearchBar } from './SearchBar';
 import { TvShowCard } from './TvShowCard';
 import { TvShowCardSkeleton } from './TvShowCardSkeleton';
@@ -13,6 +18,20 @@ export const TvShowsView = (): React.JSX.Element => {
     const filtered = tvShows?.filter((show) =>
         show.title.toLowerCase().includes(debouncedSearch.toLowerCase())
     );
+    const sections = React.useMemo(
+        () => groupItemsByAlphabet(filtered ?? [], (show) => show.title),
+        [filtered]
+    );
+    const handleJump = React.useCallback((label: string) => {
+        const sectionElement = document.getElementById(
+            getAlphabeticalSectionId('tv-shows', label)
+        );
+
+        sectionElement?.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start',
+        });
+    }, []);
 
     return (
         <div className="dark:text-white">
@@ -22,6 +41,12 @@ export const TvShowsView = (): React.JSX.Element => {
                 value={search}
                 onChange={setSearch}
             />
+            {!!sections.length && (
+                <AlphabetBar
+                    availableLabels={sections.map((section) => section.label)}
+                    onJump={handleJump}
+                />
+            )}
             {isLoading ? (
                 <div className="flex flex-col gap-2">
                     {Array.from({ length: 15 }).map((_, i) => (
@@ -46,9 +71,26 @@ export const TvShowsView = (): React.JSX.Element => {
                         : 'No TV shows found. Check your TV Shows folder in Settings.'}
                 </div>
             ) : (
-                <div className="flex flex-col gap-2">
-                    {filtered.map((show, index) => (
-                        <TvShowCard key={index} tvShow={show} />
+                <div className="flex flex-col gap-6">
+                    {sections.map((section) => (
+                        <section
+                            key={section.label}
+                            id={getAlphabeticalSectionId(
+                                'tv-shows',
+                                section.label
+                            )}
+                            className="flex scroll-mt-4 flex-col gap-2"
+                        >
+                            <div className="flex items-center gap-3">
+                                <h3 className="text-sm font-semibold tracking-[0.3em] text-gray-500 uppercase dark:text-gray-400">
+                                    {section.label}
+                                </h3>
+                                <div className="h-px flex-1 bg-gray-300 dark:bg-gray-600" />
+                            </div>
+                            {section.items.map((show) => (
+                                <TvShowCard key={show.title} tvShow={show} />
+                            ))}
+                        </section>
                     ))}
                 </div>
             )}
