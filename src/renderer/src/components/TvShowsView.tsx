@@ -5,7 +5,6 @@ import { AlphabetBar } from './AlphabetBar';
 import { SearchBar } from './SearchBar';
 import { TvShowCard } from './TvShowCard';
 import { TvShowCardSkeleton } from './TvShowCardSkeleton';
-import { groupItemsByAlphabet } from '../utils/alphabeticalSections';
 
 export const TvShowsView = (): React.JSX.Element => {
     const [search, setSearch] = React.useState('');
@@ -15,12 +14,17 @@ export const TvShowsView = (): React.JSX.Element => {
     const filtered = tvShows?.filter((show) =>
         show.title.toLowerCase().includes(debouncedSearch.toLowerCase())
     );
-    const sections = React.useMemo(
-        () => groupItemsByAlphabet(filtered ?? [], (show) => show.title),
-        [filtered]
-    );
 
-    const availableLetters = new Set(sections.map((section) => section.label));
+    let lastLetter = '';
+
+    const items = filtered?.map((tvShow) => {
+        const letter = tvShow.title[0]?.toUpperCase() ?? '#';
+        const showDivider = letter !== lastLetter;
+        lastLetter = letter;
+        return { tvShow, letter, showDivider };
+    });
+
+    const availableLetters = new Set(items?.map((i) => i.letter));
 
     return (
         <div className="dark:text-white">
@@ -30,7 +34,7 @@ export const TvShowsView = (): React.JSX.Element => {
                 value={search}
                 onChange={setSearch}
             />
-            {filtered?.length && (
+            {availableLetters.size && (
                 <AlphabetBar availableLetters={availableLetters} />
             )}
             {isLoading ? (
@@ -50,31 +54,32 @@ export const TvShowsView = (): React.JSX.Element => {
                             : 'An unexpected error occurred'}
                     </p>
                 </div>
-            ) : !filtered?.length ? (
+            ) : !items?.length ? (
                 <div className="text-gray-500">
                     {search
                         ? 'No shows match your search.'
                         : 'No TV shows found. Check your TV Shows folder in Settings.'}
                 </div>
             ) : (
-                <div className="flex flex-col gap-6">
-                    {sections.map((section) => (
-                        <section
-                            key={section.label}
-                            id={`letter-${section.label}`}
-                            className="flex scroll-mt-4 flex-col gap-2"
-                        >
-                            <div className="flex items-center gap-3">
-                                <h3 className="text-sm font-semibold tracking-[0.3em] text-gray-500 uppercase dark:text-gray-400">
-                                    {section.label}
-                                </h3>
-                                <div className="h-px flex-1 bg-gray-300 dark:bg-gray-600" />
-                            </div>
-                            {section.items.map((show) => (
-                                <TvShowCard key={show.title} tvShow={show} />
-                            ))}
-                        </section>
-                    ))}
+                <div className="flex flex-col gap-2">
+                    {items.map(({ tvShow, letter, showDivider }, index) => {
+                        return (
+                            <React.Fragment key={index}>
+                                {showDivider && (
+                                    <div
+                                        id={`letter-${letter}`}
+                                        className="mt-4 mb-2 border-b border-gray-200 pb-1 text-lg font-bold text-gray-400 dark:border-gray-700 dark:text-gray-500"
+                                    >
+                                        {letter}
+                                    </div>
+                                )}
+                                <TvShowCard
+                                    key={tvShow.title}
+                                    tvShow={tvShow}
+                                />
+                            </React.Fragment>
+                        );
+                    })}
                 </div>
             )}
         </div>
