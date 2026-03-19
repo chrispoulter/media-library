@@ -1,14 +1,11 @@
 import React from 'react';
 import { useMoviesQuery } from '../hooks/useMediaQueries';
 import { useDebounce } from '../hooks/useDebounce';
-import {
-    getAlphabeticalSectionId,
-    groupItemsByAlphabet,
-} from '../utils/alphabeticalSections';
 import { AlphabetBar } from './AlphabetBar';
 import { SearchBar } from './SearchBar';
 import { MovieCard } from './MovieCard';
 import { MovieCardSkeleton } from './MovieCardSkeleton';
+import { groupItemsByAlphabet } from '../utils/alphabeticalSections';
 
 export const MoviesView = (): React.JSX.Element => {
     const [search, setSearch] = React.useState('');
@@ -22,16 +19,8 @@ export const MoviesView = (): React.JSX.Element => {
         () => groupItemsByAlphabet(filtered ?? [], (movie) => movie.title),
         [filtered]
     );
-    const handleJump = React.useCallback((label: string) => {
-        const sectionElement = document.getElementById(
-            getAlphabeticalSectionId('movies', label)
-        );
 
-        sectionElement?.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start',
-        });
-    }, []);
+    const availableLetters = new Set(sections.map((section) => section.label));
 
     return (
         <div className="dark:text-white">
@@ -41,11 +30,8 @@ export const MoviesView = (): React.JSX.Element => {
                 value={search}
                 onChange={setSearch}
             />
-            {!!sections.length && (
-                <AlphabetBar
-                    availableLabels={sections.map((section) => section.label)}
-                    onJump={handleJump}
-                />
+            {filtered?.length && (
+                <AlphabetBar availableLetters={availableLetters} />
             )}
             {isLoading ? (
                 <div className="flex flex-col gap-2">
@@ -75,10 +61,7 @@ export const MoviesView = (): React.JSX.Element => {
                     {sections.map((section) => (
                         <section
                             key={section.label}
-                            id={getAlphabeticalSectionId(
-                                'movies',
-                                section.label
-                            )}
+                            id={`letter-${section.label}`}
                             className="flex scroll-mt-4 flex-col gap-2"
                         >
                             <div className="flex items-center gap-3">
