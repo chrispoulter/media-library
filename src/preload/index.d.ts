@@ -10,7 +10,7 @@ declare global {
             selectDirectory: (defaultPath?: string) => Promise<string | null>;
             getSettings: () => Promise<Settings>;
             setSettings: (settings: Settings) => Promise<void>;
-            openMoveFile: (filePath: string) => Promise<void>;
+            openMovieFile: (filePath: string) => Promise<void>;
             openTvShowFile: (filePath: string) => Promise<void>;
             getRecentlyAdded: () => Promise<(Movie | TvShow)[]>;
             getMovies: () => Promise<Movie[]>;

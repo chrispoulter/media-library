@@ -1,5 +1,6 @@
 import { app, shell, ipcMain, dialog } from 'electron';
 import log from 'electron-log/main';
+import { resolve, sep } from 'path';
 import type { Settings } from '../shared/types';
 import { getSettings, setSettings } from './settingsStore';
 import { clearPosterUrls } from './posterStore';
@@ -33,10 +34,16 @@ export const registerHandlers = (): void => {
         }
     });
 
-    ipcMain.handle('open-move-file', (_, filePath: string) => {
+    ipcMain.handle('open-movie-file', (_, filePath: string) => {
         const { moviesDirectory } = getSettings();
-        if (moviesDirectory && filePath.startsWith(moviesDirectory)) {
-            return shell.openPath(filePath);
+
+        if (moviesDirectory) {
+            const resolvedDir = resolve(moviesDirectory);
+            const resolvedFile = resolve(filePath);
+
+            if (resolvedFile.startsWith(resolvedDir + sep)) {
+                return shell.openPath(resolvedFile);
+            }
         }
 
         return dialog.showErrorBox(
@@ -48,8 +55,13 @@ export const registerHandlers = (): void => {
     ipcMain.handle('open-tv-show-file', (_, filePath: string) => {
         const { tvShowsDirectory } = getSettings();
 
-        if (tvShowsDirectory && filePath.startsWith(tvShowsDirectory)) {
-            return shell.openPath(filePath);
+        if (tvShowsDirectory) {
+            const resolvedDir = resolve(tvShowsDirectory);
+            const resolvedFile = resolve(filePath);
+
+            if (resolvedFile.startsWith(resolvedDir + sep)) {
+                return shell.openPath(resolvedFile);
+            }
         }
 
         return dialog.showErrorBox(
