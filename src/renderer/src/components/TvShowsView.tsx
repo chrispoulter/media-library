@@ -17,7 +17,7 @@ export const TvShowsView = (): React.JSX.Element => {
         if (!tvShows) {
             return {
                 items: undefined,
-                availableLetters: new Set<string>(),
+                availableLetters: undefined,
             };
         }
 
@@ -52,7 +52,7 @@ export const TvShowsView = (): React.JSX.Element => {
                 value={search}
                 onChange={setSearch}
             />
-            {!!availableLetters.size && (
+            {!!availableLetters?.size && (
                 <AlphabetBar availableLetters={availableLetters} />
             )}
             {isLoading ? (
