@@ -41,7 +41,7 @@ export const registerHandlers = (): void => {
             const resolvedDir = resolve(moviesDirectory);
             const resolvedFile = resolve(filePath);
 
-            if (resolvedFile.startsWith(resolvedDir + sep)) {
+            if (resolvedFile.startsWith(`${resolvedDir}${sep}`)) {
                 return shell.openPath(resolvedFile);
             }
         }
@@ -59,7 +59,7 @@ export const registerHandlers = (): void => {
             const resolvedDir = resolve(tvShowsDirectory);
             const resolvedFile = resolve(filePath);
 
-            if (resolvedFile.startsWith(resolvedDir + sep)) {
+            if (resolvedFile.startsWith(`${resolvedDir}${sep}`)) {
                 return shell.openPath(resolvedFile);
             }
         }
