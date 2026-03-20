@@ -9,23 +9,40 @@ import { MovieCardSkeleton } from './MovieCardSkeleton';
 export const MoviesView = (): React.JSX.Element => {
     const [search, setSearch] = React.useState('');
     const debouncedSearch = useDebounce(search);
+    const searchLower = debouncedSearch.toLowerCase();
 
     const { data: movies, isLoading, error } = useMoviesQuery();
 
-    const filtered = movies?.filter((movie) =>
-        movie.title.toLowerCase().includes(debouncedSearch.toLowerCase())
-    );
+    const { items, availableLetters } = React.useMemo(() => {
+        if (!movies) {
+            return {
+                items: undefined,
+                availableLetters: new Set<string>(),
+            };
+        }
 
-    let lastLetter = '';
+        const filtered = movies.filter((movie) =>
+            movie.title.toLowerCase().includes(searchLower)
+        );
 
-    const items = filtered?.map((movie) => {
-        const letter = movie.title[0]?.toUpperCase() ?? '#';
-        const showDivider = letter !== lastLetter;
-        lastLetter = letter;
-        return { movie, letter, showDivider };
-    });
+        let lastLetter = '';
+        const availableLetters = new Set<string>();
 
-    const availableLetters = new Set(items?.map((i) => i.letter));
+        const items = filtered.map((movie) => {
+            const letter = movie.title[0]?.toUpperCase() ?? '#';
+            const showDivider = letter !== lastLetter;
+
+            lastLetter = letter;
+            availableLetters.add(letter);
+
+            return { movie, letter, showDivider };
+        });
+
+        return {
+            items,
+            availableLetters,
+        };
+    }, [movies, searchLower]);
 
     return (
         <div className="dark:text-white">
@@ -63,9 +80,9 @@ export const MoviesView = (): React.JSX.Element => {
                 </div>
             ) : (
                 <div className="flex flex-col gap-2">
-                    {items.map(({ movie, letter, showDivider }, index) => {
+                    {items.map(({ movie, letter, showDivider }) => {
                         return (
-                            <React.Fragment key={index}>
+                            <React.Fragment key={movie.filePath}>
                                 {showDivider && (
                                     <div
                                         id={`letter-${letter}`}

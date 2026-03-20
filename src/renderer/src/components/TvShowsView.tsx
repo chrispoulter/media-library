@@ -9,23 +9,40 @@ import { TvShowCardSkeleton } from './TvShowCardSkeleton';
 export const TvShowsView = (): React.JSX.Element => {
     const [search, setSearch] = React.useState('');
     const debouncedSearch = useDebounce(search);
+    const searchLower = debouncedSearch.toLowerCase();
 
     const { data: tvShows, isLoading, error } = useTvShowsQuery();
 
-    const filtered = tvShows?.filter((show) =>
-        show.title.toLowerCase().includes(debouncedSearch.toLowerCase())
-    );
+    const { items, availableLetters } = React.useMemo(() => {
+        if (!tvShows) {
+            return {
+                items: undefined,
+                availableLetters: new Set<string>(),
+            };
+        }
 
-    let lastLetter = '';
+        const filtered = tvShows.filter((show) =>
+            show.title.toLowerCase().includes(searchLower)
+        );
 
-    const items = filtered?.map((tvShow) => {
-        const letter = tvShow.title[0]?.toUpperCase() ?? '#';
-        const showDivider = letter !== lastLetter;
-        lastLetter = letter;
-        return { tvShow, letter, showDivider };
-    });
+        let lastLetter = '';
+        const availableLetters = new Set<string>();
 
-    const availableLetters = new Set(items?.map((i) => i.letter));
+        const items = filtered.map((tvShow) => {
+            const letter = tvShow.title[0]?.toUpperCase() ?? '#';
+            const showDivider = letter !== lastLetter;
+
+            lastLetter = letter;
+            availableLetters.add(letter);
+
+            return { tvShow, letter, showDivider };
+        });
+
+        return {
+            items,
+            availableLetters,
+        };
+    }, [tvShows, searchLower]);
 
     return (
         <div className="dark:text-white">
@@ -63,9 +80,9 @@ export const TvShowsView = (): React.JSX.Element => {
                 </div>
             ) : (
                 <div className="flex flex-col gap-2">
-                    {items.map(({ tvShow, letter, showDivider }, index) => {
+                    {items.map(({ tvShow, letter, showDivider }) => {
                         return (
-                            <React.Fragment key={index}>
+                            <React.Fragment key={tvShow.title}>
                                 {showDivider && (
                                     <div
                                         id={`letter-${letter}`}
@@ -74,10 +91,7 @@ export const TvShowsView = (): React.JSX.Element => {
                                         {letter}
                                     </div>
                                 )}
-                                <TvShowCard
-                                    key={tvShow.title}
-                                    tvShow={tvShow}
-                                />
+                                <TvShowCard tvShow={tvShow} />
                             </React.Fragment>
                         );
                     })}
