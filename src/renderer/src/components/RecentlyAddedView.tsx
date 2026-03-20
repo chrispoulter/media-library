@@ -10,10 +10,12 @@ import { ErrorMessage } from './ErrorMessage';
 export const RecentlyAddedView = (): React.JSX.Element => {
     const [search, setSearch] = React.useState('');
     const debouncedSearch = useDebounce(search);
+    const searchLower = debouncedSearch.toLowerCase();
+
     const { data: recentlyAdded, isLoading, error } = useRecentlyAddedQuery();
 
     const filtered = recentlyAdded?.filter((item) =>
-        item.title.toLowerCase().includes(debouncedSearch.toLowerCase())
+        item.title.toLowerCase().includes(searchLower)
     );
 
     return (
