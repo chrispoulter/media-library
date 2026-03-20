@@ -35,7 +35,7 @@ export const MoviesView = (): React.JSX.Element => {
                 value={search}
                 onChange={setSearch}
             />
-            {availableLetters.size && (
+            {!!availableLetters.size && (
                 <AlphabetBar availableLetters={availableLetters} />
             )}
             {isLoading ? (
