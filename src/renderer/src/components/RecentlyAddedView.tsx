@@ -5,6 +5,7 @@ import { SearchBar } from './SearchBar';
 import { MovieCard } from './MovieCard';
 import { TvShowCard } from './TvShowCard';
 import { MovieCardSkeleton } from './MovieCardSkeleton';
+import { ErrorMessage } from './ErrorMessage';
 
 export const RecentlyAddedView = (): React.JSX.Element => {
     const [search, setSearch] = React.useState('');
@@ -30,16 +31,7 @@ export const RecentlyAddedView = (): React.JSX.Element => {
                     ))}
                 </div>
             ) : error ? (
-                <div className="rounded-lg border border-red-200 bg-red-50 p-4 dark:border-red-800/50 dark:bg-red-900/20">
-                    <p className="font-medium text-red-700 dark:text-red-400">
-                        Something went wrong
-                    </p>
-                    <p className="mt-1 text-sm text-red-600 dark:text-red-500">
-                        {error instanceof Error
-                            ? error.message
-                            : 'An unexpected error occurred'}
-                    </p>
-                </div>
+                <ErrorMessage error={error} />
             ) : !filtered?.length ? (
                 <div className="text-gray-500">
                     {search

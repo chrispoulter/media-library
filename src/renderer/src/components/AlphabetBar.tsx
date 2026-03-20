@@ -3,7 +3,7 @@ import clsx from 'clsx';
 const ALL_LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ#'.split('');
 
 type AlphabetBarProps = {
-    availableLetters: Set<string>;
+    availableLetters?: Set<string>;
 };
 
 export const AlphabetBar = ({
@@ -13,7 +13,7 @@ export const AlphabetBar = ({
         <nav aria-label="Jump to letter" className="mb-4 overflow-x-auto pb-1">
             <div className="flex min-w-max items-center gap-1.5">
                 {ALL_LETTERS.map((l) => {
-                    const active = availableLetters.has(l);
+                    const active = availableLetters?.has(l);
 
                     return (
                         <button
