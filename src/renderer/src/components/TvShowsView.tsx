@@ -1,10 +1,11 @@
 import React from 'react';
 import { useTvShowsQuery } from '../hooks/useMediaQueries';
 import { useDebounce } from '../hooks/useDebounce';
-import { AlphabetBar } from './AlphabetBar';
 import { SearchBar } from './SearchBar';
+import { AlphabetBar } from './AlphabetBar';
 import { TvShowCard } from './TvShowCard';
 import { TvShowCardSkeleton } from './TvShowCardSkeleton';
+import { Divider } from './Divider';
 
 export const TvShowsView = (): React.JSX.Element => {
     const [search, setSearch] = React.useState('');
@@ -83,14 +84,7 @@ export const TvShowsView = (): React.JSX.Element => {
                     {items.map(({ tvShow, letter, showDivider }) => {
                         return (
                             <React.Fragment key={tvShow.title}>
-                                {showDivider && (
-                                    <div
-                                        id={`letter-${letter}`}
-                                        className="mt-4 mb-2 border-b border-gray-200 pb-1 text-lg font-bold text-gray-400 dark:border-gray-700 dark:text-gray-500"
-                                    >
-                                        {letter}
-                                    </div>
-                                )}
+                                {showDivider && <Divider letter={letter} />}
                                 <TvShowCard tvShow={tvShow} />
                             </React.Fragment>
                         );
