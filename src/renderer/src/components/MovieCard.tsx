@@ -14,7 +14,7 @@ export const MovieCard = ({
 }: MovieCardProps): React.JSX.Element => {
     return (
         <div
-            onClick={() => window.api.openMoveFile(movie.filePath)}
+            onClick={() => window.api.openMovieFile(movie.filePath)}
             className="flex cursor-pointer items-center gap-4 rounded bg-gray-200 p-2 shadow-sm transition-all duration-150 hover:bg-gray-300 hover:shadow-md dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600"
         >
             <img

@@ -80,7 +80,7 @@ export const getMovies = async (): Promise<Movie[]> => {
         }
     }
 
-    return movies;
+    return movies.sort((a, b) => a.title.localeCompare(b.title));
 };
 
 export const getTvShows = async (): Promise<TvShow[]> => {
@@ -159,7 +159,7 @@ export const getTvShows = async (): Promise<TvShow[]> => {
         });
     }
 
-    return tvShows;
+    return tvShows.sort((a, b) => a.title.localeCompare(b.title));
 };
 
 export const getRecentlyAdded = async (): Promise<(Movie | TvShow)[]> => {

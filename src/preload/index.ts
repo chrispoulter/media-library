@@ -11,8 +11,8 @@ const api = {
     getSettings: (): Promise<Settings> => ipcRenderer.invoke('get-settings'),
     setSettings: (settings: Settings): Promise<void> =>
         ipcRenderer.invoke('set-settings', settings),
-    openMoveFile: (filePath: string): Promise<void> =>
-        ipcRenderer.invoke('open-move-file', filePath),
+    openMovieFile: (filePath: string): Promise<void> =>
+        ipcRenderer.invoke('open-movie-file', filePath),
     openTvShowFile: (filePath: string): Promise<void> =>
         ipcRenderer.invoke('open-tv-show-file', filePath),
     getRecentlyAdded: (): Promise<(Movie | TvShow)[]> =>
