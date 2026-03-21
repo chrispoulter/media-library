@@ -1,4 +1,4 @@
-import React from 'react';
+import { Fragment, useMemo, useState } from 'react';
 import { useMoviesQuery } from '../hooks/useMediaQueries';
 import { useDebounce } from '../hooks/useDebounce';
 import { SearchBar } from './SearchBar';
@@ -9,13 +9,13 @@ import { Divider } from './Divider';
 import { ErrorMessage } from './ErrorMessage';
 
 export const MoviesView = (): React.JSX.Element => {
-    const [search, setSearch] = React.useState('');
+    const [search, setSearch] = useState('');
     const debouncedSearch = useDebounce(search);
     const searchLower = debouncedSearch.toLowerCase();
 
     const { data: movies, isLoading, error } = useMoviesQuery();
 
-    const { items, availableLetters } = React.useMemo(() => {
+    const { items, availableLetters } = useMemo(() => {
         if (!movies) {
             return {
                 items: undefined,
@@ -73,10 +73,10 @@ export const MoviesView = (): React.JSX.Element => {
                 <div className="flex flex-col gap-2">
                     {items.map(({ movie, letter, showDivider }) => {
                         return (
-                            <React.Fragment key={movie.filePath}>
+                            <Fragment key={movie.filePath}>
                                 {showDivider && <Divider letter={letter} />}
                                 <MovieCard movie={movie} />
-                            </React.Fragment>
+                            </Fragment>
                         );
                     })}
                 </div>

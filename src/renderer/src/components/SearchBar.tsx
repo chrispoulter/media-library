@@ -1,4 +1,3 @@
-import { JSX } from 'react';
 import clsx from 'clsx';
 import { SearchIcon, XIcon } from './SvgIcons';
 
@@ -14,7 +13,7 @@ export const SearchBar = ({
     onChange,
     placeholder,
     disabled,
-}: SearchBarProps): JSX.Element => {
+}: SearchBarProps): React.JSX.Element => {
     return (
         <div className="relative mb-4">
             <SearchIcon className="pointer-events-none absolute top-1/2 left-2.5 h-4 w-4 -translate-y-1/2 text-gray-400 dark:text-gray-400" />

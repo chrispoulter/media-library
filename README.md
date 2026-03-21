@@ -75,8 +75,8 @@ npm run build:linux
 
 The app scans the directories you configure in Settings:
 
-- **Movies** — each subdirectory is treated as one movie; video files inside it are listed as the movie's files.
-- **TV Shows** — each top-level folder is one show; season numbers are detected from filenames using the pattern `S##` (e.g. `S01`).
+- **Movies** — every supported video file anywhere under the movies directory is scanned recursively, and the movie title is derived from the filename.
+- **TV Shows** — every supported video file anywhere under the TV shows directory is scanned recursively; show titles and season/episode grouping are derived from filenames using the pattern `Show Name S01E02`.
 - **Recently Added** — ordering is based on each media file's modified time (`mtime`).
 
 ## Sample Media Library

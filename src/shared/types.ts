@@ -14,18 +14,21 @@ export type Movie = {
 };
 
 export type TvShowEpisode = {
-    title: string;
+    episodeNumber: number;
     filePath: string;
     fileExtension: string;
     addedAt: number;
 };
 
+export type TvShowSeason = {
+    seasonNumber: number;
+    episodes: TvShowEpisode[];
+};
+
 export type TvShow = {
     title: string;
     posterUrl: string | undefined | null;
-    episodes: TvShowEpisode[];
-    seasonCount: number;
-    episodeCount: number;
+    seasons: TvShowSeason[];
     latestAddedAt: number;
 };
 

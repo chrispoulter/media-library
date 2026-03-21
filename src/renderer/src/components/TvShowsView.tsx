@@ -1,4 +1,4 @@
-import React from 'react';
+import { Fragment, useMemo, useState } from 'react';
 import { useTvShowsQuery } from '../hooks/useMediaQueries';
 import { useDebounce } from '../hooks/useDebounce';
 import { SearchBar } from './SearchBar';
@@ -9,13 +9,13 @@ import { Divider } from './Divider';
 import { ErrorMessage } from './ErrorMessage';
 
 export const TvShowsView = (): React.JSX.Element => {
-    const [search, setSearch] = React.useState('');
+    const [search, setSearch] = useState('');
     const debouncedSearch = useDebounce(search);
     const searchLower = debouncedSearch.toLowerCase();
 
     const { data: tvShows, isLoading, error } = useTvShowsQuery();
 
-    const { items, availableLetters } = React.useMemo(() => {
+    const { items, availableLetters } = useMemo(() => {
         if (!tvShows) {
             return {
                 items: undefined,
@@ -73,10 +73,10 @@ export const TvShowsView = (): React.JSX.Element => {
                 <div className="flex flex-col gap-2">
                     {items.map(({ tvShow, letter, showDivider }) => {
                         return (
-                            <React.Fragment key={tvShow.title}>
+                            <Fragment key={tvShow.title}>
                                 {showDivider && <Divider letter={letter} />}
                                 <TvShowCard tvShow={tvShow} />
-                            </React.Fragment>
+                            </Fragment>
                         );
                     })}
                 </div>
