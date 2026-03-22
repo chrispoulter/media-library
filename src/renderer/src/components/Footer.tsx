@@ -1,14 +1,16 @@
 import { useVersionQuery } from '../hooks/useMediaQueries';
 
-export const Footer = (): React.JSX.Element => {
+export const Footer = (): React.JSX.Element | null => {
     const { data: version } = useVersionQuery();
 
+    if (!version) {
+        return null;
+    }
+
     return (
-        <footer className="mt-auto bg-gray-800 p-4 text-center text-white">
+        <div className="text-center text-xs text-gray-500 dark:text-gray-400">
             &copy; {new Date().getFullYear()} Media Library{' '}
-            {version && (
-                <span className="text-sm text-gray-400">v{version}</span>
-            )}
-        </footer>
+            {version && <>v{version}</>}
+        </div>
     );
 };

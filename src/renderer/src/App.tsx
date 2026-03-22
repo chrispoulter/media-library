@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 import { Content } from './components/Content';
-import { Footer } from './components/Footer';
-import { Header } from './components/Header';
 import { Sidebar } from './components/Sidebar';
 import { useSettingsQuery, useEventsListener } from './hooks/useMediaQueries';
 import { applyTheme } from './utils/theme';
@@ -19,13 +17,9 @@ function App(): React.JSX.Element {
     }, [settings]);
 
     return (
-        <div className="flex h-screen flex-col">
-            <Header />
-            <div className="flex flex-1 overflow-hidden">
-                <Sidebar view={view} setView={setView} />
-                <Content view={view} />
-            </div>
-            <Footer />
+        <div className="flex h-screen overflow-hidden">
+            <Sidebar view={view} setView={setView} />
+            <Content view={view} />
         </div>
     );
 }
