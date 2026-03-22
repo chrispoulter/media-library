@@ -1,5 +1,5 @@
 import { Fragment, useMemo, useState } from 'react';
-import { useTvShowsQuery } from '../hooks/useMediaQueries';
+import { useTvShowsQuery } from '../hooks/useAppQueries';
 import { useDebounce } from '../hooks/useDebounce';
 import { SearchBar } from './SearchBar';
 import { AlphabetBar } from './AlphabetBar';

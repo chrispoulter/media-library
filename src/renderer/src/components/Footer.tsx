@@ -1,4 +1,4 @@
-import { useVersionQuery } from '../hooks/useMediaQueries';
+import { useVersionQuery } from '../hooks/useAppQueries';
 
 export const Footer = (): React.JSX.Element | null => {
     const { data: version } = useVersionQuery();

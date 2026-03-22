@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useRecentlyAddedQuery } from '../hooks/useMediaQueries';
+import { useRecentlyAddedQuery } from '../hooks/useAppQueries';
 import { useDebounce } from '../hooks/useDebounce';
 import { SearchBar } from './SearchBar';
 import { MovieCard } from './MovieCard';

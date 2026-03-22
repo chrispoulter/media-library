@@ -6,7 +6,7 @@ import {
     useSettingsQuery,
     useSaveSettingsMutation,
     useRefetchPostersMutation,
-} from '../hooks/useMediaQueries';
+} from '../hooks/useAppQueries';
 import { ErrorMessage } from './ErrorMessage';
 import type { Settings } from '../../../shared/types';
 

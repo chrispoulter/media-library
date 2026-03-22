@@ -1,4 +1,4 @@
-import { useEventsQuery } from '@renderer/hooks/useMediaQueries';
+import { useEventsQuery } from '@renderer/hooks/useAppQueries';
 
 export const Status = (): React.JSX.Element | null => {
     const { data: event } = useEventsQuery();
