@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 import {
     useSettingsQuery,
     useSaveSettingsMutation,
     useRefetchPostersMutation,
-} from '../hooks/useMediaQueries';
+} from '../hooks/useAppQueries';
+import { ErrorMessage } from './ui/ErrorMessage';
 import type { Settings } from '../../../shared/types';
 
 const directoryPathSchema = z.string().refine(
@@ -105,54 +106,48 @@ export const SettingsView = (): React.JSX.Element => {
     }
 
     if (loadError) {
-        return (
-            <div className="rounded-lg border border-red-200 bg-red-50 p-4 dark:border-red-800/50 dark:bg-red-900/20">
-                <p className="font-medium text-red-700 dark:text-red-400">
-                    Something went wrong
-                </p>
-                <p className="mt-1 text-sm text-red-600 dark:text-red-500">
-                    {loadError.message}
-                </p>
-            </div>
-        );
+        return <ErrorMessage error={loadError} />;
     }
 
     return (
-        <div className="dark:text-white">
-            <h2 className="mb-4 text-2xl font-bold">Settings</h2>
-            <p className="mb-4">Configure your application preferences here.</p>
-            <form onSubmit={handleSubmit(onSaveSettings)}>
-                <div className="mb-4">
+        <section className="flex flex-col gap-4 dark:text-white">
+            <h2 className="text-2xl font-bold">Settings</h2>
+            <p>Configure your application preferences here.</p>
+            <form
+                onSubmit={handleSubmit(onSaveSettings)}
+                className="flex flex-col gap-4"
+            >
+                <div className="flex flex-col gap-1">
                     <label
                         htmlFor="theme"
-                        className="mb-1 block text-sm font-medium"
+                        className="block text-sm font-medium"
                     >
                         Theme
                     </label>
                     <select
-                        id="theme"
                         {...register('theme')}
+                        id="theme"
                         disabled={isSaving}
-                        className="mb-1 w-full rounded border border-gray-300 p-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                        className="w-full rounded border border-gray-300 p-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                     >
                         <option value="light">Light</option>
                         <option value="dark">Dark</option>
                         <option value="system">System Default</option>
                     </select>
                 </div>
-                <div className="mb-4">
+                <div className="flex flex-col gap-1">
                     <label
                         htmlFor="moviesDirectory"
-                        className="mb-1 block text-sm font-medium"
+                        className="block text-sm font-medium"
                     >
                         Movie Directory
                     </label>
-                    <div className="mb-1 flex gap-2">
+                    <div className="flex gap-2">
                         <input
+                            {...register('moviesDirectory')}
                             id="moviesDirectory"
                             type="text"
                             placeholder="/path/to/movies"
-                            {...register('moviesDirectory')}
                             disabled={isSaving}
                             className="w-full rounded border border-gray-400 p-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                         />
@@ -175,19 +170,19 @@ export const SettingsView = (): React.JSX.Element => {
                         </p>
                     )}
                 </div>
-                <div className="mb-4">
+                <div className="flex flex-col gap-1">
                     <label
                         htmlFor="tvShowsDirectory"
-                        className="mb-1 block text-sm font-medium"
+                        className="block text-sm font-medium"
                     >
                         TV Shows Directory
                     </label>
-                    <div className="mb-1 flex gap-2">
+                    <div className="flex gap-2">
                         <input
+                            {...register('tvShowsDirectory')}
                             id="tvShowsDirectory"
                             type="text"
                             placeholder="/path/to/tv-shows"
-                            {...register('tvShowsDirectory')}
                             disabled={isSaving}
                             className="w-full rounded border border-gray-300 p-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                         />
@@ -210,26 +205,26 @@ export const SettingsView = (): React.JSX.Element => {
                         </p>
                     )}
                 </div>
-                <div className="mb-4">
+                <div className="flex flex-col gap-1">
                     <label
                         htmlFor="tmdbApiKey"
-                        className="mb-1 block text-sm font-medium"
+                        className="block text-sm font-medium"
                     >
                         TMDb API Key
                     </label>
                     <input
+                        {...register('tmdbApiKey')}
                         id="tmdbApiKey"
                         type="password"
                         placeholder="Your TMDb API Key"
-                        {...register('tmdbApiKey')}
                         disabled={isSaving}
-                        className="mb-1 w-full rounded border border-gray-300 p-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                        className="w-full rounded border border-gray-300 p-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                     />
                     <p className="text-sm text-gray-400">
                         Enter your TMDb API key to enable metadata fetching.
                     </p>
                 </div>
-                <div className="flex flex-row gap-3">
+                <div className="flex flex-row gap-2">
                     <button
                         type="submit"
                         disabled={isSaving}
@@ -239,22 +234,30 @@ export const SettingsView = (): React.JSX.Element => {
                     </button>
                 </div>
                 {isSaveSuccess && (
-                    <p className="mt-3 rounded border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700 dark:border-green-800/50 dark:bg-green-900/20 dark:text-green-400">
+                    <p
+                        role="status"
+                        className="rounded border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700 dark:border-green-800/50 dark:bg-green-900/20 dark:text-green-400"
+                    >
                         Settings saved successfully.
                     </p>
                 )}
                 {saveError && (
-                    <p className="mt-3 rounded border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700 dark:border-red-800/50 dark:bg-red-900/20 dark:text-red-400">
+                    <p
+                        role="alert"
+                        className="rounded border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700 dark:border-red-800/50 dark:bg-red-900/20 dark:text-red-400"
+                    >
                         {saveError.message}
                     </p>
                 )}
             </form>
-            <div className="mt-8 border-t border-gray-200 pt-6 dark:border-gray-700">
-                <h3 className="mb-1 text-lg font-semibold">Maintenance</h3>
-                <p className="mb-4 text-sm text-gray-400">
-                    Tools for diagnosing and resetting application data.
-                </p>
-                <div className="flex flex-wrap gap-3">
+
+            <h2 className="mt-4 border-t border-gray-200 pt-4 text-2xl font-bold dark:border-gray-700">
+                Maintenance
+            </h2>
+            <p>Tools for diagnosing and resetting application data.</p>
+
+            <div className="flex flex-col gap-4">
+                <div className="flex flex-row gap-2">
                     <button
                         type="button"
                         className="cursor-pointer rounded bg-gray-600 px-4 py-2 text-white hover:bg-gray-700"
@@ -279,14 +282,33 @@ export const SettingsView = (): React.JSX.Element => {
                         Refetch All Posters
                     </button>
                 </div>
+                {isRefetchSuccess && (
+                    <p
+                        role="status"
+                        className="rounded border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700 dark:border-green-800/50 dark:bg-green-900/20 dark:text-green-400"
+                    >
+                        Posters will be updated shortly.
+                    </p>
+                )}
+                {refetchError && (
+                    <p
+                        role="alert"
+                        className="rounded border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700 dark:border-red-800/50 dark:bg-red-900/20 dark:text-red-400"
+                    >
+                        {refetchError.message}
+                    </p>
+                )}
                 {pendingRefetch !== null && (
-                    <div className="mt-3 rounded border border-amber-200 bg-amber-50 px-3 py-3 dark:border-amber-800/50 dark:bg-amber-900/20">
-                        <p className="mb-2 text-sm text-amber-800 dark:text-amber-300">
+                    <div
+                        role="alert"
+                        className="flex flex-col gap-2 rounded border border-amber-200 bg-amber-50 px-3 py-3 dark:border-amber-800/50 dark:bg-amber-900/20"
+                    >
+                        <p className="text-sm text-amber-800 dark:text-amber-300">
                             {pendingRefetch
                                 ? 'This will re-download posters that failed to load. Are you sure?'
                                 : 'This will clear all cached posters and re-download them. Are you sure?'}
                         </p>
-                        <div className="flex gap-2">
+                        <div className="flex flex-row gap-2">
                             <button
                                 type="button"
                                 onClick={onConfirmRefetch}
@@ -304,17 +326,7 @@ export const SettingsView = (): React.JSX.Element => {
                         </div>
                     </div>
                 )}
-                {isRefetchSuccess && (
-                    <p className="mt-3 rounded border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700 dark:border-green-800/50 dark:bg-green-900/20 dark:text-green-400">
-                        Posters will be updated shortly.
-                    </p>
-                )}
-                {refetchError && (
-                    <p className="mt-3 rounded border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700 dark:border-red-800/50 dark:bg-red-900/20 dark:text-red-400">
-                        {refetchError.message}
-                    </p>
-                )}
             </div>
-        </div>
+        </section>
     );
 };

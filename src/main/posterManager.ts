@@ -1,9 +1,9 @@
-import log from 'electron-log/main';
 import { BrowserWindow } from 'electron';
-import { Event } from '../shared/types';
+import log from 'electron-log/main';
 import { setPosterUrl } from './posterStore';
-import { fetchPosterUrl } from './tmdbFetcher';
 import { getSettings } from './settingsStore';
+import { fetchPosterUrl } from './tmdbFetcher';
+import type { Event } from '../shared/types';
 
 export type QueueItem = { type: 'movie' | 'tv-show'; title: string };
 

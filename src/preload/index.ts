@@ -1,6 +1,6 @@
-import { contextBridge, ipcRenderer } from 'electron';
 import { electronAPI } from '@electron-toolkit/preload';
-import { Settings, Movie, TvShow, Event } from '../shared/types';
+import { contextBridge, ipcRenderer } from 'electron';
+import type { Settings, Movie, TvShow, Event } from '../shared/types';
 
 // Custom APIs for renderer
 const api = {

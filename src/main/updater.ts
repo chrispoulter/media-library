@@ -1,6 +1,6 @@
 import { app, dialog } from 'electron';
-import { autoUpdater } from 'electron-updater';
 import log from 'electron-log/main';
+import { autoUpdater } from 'electron-updater';
 
 export const setupAutoUpdater = (): void => {
     if (!app.isPackaged) {

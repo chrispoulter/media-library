@@ -8,6 +8,7 @@ export const SearchIcon = ({
         className={className}
         viewBox="0 0 20 20"
         fill="currentColor"
+        aria-hidden="true"
     >
         <path
             fillRule="evenodd"
@@ -27,6 +28,7 @@ export const XIcon = ({
         className={className}
         viewBox="0 0 20 20"
         fill="currentColor"
+        aria-hidden="true"
     >
         <path
             fillRule="evenodd"
@@ -46,6 +48,7 @@ export const ChevronDown = ({
         className={className}
         viewBox="0 0 20 20"
         fill="currentColor"
+        aria-hidden="true"
     >
         <path
             fillRule="evenodd"
@@ -65,6 +68,7 @@ export const ChevronUp = ({
         className={className}
         viewBox="0 0 20 20"
         fill="currentColor"
+        aria-hidden="true"
     >
         <path
             fillRule="evenodd"
@@ -84,6 +88,7 @@ export const PlayIcon = ({
         className={className}
         viewBox="0 0 20 20"
         fill="currentColor"
+        aria-hidden="true"
     >
         <path
             fillRule="evenodd"
@@ -103,6 +108,7 @@ export const ClockIcon = ({
         className={className}
         viewBox="0 0 20 20"
         fill="currentColor"
+        aria-hidden="true"
     >
         <path
             fillRule="evenodd"
@@ -122,6 +128,7 @@ export const FilmIcon = ({
         className={className}
         viewBox="0 0 20 20"
         fill="currentColor"
+        aria-hidden="true"
     >
         <path
             fillRule="evenodd"
@@ -141,6 +148,7 @@ export const TvIcon = ({
         className={className}
         viewBox="0 0 20 20"
         fill="currentColor"
+        aria-hidden="true"
     >
         <path
             fillRule="evenodd"
@@ -160,6 +168,7 @@ export const CogIcon = ({
         className={className}
         viewBox="0 0 20 20"
         fill="currentColor"
+        aria-hidden="true"
     >
         <path
             fillRule="evenodd"

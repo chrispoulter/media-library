@@ -1,6 +1,6 @@
 import { BrowserWindow } from 'electron';
-import Store from 'electron-store';
 import log from 'electron-log/main';
+import Store from 'electron-store';
 
 type WindowState = {
     width: number;

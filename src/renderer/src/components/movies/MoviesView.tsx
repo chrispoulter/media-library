@@ -1,56 +1,56 @@
 import { Fragment, useMemo, useState } from 'react';
-import { useTvShowsQuery } from '../hooks/useMediaQueries';
-import { useDebounce } from '../hooks/useDebounce';
-import { SearchBar } from './SearchBar';
-import { AlphabetBar } from './AlphabetBar';
-import { TvShowCard } from './TvShowCard';
-import { TvShowCardSkeleton } from './TvShowCardSkeleton';
-import { Divider } from './Divider';
-import { ErrorMessage } from './ErrorMessage';
+import { useMoviesQuery } from '../../hooks/useAppQueries';
+import { useDebounce } from '../../hooks/useDebounce';
+import { AlphabetBar } from '../ui/AlphabetBar';
+import { Divider } from '../ui/Divider';
+import { ErrorMessage } from '../ui/ErrorMessage';
+import { SearchBar } from '../ui/SearchBar';
+import { MovieCard } from './MovieCard';
+import { MovieCardSkeleton } from './MovieCardSkeleton';
 
-export const TvShowsView = (): React.JSX.Element => {
+export const MoviesView = (): React.JSX.Element => {
     const [search, setSearch] = useState('');
     const debouncedSearch = useDebounce(search);
     const searchLower = debouncedSearch.toLowerCase();
 
-    const { data: tvShows, isLoading, error } = useTvShowsQuery();
+    const { data: movies, isLoading, error } = useMoviesQuery();
 
     const { items, availableLetters } = useMemo(() => {
-        if (!tvShows) {
+        if (!movies) {
             return {
                 items: undefined,
                 availableLetters: undefined,
             };
         }
 
-        const filtered = tvShows.filter((show) =>
-            show.title.toLowerCase().includes(searchLower)
+        const filtered = movies.filter((movie) =>
+            movie.title.toLowerCase().includes(searchLower)
         );
 
         let lastLetter = '';
         const availableLetters = new Set<string>();
 
-        const items = filtered.map((tvShow) => {
-            const letter = tvShow.title[0]?.toUpperCase() ?? '#';
+        const items = filtered.map((movie) => {
+            const letter = movie.title[0]?.toUpperCase() ?? '#';
             const showDivider = letter !== lastLetter;
 
             lastLetter = letter;
             availableLetters.add(letter);
 
-            return { tvShow, letter, showDivider };
+            return { movie, letter, showDivider };
         });
 
         return {
             items,
             availableLetters,
         };
-    }, [tvShows, searchLower]);
+    }, [movies, searchLower]);
 
     return (
-        <div className="dark:text-white">
-            <h2 className="mb-4 text-2xl font-bold">TV Shows</h2>
+        <section className="flex flex-col gap-4 dark:text-white">
+            <h2 className="text-2xl font-bold">Movies</h2>
             <SearchBar
-                placeholder="Search TV shows..."
+                placeholder="Search movies..."
                 value={search}
                 onChange={setSearch}
             />
@@ -58,34 +58,34 @@ export const TvShowsView = (): React.JSX.Element => {
             {isLoading ? (
                 <div className="flex flex-col gap-2">
                     {Array.from({ length: 15 }).map((_, i) => (
-                        <TvShowCardSkeleton key={i} />
+                        <MovieCardSkeleton key={i} />
                     ))}
                 </div>
             ) : error ? (
                 <ErrorMessage error={error} />
             ) : !items?.length ? (
-                <div className="text-gray-500">
+                <p className="text-gray-500">
                     {search
-                        ? 'No shows match your search.'
-                        : 'No TV shows found. Check your TV Shows folder in Settings.'}
-                </div>
+                        ? 'No movies match your search.'
+                        : 'No movies found. Check your Movies folder in Settings.'}
+                </p>
             ) : (
                 <div className="flex flex-col gap-2">
-                    {items.map(({ tvShow, letter, showDivider }) => {
+                    {items.map(({ movie, letter, showDivider }) => {
                         return (
-                            <Fragment key={tvShow.title}>
+                            <Fragment key={movie.filePath}>
                                 {showDivider && (
                                     <Divider
                                         id={`letter-${letter}`}
                                         label={letter}
                                     />
                                 )}
-                                <TvShowCard tvShow={tvShow} />
+                                <MovieCard movie={movie} />
                             </Fragment>
                         );
                     })}
                 </div>
             )}
-        </div>
+        </section>
     );
 };

@@ -1,11 +1,11 @@
 import { app, shell, ipcMain, dialog } from 'electron';
 import log from 'electron-log/main';
 import { resolve, sep } from 'path';
-import type { Settings } from '../shared/types';
-import { getSettings, setSettings } from './settingsStore';
-import { clearPosterUrls } from './posterStore';
-import { clearQueue } from './posterManager';
 import { getMovies, getRecentlyAdded, getTvShows } from './mediaScanner';
+import { clearQueue } from './posterManager';
+import { clearPosterUrls } from './posterStore';
+import { getSettings, setSettings } from './settingsStore';
+import type { Settings } from '../shared/types';
 
 export const registerHandlers = (): void => {
     ipcMain.handle('get-version', () => app.getVersion());

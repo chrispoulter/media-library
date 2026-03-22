@@ -1,9 +1,9 @@
 import { Fragment, useState } from 'react';
-import defaultTvShowPoster from '../assets/default-tv-show.svg';
-import type { TvShow } from '../../../shared/types';
-import { ChevronDown, ChevronUp, PlayIcon } from './SvgIcons';
-import { relativeTime } from '../utils/time';
-import { Divider } from './Divider';
+import defaultTvShowPoster from '../../assets/default-tv-show.svg';
+import { Divider } from '../ui/Divider';
+import { ChevronDown, ChevronUp, PlayIcon } from '../ui/SvgIcons';
+import { relativeTime } from '../../utils/time';
+import type { TvShow } from '../../../../shared/types';
 
 type TvShowCardProps = {
     tvShow: TvShow;
@@ -24,10 +24,12 @@ export const TvShowCard = ({
     );
 
     return (
-        <div className="flex flex-col gap-2">
-            <div
+        <article className="flex flex-col gap-2">
+            <button
+                type="button"
                 onClick={() => setIsOpen(!isOpen)}
-                className="flex cursor-pointer items-center gap-4 rounded bg-gray-200 p-2 shadow-sm transition-all duration-150 hover:bg-gray-300 hover:shadow-md dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600"
+                aria-expanded={isOpen}
+                className="flex w-full cursor-pointer items-center gap-4 rounded bg-gray-200 p-2 text-left shadow-sm transition-all duration-150 hover:bg-gray-300 hover:shadow-md dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600"
             >
                 <img
                     src={tvShow.posterUrl || defaultTvShowPoster}
@@ -54,16 +56,16 @@ export const TvShowCard = ({
                         · {episodeCount}{' '}
                         {episodeCount === 1 ? 'Episode' : 'Episodes'}
                     </span>
-                    <small className="min-w-14 rounded bg-teal-500 p-1 px-2 py-1 text-center text-xs text-nowrap text-white">
+                    <span className="min-w-14 rounded bg-teal-500 p-1 px-2 py-1 text-center text-xs text-nowrap text-white">
                         TV Show
-                    </small>
+                    </span>
                     {isOpen ? (
                         <ChevronUp className="h-5 w-5 text-gray-600 dark:text-gray-300" />
                     ) : (
                         <ChevronDown className="h-5 w-5 text-gray-600 dark:text-gray-300" />
                     )}
                 </div>
-            </div>
+            </button>
             {isOpen && (
                 <div className="mx-5 flex flex-col gap-1">
                     {tvShow.seasons.map((season, seasonIndex) => {
@@ -75,24 +77,25 @@ export const TvShowCard = ({
                                     (episode, episodeIndex) => {
                                         const episodeLabel = `E${episode.episodeNumber.toString().padStart(2, '0')}`;
                                         return (
-                                            <div
+                                            <button
+                                                type="button"
                                                 key={`${seasonIndex}-${episodeIndex}`}
                                                 onClick={() =>
                                                     window.api.openTvShowFile(
                                                         episode.filePath
                                                     )
                                                 }
-                                                className="flex cursor-pointer items-center gap-4 rounded bg-gray-200 p-2 shadow-sm transition-all duration-150 hover:bg-gray-300 hover:shadow-md dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600"
+                                                className="flex w-full cursor-pointer items-center gap-4 rounded bg-gray-200 p-2 text-left shadow-sm transition-all duration-150 hover:bg-gray-300 hover:shadow-md dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600"
                                             >
                                                 <span className="truncate text-sm">
                                                     {tvShow.title} {seasonLabel}
                                                     {episodeLabel}
                                                 </span>
-                                                <small className="ml-auto min-w-14 rounded bg-gray-500 px-2 py-1 text-center text-xs text-white uppercase">
+                                                <span className="ml-auto min-w-14 rounded bg-gray-500 px-2 py-1 text-center text-xs text-white uppercase">
                                                     {episode.fileExtension}
-                                                </small>
+                                                </span>
                                                 <PlayIcon className="h-5 w-5 text-gray-600 dark:text-gray-300" />
-                                            </div>
+                                            </button>
                                         );
                                     }
                                 )}
@@ -101,6 +104,6 @@ export const TvShowCard = ({
                     })}
                 </div>
             )}
-        </div>
+        </article>
     );
 };

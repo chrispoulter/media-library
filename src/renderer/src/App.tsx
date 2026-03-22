@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Content } from './components/Content';
-import { Sidebar } from './components/Sidebar';
-import { useSettingsQuery, useEventsListener } from './hooks/useMediaQueries';
+import { Content } from './components/layout/Content';
+import { Sidebar } from './components/layout/Sidebar';
+import { useSettingsQuery, useEventsListener } from './hooks/useAppQueries';
 import { applyTheme } from './utils/theme';
 
 function App(): React.JSX.Element {

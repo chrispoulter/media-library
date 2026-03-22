@@ -7,8 +7,8 @@ import {
     type UseQueryResult,
 } from '@tanstack/react-query';
 import log from 'electron-log/renderer';
-import type { Movie, TvShow, Settings, Event } from '../../../shared/types';
 import { applyTheme } from '../utils/theme';
+import type { Movie, TvShow, Settings, Event } from '../../../shared/types';
 
 export const useVersionQuery = (): UseQueryResult<string> =>
     useQuery({
