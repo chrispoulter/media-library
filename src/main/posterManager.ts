@@ -5,7 +5,7 @@ import { setPosterUrl } from './posterStore';
 import { fetchPosterUrl } from './tmdbFetcher';
 import { getSettings } from './settingsStore';
 
-type QueueItem = { type: 'movie' | 'tv-show'; title: string };
+export type QueueItem = { type: 'movie' | 'tv-show'; title: string };
 
 const queue: QueueItem[] = [];
 let isProcessing = false;
@@ -27,6 +27,31 @@ export const enqueuePoster = (
     }
 
     queue.push({ title, type });
+
+    if (!isProcessing) {
+        processQueue();
+    }
+};
+
+export const enqueuePosters = (items: QueueItem[]): void => {
+    log.debug('Enqueuing posters:', items);
+
+    const { tmdbApiKey } = getSettings();
+
+    if (!tmdbApiKey) {
+        return;
+    }
+
+    const newItems = items.filter(
+        (item) =>
+            !queue.some(
+                (queuedItem) =>
+                    queuedItem.type === item.type &&
+                    queuedItem.title === item.title
+            )
+    );
+
+    queue.push(...newItems);
 
     if (!isProcessing) {
         processQueue();

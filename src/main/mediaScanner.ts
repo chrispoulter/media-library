@@ -4,7 +4,7 @@ import { extname, join } from 'path';
 import { Movie, TvShow, TvShowEpisode } from '../shared/types';
 import { getSettings } from './settingsStore';
 import { getPosterUrl } from './posterStore';
-import { enqueuePoster } from './posterManager';
+import { enqueuePosters, type QueueItem } from './posterManager';
 
 const VIDEO_EXTENSIONS = new Set([
     '.mp4',
@@ -79,10 +79,6 @@ export const getMovies = async (): Promise<Movie[]> => {
             const fileExtension = extname(entry.name);
             const { mtimeMs: addedAt } = await stat(filePath);
 
-            if (posterUrl === undefined && tmdbApiKey) {
-                enqueuePoster('movie', title);
-            }
-
             return {
                 title,
                 posterUrl,
@@ -93,6 +89,14 @@ export const getMovies = async (): Promise<Movie[]> => {
         });
 
     const movies = await Promise.all(moviePromises);
+
+    if (tmdbApiKey) {
+        const missingPosters: QueueItem[] = movies
+            .filter((movie) => movie.posterUrl === undefined)
+            .map((movie) => ({ type: 'movie', title: movie.title }));
+
+        enqueuePosters(missingPosters);
+    }
 
     return movies.sort((a, b) => a.title.localeCompare(b.title));
 };
@@ -168,12 +172,26 @@ export const getTvShows = async (): Promise<TvShow[]> => {
         const season = show.seasons.get(episode.seasonNumber);
 
         if (!season) {
-            show.seasons.set(episode.seasonNumber, [episode]);
+            show.seasons.set(episode.seasonNumber, [
+                {
+                    episodeNumber: episode.episodeNumber,
+                    filePath: episode.filePath,
+                    fileExtension: episode.fileExtension,
+                    addedAt: episode.addedAt,
+                },
+            ]);
+
             show.latestAddedAt = Math.max(show.latestAddedAt, episode.addedAt);
             continue;
         }
 
-        season.push(episode);
+        season.push({
+            episodeNumber: episode.episodeNumber,
+            filePath: episode.filePath,
+            fileExtension: episode.fileExtension,
+            addedAt: episode.addedAt,
+        });
+
         show.latestAddedAt = Math.max(show.latestAddedAt, episode.addedAt);
     }
 
@@ -187,17 +205,21 @@ export const getTvShows = async (): Promise<TvShow[]> => {
             }))
             .sort((a, b) => a.seasonNumber - b.seasonNumber);
 
-        if (show.posterUrl === undefined && tmdbApiKey) {
-            enqueuePoster('tv-show', show.title);
-        }
-
         return {
             title: show.title,
             posterUrl: show.posterUrl,
-            seasons,
             latestAddedAt: show.latestAddedAt,
+            seasons,
         };
     });
+
+    if (tmdbApiKey) {
+        const missingPosters: QueueItem[] = tvShows
+            .filter((show) => show.posterUrl === undefined)
+            .map((show) => ({ type: 'tv-show', title: show.title }));
+
+        enqueuePosters(missingPosters);
+    }
 
     return tvShows.sort((a, b) => a.title.localeCompare(b.title));
 };
