@@ -1,11 +1,11 @@
 # TODO
 
-- **professional theme** - update the tailwind css theme to look more professional
+- update the tailwind css theme to look more professional
 
-# Bugfix
+## Bugfix
 
-- CI/CD macos release failing on retry
+- CI/CD mac-os release failing on retry
 
-# Future
+## Future
 
-- Cache scanning results?
+- cache scanning results
