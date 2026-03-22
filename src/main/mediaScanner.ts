@@ -1,10 +1,10 @@
-import log from 'electron-log/main';
 import { readdir, stat } from 'fs/promises';
 import { extname, join } from 'path';
+import log from 'electron-log/main';
 import { Movie, TvShow, TvShowEpisode } from '../shared/types';
-import { getSettings } from './settingsStore';
-import { getPosterUrl } from './posterStore';
 import { enqueuePosters, type QueueItem } from './posterManager';
+import { getPosterUrl } from './posterStore';
+import { getSettings } from './settingsStore';
 
 const VIDEO_EXTENSIONS = new Set([
     '.mp4',

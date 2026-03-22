@@ -1,7 +1,7 @@
 import clsx from 'clsx';
+import { ClockIcon, FilmIcon, TvIcon, CogIcon } from '../ui/SvgIcons';
 import { Status } from './Status';
 import { Footer } from './Footer';
-import { ClockIcon, FilmIcon, TvIcon, CogIcon } from '../ui/SvgIcons';
 
 type SidebarProps = {
     view: string;

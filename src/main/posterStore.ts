@@ -1,5 +1,5 @@
-import Store from 'electron-store';
 import log from 'electron-log/main';
+import Store from 'electron-store';
 
 const store = new Store<Record<string, string | null>>({
     name: 'posters',

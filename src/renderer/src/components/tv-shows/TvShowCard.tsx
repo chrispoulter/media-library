@@ -1,9 +1,9 @@
 import { Fragment, useState } from 'react';
 import defaultTvShowPoster from '../../assets/default-tv-show.svg';
-import type { TvShow } from '../../../../shared/types';
+import { Divider } from '../ui/Divider';
 import { ChevronDown, ChevronUp, PlayIcon } from '../ui/SvgIcons';
 import { relativeTime } from '../../utils/time';
-import { Divider } from '../ui/Divider';
+import type { TvShow } from '../../../../shared/types';
 
 type TvShowCardProps = {
     tvShow: TvShow;

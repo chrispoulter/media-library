@@ -1,6 +1,6 @@
-import { RecentlyAddedView } from '../RecentlyAddedView';
 import { MoviesView } from '../movies/MoviesView';
 import { TvShowsView } from '../tv-shows/TvShowsView';
+import { RecentlyAddedView } from '../RecentlyAddedView';
 import { SettingsView } from '../SettingsView';
 
 type ContentProps = {

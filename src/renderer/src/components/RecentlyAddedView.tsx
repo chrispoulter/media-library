@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useRecentlyAddedQuery } from '../hooks/useAppQueries';
 import { useDebounce } from '../hooks/useDebounce';
+import { ErrorMessage } from './ui/ErrorMessage';
 import { SearchBar } from './ui/SearchBar';
 import { MovieCard } from './movies/MovieCard';
-import { TvShowCard } from './tv-shows/TvShowCard';
 import { MovieCardSkeleton } from './movies/MovieCardSkeleton';
-import { ErrorMessage } from './ui/ErrorMessage';
+import { TvShowCard } from './tv-shows/TvShowCard';
 
 export const RecentlyAddedView = (): React.JSX.Element => {
     const [search, setSearch] = useState('');

@@ -1,4 +1,4 @@
-import { useEventsQuery } from '@renderer/hooks/useAppQueries';
+import { useEventsQuery } from '../../hooks/useAppQueries';
 
 export const Status = (): React.JSX.Element | null => {
     const { data: event } = useEventsQuery();
@@ -18,7 +18,7 @@ export const Status = (): React.JSX.Element | null => {
     }
 
     return (
-        <p className="truncate text-center text-xs text-gray-500 dark:text-gray-400">
+        <p className="truncate text-xs text-gray-500 dark:text-gray-400">
             {message}
         </p>
     );

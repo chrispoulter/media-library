@@ -1,5 +1,5 @@
-import Store from 'electron-store';
 import log from 'electron-log/main';
+import Store from 'electron-store';
 import type { Settings } from '../shared/types';
 
 const store = new Store<Settings>({
