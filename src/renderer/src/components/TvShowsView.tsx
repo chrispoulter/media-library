@@ -47,7 +47,7 @@ export const TvShowsView = (): React.JSX.Element => {
     }, [tvShows, searchLower]);
 
     return (
-        <div className="flex flex-col gap-4 dark:text-white">
+        <section className="flex flex-col gap-4 dark:text-white">
             <h2 className="text-2xl font-bold">TV Shows</h2>
             <SearchBar
                 placeholder="Search TV shows..."
@@ -64,11 +64,11 @@ export const TvShowsView = (): React.JSX.Element => {
             ) : error ? (
                 <ErrorMessage error={error} />
             ) : !items?.length ? (
-                <div className="text-gray-500">
+                <p className="text-gray-500">
                     {search
                         ? 'No shows match your search.'
                         : 'No TV shows found. Check your TV Shows folder in Settings.'}
-                </div>
+                </p>
             ) : (
                 <div className="flex flex-col gap-2">
                     {items.map(({ tvShow, letter, showDivider }) => {
@@ -86,6 +86,6 @@ export const TvShowsView = (): React.JSX.Element => {
                     })}
                 </div>
             )}
-        </div>
+        </section>
     );
 };

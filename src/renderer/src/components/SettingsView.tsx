@@ -7,6 +7,7 @@ import {
     useSaveSettingsMutation,
     useRefetchPostersMutation,
 } from '../hooks/useMediaQueries';
+import { ErrorMessage } from './ErrorMessage';
 import type { Settings } from '../../../shared/types';
 
 const directoryPathSchema = z.string().refine(
@@ -105,20 +106,11 @@ export const SettingsView = (): React.JSX.Element => {
     }
 
     if (loadError) {
-        return (
-            <div className="rounded-lg border border-red-200 bg-red-50 p-4 dark:border-red-800/50 dark:bg-red-900/20">
-                <p className="font-medium text-red-700 dark:text-red-400">
-                    Something went wrong
-                </p>
-                <p className="mt-1 text-sm text-red-600 dark:text-red-500">
-                    {loadError.message}
-                </p>
-            </div>
-        );
+        return <ErrorMessage error={loadError} />;
     }
 
     return (
-        <div className="flex flex-col gap-4 dark:text-white">
+        <section className="flex flex-col gap-4 dark:text-white">
             <h2 className="text-2xl font-bold">Settings</h2>
             <p>Configure your application preferences here.</p>
             <form
@@ -133,8 +125,8 @@ export const SettingsView = (): React.JSX.Element => {
                         Theme
                     </label>
                     <select
-                        id="theme"
                         {...register('theme')}
+                        id="theme"
                         disabled={isSaving}
                         className="w-full rounded border border-gray-300 p-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                     >
@@ -152,10 +144,10 @@ export const SettingsView = (): React.JSX.Element => {
                     </label>
                     <div className="flex gap-2">
                         <input
+                            {...register('moviesDirectory')}
                             id="moviesDirectory"
                             type="text"
                             placeholder="/path/to/movies"
-                            {...register('moviesDirectory')}
                             disabled={isSaving}
                             className="w-full rounded border border-gray-400 p-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                         />
@@ -187,10 +179,10 @@ export const SettingsView = (): React.JSX.Element => {
                     </label>
                     <div className="flex gap-2">
                         <input
+                            {...register('tvShowsDirectory')}
                             id="tvShowsDirectory"
                             type="text"
                             placeholder="/path/to/tv-shows"
-                            {...register('tvShowsDirectory')}
                             disabled={isSaving}
                             className="w-full rounded border border-gray-300 p-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                         />
@@ -221,10 +213,10 @@ export const SettingsView = (): React.JSX.Element => {
                         TMDb API Key
                     </label>
                     <input
+                        {...register('tmdbApiKey')}
                         id="tmdbApiKey"
                         type="password"
                         placeholder="Your TMDb API Key"
-                        {...register('tmdbApiKey')}
                         disabled={isSaving}
                         className="w-full rounded border border-gray-300 p-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                     />
@@ -242,12 +234,18 @@ export const SettingsView = (): React.JSX.Element => {
                     </button>
                 </div>
                 {isSaveSuccess && (
-                    <p className="rounded border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700 dark:border-green-800/50 dark:bg-green-900/20 dark:text-green-400">
+                    <p
+                        role="status"
+                        className="rounded border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700 dark:border-green-800/50 dark:bg-green-900/20 dark:text-green-400"
+                    >
                         Settings saved successfully.
                     </p>
                 )}
                 {saveError && (
-                    <p className="rounded border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700 dark:border-red-800/50 dark:bg-red-900/20 dark:text-red-400">
+                    <p
+                        role="alert"
+                        className="rounded border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700 dark:border-red-800/50 dark:bg-red-900/20 dark:text-red-400"
+                    >
                         {saveError.message}
                     </p>
                 )}
@@ -285,17 +283,26 @@ export const SettingsView = (): React.JSX.Element => {
                     </button>
                 </div>
                 {isRefetchSuccess && (
-                    <p className="rounded border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700 dark:border-green-800/50 dark:bg-green-900/20 dark:text-green-400">
+                    <p
+                        role="status"
+                        className="rounded border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700 dark:border-green-800/50 dark:bg-green-900/20 dark:text-green-400"
+                    >
                         Posters will be updated shortly.
                     </p>
                 )}
                 {refetchError && (
-                    <p className="rounded border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700 dark:border-red-800/50 dark:bg-red-900/20 dark:text-red-400">
+                    <p
+                        role="alert"
+                        className="rounded border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700 dark:border-red-800/50 dark:bg-red-900/20 dark:text-red-400"
+                    >
                         {refetchError.message}
                     </p>
                 )}
                 {pendingRefetch !== null && (
-                    <div className="flex flex-col gap-2 rounded border border-amber-200 bg-amber-50 px-3 py-3 dark:border-amber-800/50 dark:bg-amber-900/20">
+                    <div
+                        role="alert"
+                        className="flex flex-col gap-2 rounded border border-amber-200 bg-amber-50 px-3 py-3 dark:border-amber-800/50 dark:bg-amber-900/20"
+                    >
                         <p className="text-sm text-amber-800 dark:text-amber-300">
                             {pendingRefetch
                                 ? 'This will re-download posters that failed to load. Are you sure?'
@@ -320,6 +327,6 @@ export const SettingsView = (): React.JSX.Element => {
                     </div>
                 )}
             </div>
-        </div>
+        </section>
     );
 };

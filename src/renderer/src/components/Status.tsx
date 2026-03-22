@@ -18,8 +18,8 @@ export const Status = (): React.JSX.Element | null => {
     }
 
     return (
-        <div className="truncate text-center text-xs text-gray-500 dark:text-gray-400">
+        <p className="truncate text-center text-xs text-gray-500 dark:text-gray-400">
             {message}
-        </div>
+        </p>
     );
 };

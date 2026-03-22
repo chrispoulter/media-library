@@ -20,6 +20,7 @@ export const SearchBar = ({
             <input
                 type="text"
                 placeholder={placeholder}
+                aria-label={placeholder ?? 'Search'}
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
                 disabled={disabled}

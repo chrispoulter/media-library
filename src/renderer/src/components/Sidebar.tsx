@@ -10,11 +10,17 @@ type SidebarProps = {
 
 export const Sidebar = ({ view, setView }: SidebarProps): React.JSX.Element => {
     return (
-        <div className="flex w-64 flex-col gap-4 bg-gray-200 p-4 dark:bg-gray-700 dark:text-white">
+        <aside className="flex w-64 flex-col gap-4 bg-gray-200 p-4 dark:bg-gray-700 dark:text-white">
             <h1 className="text-xl font-bold">Media Library</h1>
-            <div className="mb-auto flex flex-col gap-2">
+            <nav
+                aria-label="Main navigation"
+                className="mb-auto flex flex-col gap-2"
+            >
                 <button
                     onClick={() => setView('recently-added')}
+                    aria-current={
+                        view === 'recently-added' ? 'page' : undefined
+                    }
                     className={clsx(
                         'flex w-full cursor-pointer items-center gap-3 rounded px-4 py-2 hover:bg-gray-300 dark:hover:bg-gray-600',
                         view === 'recently-added' &&
@@ -26,6 +32,7 @@ export const Sidebar = ({ view, setView }: SidebarProps): React.JSX.Element => {
                 </button>
                 <button
                     onClick={() => setView('movies')}
+                    aria-current={view === 'movies' ? 'page' : undefined}
                     className={clsx(
                         'flex w-full cursor-pointer items-center gap-3 rounded px-4 py-2 hover:bg-gray-300 dark:hover:bg-gray-600',
                         view === 'movies' && 'bg-gray-300 dark:bg-gray-600'
@@ -36,6 +43,7 @@ export const Sidebar = ({ view, setView }: SidebarProps): React.JSX.Element => {
                 </button>
                 <button
                     onClick={() => setView('tv-shows')}
+                    aria-current={view === 'tv-shows' ? 'page' : undefined}
                     className={clsx(
                         'flex w-full cursor-pointer items-center gap-3 rounded px-4 py-2 hover:bg-gray-300 dark:hover:bg-gray-600',
                         view === 'tv-shows' && 'bg-gray-300 dark:bg-gray-600'
@@ -46,6 +54,7 @@ export const Sidebar = ({ view, setView }: SidebarProps): React.JSX.Element => {
                 </button>
                 <button
                     onClick={() => setView('settings')}
+                    aria-current={view === 'settings' ? 'page' : undefined}
                     className={clsx(
                         'flex w-full cursor-pointer items-center gap-3 rounded px-4 py-2 hover:bg-gray-300 dark:hover:bg-gray-600',
                         view === 'settings' && 'bg-gray-300 dark:bg-gray-600'
@@ -54,9 +63,9 @@ export const Sidebar = ({ view, setView }: SidebarProps): React.JSX.Element => {
                     <CogIcon className="h-5 w-5" />
                     Settings
                 </button>
-            </div>
+            </nav>
             <Status />
             <Footer />
-        </div>
+        </aside>
     );
 };

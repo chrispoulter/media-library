@@ -47,7 +47,7 @@ export const MoviesView = (): React.JSX.Element => {
     }, [movies, searchLower]);
 
     return (
-        <div className="flex flex-col gap-4 dark:text-white">
+        <section className="flex flex-col gap-4 dark:text-white">
             <h2 className="text-2xl font-bold">Movies</h2>
             <SearchBar
                 placeholder="Search movies..."
@@ -64,11 +64,11 @@ export const MoviesView = (): React.JSX.Element => {
             ) : error ? (
                 <ErrorMessage error={error} />
             ) : !items?.length ? (
-                <div className="text-gray-500">
+                <p className="text-gray-500">
                     {search
                         ? 'No movies match your search.'
                         : 'No movies found. Check your Movies folder in Settings.'}
-                </div>
+                </p>
             ) : (
                 <div className="flex flex-col gap-2">
                     {items.map(({ movie, letter, showDivider }) => {
@@ -86,6 +86,6 @@ export const MoviesView = (): React.JSX.Element => {
                     })}
                 </div>
             )}
-        </div>
+        </section>
     );
 };

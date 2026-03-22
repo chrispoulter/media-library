@@ -13,9 +13,10 @@ export const MovieCard = ({
     showAddedDate,
 }: MovieCardProps): React.JSX.Element => {
     return (
-        <div
+        <button
+            type="button"
             onClick={() => window.api.openMovieFile(movie.filePath)}
-            className="flex cursor-pointer items-center gap-4 rounded bg-gray-200 p-2 shadow-sm transition-all duration-150 hover:bg-gray-300 hover:shadow-md dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600"
+            className="flex w-full cursor-pointer items-center gap-4 rounded bg-gray-200 p-2 text-left shadow-sm transition-all duration-150 hover:bg-gray-300 hover:shadow-md dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600"
         >
             <img
                 src={movie.posterUrl || defaultMoviePoster}
@@ -37,14 +38,14 @@ export const MovieCard = ({
                 )}
             </div>
             <div className="ml-auto flex items-center gap-2">
-                <small className="min-w-14 rounded bg-purple-500 px-2 py-1 text-center text-xs text-white">
+                <span className="min-w-14 rounded bg-purple-500 px-2 py-1 text-center text-xs text-white">
                     Movie
-                </small>
-                <small className="min-w-14 rounded bg-gray-500 px-2 py-1 text-center text-xs text-white uppercase">
+                </span>
+                <span className="min-w-14 rounded bg-gray-500 px-2 py-1 text-center text-xs text-white uppercase">
                     {movie.fileExtension}
-                </small>
+                </span>
                 <PlayIcon className="h-5 w-5 text-gray-600 dark:text-gray-300" />
             </div>
-        </div>
+        </button>
     );
 };
