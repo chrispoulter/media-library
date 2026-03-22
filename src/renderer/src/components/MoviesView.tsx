@@ -74,7 +74,12 @@ export const MoviesView = (): React.JSX.Element => {
                     {items.map(({ movie, letter, showDivider }) => {
                         return (
                             <Fragment key={movie.filePath}>
-                                {showDivider && <Divider letter={letter} />}
+                                {showDivider && (
+                                    <Divider
+                                        id={`letter-${letter}`}
+                                        label={letter}
+                                    />
+                                )}
                                 <MovieCard movie={movie} />
                             </Fragment>
                         );

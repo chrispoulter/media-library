@@ -27,7 +27,9 @@ export const MovieCard = ({
                 }}
             />
             <div className="truncate">
-                <h3 className="font-bold">{movie.title}</h3>
+                <h3 className="font-bold text-gray-800 dark:text-white">
+                    {movie.title}
+                </h3>
                 {showAddedDate && (
                     <span className="text-xs text-gray-500 dark:text-gray-400">
                         {relativeTime(movie.addedAt)}
@@ -35,10 +37,10 @@ export const MovieCard = ({
                 )}
             </div>
             <div className="ml-auto flex items-center gap-2">
-                <small className="rounded bg-purple-500 px-2 py-1 text-xs text-white">
+                <small className="min-w-14 rounded bg-purple-500 px-2 py-1 text-center text-xs text-white">
                     Movie
                 </small>
-                <small className="rounded bg-gray-500 px-2 py-1 text-xs text-white uppercase">
+                <small className="min-w-14 rounded bg-gray-500 px-2 py-1 text-center text-xs text-white uppercase">
                     {movie.fileExtension}
                 </small>
                 <PlayIcon className="h-5 w-5 text-gray-600 dark:text-gray-300" />

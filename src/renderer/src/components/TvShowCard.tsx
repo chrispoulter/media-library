@@ -1,9 +1,9 @@
-import { useState, Fragment } from 'react';
-import clsx from 'clsx';
+import { Fragment, useState } from 'react';
 import defaultTvShowPoster from '../assets/default-tv-show.svg';
 import type { TvShow } from '../../../shared/types';
 import { ChevronDown, ChevronUp, PlayIcon } from './SvgIcons';
 import { relativeTime } from '../utils/time';
+import { Divider } from './Divider';
 
 type TvShowCardProps = {
     tvShow: TvShow;
@@ -16,23 +16,18 @@ export const TvShowCard = ({
 }: TvShowCardProps): React.JSX.Element => {
     const [isOpen, setIsOpen] = useState(false);
 
-    const seasons = tvShow.seasons.length;
+    const seasonCount = tvShow.seasons.length;
 
-    const episodes = tvShow.seasons.reduce(
+    const episodeCount = tvShow.seasons.reduce(
         (acc, season) => acc + season.episodes.length,
         0
     );
 
     return (
-        <div
-            className={clsx(
-                'flex flex-col gap-4 rounded p-2 shadow-sm transition-all duration-150 hover:bg-gray-300 hover:shadow-md dark:bg-gray-700 dark:text-white dark:hover:bg-gray-800',
-                isOpen && 'bg-gray-300 shadow-md dark:bg-gray-800'
-            )}
-        >
+        <div className="flex flex-col gap-2">
             <div
-                className="flex cursor-pointer items-center gap-4"
                 onClick={() => setIsOpen(!isOpen)}
+                className="flex cursor-pointer items-center gap-4 rounded bg-gray-200 p-2 shadow-sm transition-all duration-150 hover:bg-gray-300 hover:shadow-md dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600"
             >
                 <img
                     src={tvShow.posterUrl || defaultTvShowPoster}
@@ -44,22 +39,24 @@ export const TvShowCard = ({
                     }}
                 />
                 <div className="truncate">
-                    <h3 className="font-bold">{tvShow.title}</h3>
+                    <h3 className="font-bold text-gray-800 dark:text-white">
+                        {tvShow.title}
+                    </h3>
                     {showAddedDate && (
                         <span className="text-xs text-gray-500 dark:text-gray-400">
                             {relativeTime(tvShow.latestAddedAt)}
                         </span>
                     )}
                 </div>
-
-                <div className="ml-auto flex items-center gap-4">
+                <div className="ml-auto flex items-center gap-2">
                     <span className="text-xs text-gray-500 dark:text-gray-400">
-                        {seasons} {seasons === 1 ? 'Season' : 'Seasons'} ·{' '}
-                        {episodes} {episodes === 1 ? 'Episode' : 'Episodes'}
+                        {seasonCount} {seasonCount === 1 ? 'Season' : 'Seasons'}{' '}
+                        · {episodeCount}{' '}
+                        {episodeCount === 1 ? 'Episode' : 'Episodes'}
                     </span>
-                    <span className="rounded bg-teal-500 p-1 px-2 py-1 text-xs text-nowrap text-white">
+                    <small className="min-w-14 rounded bg-teal-500 p-1 px-2 py-1 text-center text-xs text-nowrap text-white">
                         TV Show
-                    </span>
+                    </small>
                     {isOpen ? (
                         <ChevronUp className="h-5 w-5 text-gray-600 dark:text-gray-300" />
                     ) : (
@@ -68,53 +65,41 @@ export const TvShowCard = ({
                 </div>
             </div>
             {isOpen && (
-                <Fragment>
-                    {tvShow.seasons.flatMap((season) => {
-                        const seasonNumber = season.seasonNumber
-                            .toString()
-                            .padStart(2, '0');
-
+                <div className="mx-5 flex flex-col gap-1">
+                    {tvShow.seasons.map((season, seasonIndex) => {
+                        const seasonLabel = `S${season.seasonNumber.toString().padStart(2, '0')}`;
                         return (
-                            <Fragment key={season.seasonNumber}>
-                                <div className="mt-4 mb-2 border-b border-gray-200 pb-1 text-lg font-bold text-gray-400 dark:border-gray-700 dark:text-gray-500">
-                                    S{seasonNumber}
-                                </div>
-                                <div
-                                    key={season.seasonNumber}
-                                    className="flex flex-col gap-1"
-                                >
-                                    {season.episodes.map((episode) => {
-                                        const episodeNumber =
-                                            episode.episodeNumber
-                                                .toString()
-                                                .padStart(2, '0');
-
+                            <Fragment key={seasonIndex}>
+                                <Divider label={seasonLabel} />
+                                {season.episodes.map(
+                                    (episode, episodeIndex) => {
+                                        const episodeLabel = `E${episode.episodeNumber.toString().padStart(2, '0')}`;
                                         return (
                                             <div
-                                                key={episode.episodeNumber}
+                                                key={`${seasonIndex}-${episodeIndex}`}
                                                 onClick={() =>
                                                     window.api.openTvShowFile(
                                                         episode.filePath
                                                     )
                                                 }
-                                                className="flex cursor-pointer items-center gap-2 rounded bg-gray-100 p-2 transition-colors duration-150 hover:bg-gray-200 dark:bg-gray-600 dark:text-white dark:hover:bg-gray-500"
+                                                className="flex cursor-pointer items-center gap-4 rounded bg-gray-200 p-2 shadow-sm transition-all duration-150 hover:bg-gray-300 hover:shadow-md dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600"
                                             >
                                                 <span className="truncate text-sm">
-                                                    S{seasonNumber}E
-                                                    {episodeNumber}
+                                                    {tvShow.title} {seasonLabel}
+                                                    {episodeLabel}
                                                 </span>
-                                                <small className="ml-auto rounded bg-gray-500 px-2 py-1 text-xs text-white uppercase">
+                                                <small className="ml-auto min-w-14 rounded bg-gray-500 px-2 py-1 text-center text-xs text-white uppercase">
                                                     {episode.fileExtension}
                                                 </small>
                                                 <PlayIcon className="h-5 w-5 text-gray-600 dark:text-gray-300" />
                                             </div>
                                         );
-                                    })}
-                                </div>
+                                    }
+                                )}
                             </Fragment>
                         );
                     })}
-                </Fragment>
+                </div>
             )}
         </div>
     );

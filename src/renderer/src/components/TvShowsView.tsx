@@ -74,7 +74,12 @@ export const TvShowsView = (): React.JSX.Element => {
                     {items.map(({ tvShow, letter, showDivider }) => {
                         return (
                             <Fragment key={tvShow.title}>
-                                {showDivider && <Divider letter={letter} />}
+                                {showDivider && (
+                                    <Divider
+                                        id={`letter-${letter}`}
+                                        label={letter}
+                                    />
+                                )}
                                 <TvShowCard tvShow={tvShow} />
                             </Fragment>
                         );
