@@ -3,8 +3,8 @@ export const MovieCardSkeleton = (): React.JSX.Element => (
         <div className="h-12 w-8 shrink-0 rounded bg-gray-300 dark:bg-gray-600" />
         <div className="h-6 w-48 rounded bg-gray-300 dark:bg-gray-600" />
         <div className="ml-auto flex items-center gap-2">
-            <div className="h-6 w-12 rounded bg-gray-300 dark:bg-gray-600" />
-            <div className="h-6 w-10 rounded bg-gray-300 dark:bg-gray-600" />
+            <div className="h-6 w-14 rounded bg-gray-300 dark:bg-gray-600" />
+            <div className="h-6 w-14 rounded bg-gray-300 dark:bg-gray-600" />
             <div className="h-6 w-5 rounded bg-gray-300 dark:bg-gray-600" />
         </div>
     </div>
