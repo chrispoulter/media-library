@@ -19,6 +19,8 @@ function createWindow(): void {
         height: windowState.height,
         x: windowState.x,
         y: windowState.y,
+        minWidth: 866,
+        minHeight: 634,
         show: false,
         autoHideMenuBar: true,
         ...(process.platform === 'linux' ? { icon } : {}),
