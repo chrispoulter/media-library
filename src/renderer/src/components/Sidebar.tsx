@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import { Status } from './Status';
+import { ClockIcon, FilmIcon, TvIcon, CogIcon } from './SvgIcons';
 
 type SidebarProps = {
     view: string;
@@ -15,11 +16,12 @@ export const Sidebar = ({ view, setView }: SidebarProps): React.JSX.Element => {
                         <button
                             onClick={() => setView('recently-added')}
                             className={clsx(
-                                'w-full cursor-pointer rounded px-4 py-2 text-left hover:bg-gray-300 dark:hover:bg-gray-600',
+                                'flex w-full cursor-pointer items-center gap-3 rounded px-1 px-4 py-2 hover:bg-gray-300 dark:hover:bg-gray-600',
                                 view === 'recently-added' &&
                                     'bg-gray-300 dark:bg-gray-600'
                             )}
                         >
+                            <ClockIcon className="h-5 w-5" />
                             Recently Added
                         </button>
                     </li>
@@ -27,11 +29,12 @@ export const Sidebar = ({ view, setView }: SidebarProps): React.JSX.Element => {
                         <button
                             onClick={() => setView('movies')}
                             className={clsx(
-                                'w-full cursor-pointer rounded px-4 py-2 text-left hover:bg-gray-300 dark:hover:bg-gray-600',
+                                'flex w-full cursor-pointer items-center gap-3 rounded px-4 py-2 hover:bg-gray-300 dark:hover:bg-gray-600',
                                 view === 'movies' &&
                                     'bg-gray-300 dark:bg-gray-600'
                             )}
                         >
+                            <FilmIcon className="h-5 w-5" />
                             Movies
                         </button>
                     </li>
@@ -39,11 +42,12 @@ export const Sidebar = ({ view, setView }: SidebarProps): React.JSX.Element => {
                         <button
                             onClick={() => setView('tv-shows')}
                             className={clsx(
-                                'w-full cursor-pointer rounded px-4 py-2 text-left hover:bg-gray-300 dark:hover:bg-gray-600',
+                                'flex w-full cursor-pointer items-center gap-3 rounded px-4 py-2 hover:bg-gray-300 dark:hover:bg-gray-600',
                                 view === 'tv-shows' &&
                                     'bg-gray-300 dark:bg-gray-600'
                             )}
                         >
+                            <TvIcon className="h-5 w-5" />
                             TV Shows
                         </button>
                     </li>
@@ -51,11 +55,12 @@ export const Sidebar = ({ view, setView }: SidebarProps): React.JSX.Element => {
                         <button
                             onClick={() => setView('settings')}
                             className={clsx(
-                                'w-full cursor-pointer rounded px-4 py-2 text-left hover:bg-gray-300 dark:hover:bg-gray-600',
+                                'flex w-full cursor-pointer items-center gap-3 rounded px-4 py-2 hover:bg-gray-300 dark:hover:bg-gray-600',
                                 view === 'settings' &&
                                     'bg-gray-300 dark:bg-gray-600'
                             )}
                         >
+                            <CogIcon className="h-5 w-5" />
                             Settings
                         </button>
                     </li>
