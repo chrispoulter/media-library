@@ -47,8 +47,8 @@ export const TvShowsView = (): React.JSX.Element => {
     }, [tvShows, searchLower]);
 
     return (
-        <div className="dark:text-white">
-            <h2 className="mb-4 text-2xl font-bold">TV Shows</h2>
+        <div className="flex flex-col gap-4 dark:text-white">
+            <h2 className="ext-2xl font-bold">TV Shows</h2>
             <SearchBar
                 placeholder="Search TV shows..."
                 value={search}

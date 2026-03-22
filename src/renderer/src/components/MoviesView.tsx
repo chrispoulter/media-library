@@ -47,8 +47,8 @@ export const MoviesView = (): React.JSX.Element => {
     }, [movies, searchLower]);
 
     return (
-        <div className="dark:text-white">
-            <h2 className="mb-4 text-2xl font-bold">Movies</h2>
+        <div className="flex flex-col gap-4 dark:text-white">
+            <h2 className="text-2xl font-bold">Movies</h2>
             <SearchBar
                 placeholder="Search movies..."
                 value={search}

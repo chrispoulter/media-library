@@ -19,8 +19,8 @@ export const RecentlyAddedView = (): React.JSX.Element => {
     );
 
     return (
-        <div className="dark:text-white">
-            <h2 className="mb-4 text-2xl font-bold">Recently Added</h2>
+        <div className="flex flex-col gap-4 dark:text-white">
+            <h2 className="text-2xl font-bold">Recently Added</h2>
             <SearchBar
                 placeholder="Search recently added..."
                 value={search}
