@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import { useRecentlyAddedQuery } from '../hooks/useMediaQueries';
 import { useDebounce } from '../hooks/useDebounce';
 import { SearchBar } from './SearchBar';
@@ -8,7 +8,7 @@ import { MovieCardSkeleton } from './MovieCardSkeleton';
 import { ErrorMessage } from './ErrorMessage';
 
 export const RecentlyAddedView = (): React.JSX.Element => {
-    const [search, setSearch] = React.useState('');
+    const [search, setSearch] = useState('');
     const debouncedSearch = useDebounce(search);
     const searchLower = debouncedSearch.toLowerCase();
 
@@ -43,7 +43,7 @@ export const RecentlyAddedView = (): React.JSX.Element => {
             ) : (
                 <div className="flex flex-col gap-2">
                     {filtered.map((item, index) => {
-                        if ('episodes' in item) {
+                        if ('seasons' in item) {
                             return (
                                 <TvShowCard
                                     key={index}

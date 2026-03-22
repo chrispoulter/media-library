@@ -4,7 +4,7 @@ import { extname, join } from 'path';
 import { Movie, TvShow, TvShowEpisode } from '../shared/types';
 import { getSettings } from './settingsStore';
 import { getPosterUrl } from './posterStore';
-import { enqueuePoster } from './posterManager';
+import { enqueuePosters, type QueueItem } from './posterManager';
 
 const VIDEO_EXTENSIONS = new Set([
     '.mp4',
@@ -16,18 +16,40 @@ const VIDEO_EXTENSIONS = new Set([
     '.webm',
 ]);
 
+const TV_EPISODE_PATTERN = /^(.*)\sS(\d{2})E(\d{2})(?:\b.*)?$/i;
+
 const isVideoFile = (fileName: string): boolean => {
     const ext = fileName.slice(fileName.lastIndexOf('.')).toLowerCase();
     return VIDEO_EXTENSIONS.has(ext);
 };
 
-const parseTitle = (fileName: string): string => {
+const parseMovieTitle = (fileName: string): string => {
     const nameWithoutExt = fileName.slice(0, fileName.lastIndexOf('.'));
     return nameWithoutExt.replace(/\./g, ' ');
 };
 
+const parseTvEpisode = (
+    fileName: string
+): {
+    title: string;
+    seasonNumber: number;
+    episodeNumber: number;
+} | null => {
+    const match = TV_EPISODE_PATTERN.exec(fileName);
+
+    if (!match) {
+        return null;
+    }
+
+    const title = match[1].replace(/\./g, ' ').trim();
+    const seasonNumber = parseInt(match[2], 10);
+    const episodeNumber = parseInt(match[3], 10);
+
+    return { title, seasonNumber, episodeNumber };
+};
+
 export const getMovies = async (): Promise<Movie[]> => {
-    log.info('Scanning for movies shows');
+    log.info('Scanning for movies');
 
     const { moviesDirectory, tmdbApiKey } = getSettings();
 
@@ -43,41 +65,37 @@ export const getMovies = async (): Promise<Movie[]> => {
         return [];
     }
 
-    const movies: Movie[] = [];
+    const entries = await readdir(moviesDirectory, {
+        withFileTypes: true,
+        recursive: true,
+    });
 
-    const folders = await readdir(moviesDirectory, { withFileTypes: true });
-
-    for (const folder of folders) {
-        if (!folder.isDirectory()) {
-            continue;
-        }
-
-        const folderPath = join(moviesDirectory, folder.name);
-
-        const files = await readdir(folderPath, { withFileTypes: true });
-        for (const file of files) {
-            if (!file.isFile() || !isVideoFile(file.name)) {
-                continue;
-            }
-
-            const filePath = join(folderPath, file.name);
-            const title = parseTitle(file.name);
+    const moviePromises: Promise<Movie>[] = entries
+        .filter((entry) => entry.isFile() && isVideoFile(entry.name))
+        .map(async (entry) => {
+            const filePath = join(entry.parentPath, entry.name);
+            const title = parseMovieTitle(entry.name);
             const posterUrl = getPosterUrl('movie', title);
-            const fileExtension = extname(file.name);
+            const fileExtension = extname(entry.name);
             const { mtimeMs: addedAt } = await stat(filePath);
 
-            if (posterUrl === undefined && tmdbApiKey) {
-                enqueuePoster('movie', title);
-            }
-
-            movies.push({
+            return {
                 title,
                 posterUrl,
                 filePath,
                 fileExtension,
                 addedAt,
-            });
-        }
+            };
+        });
+
+    const movies = await Promise.all(moviePromises);
+
+    if (tmdbApiKey) {
+        const missingPosters: QueueItem[] = movies
+            .filter((movie) => movie.posterUrl === undefined)
+            .map((movie) => ({ type: 'movie', title: movie.title }));
+
+        enqueuePosters(missingPosters);
     }
 
     return movies.sort((a, b) => a.title.localeCompare(b.title));
@@ -100,63 +118,107 @@ export const getTvShows = async (): Promise<TvShow[]> => {
         return [];
     }
 
-    const tvShows: TvShow[] = [];
+    const entries = await readdir(tvShowsDirectory, {
+        withFileTypes: true,
+        recursive: true,
+    });
 
-    const folders = await readdir(tvShowsDirectory, { withFileTypes: true });
+    const episodePromises = entries
+        .filter((entry) => entry.isFile() && isVideoFile(entry.name))
+        .map(async (entry) => {
+            const parsedEpisode = parseTvEpisode(entry.name);
 
-    for (const folder of folders) {
-        if (!folder.isDirectory()) {
-            continue;
-        }
-
-        const episodes: TvShowEpisode[] = [];
-        const seasons = new Set<number>();
-        const folderPath = join(tvShowsDirectory, folder.name);
-
-        const files = await readdir(folderPath, { withFileTypes: true });
-
-        for (const file of files) {
-            if (!file.isFile() || !isVideoFile(file.name)) {
-                continue;
+            if (!parsedEpisode) {
+                return null;
             }
 
-            const filePath = join(folderPath, file.name);
-            const title = parseTitle(file.name);
-            const fileExtension = extname(file.name);
+            const filePath = join(entry.parentPath, entry.name);
+            const fileExtension = extname(entry.name);
             const { mtimeMs: addedAt } = await stat(filePath);
 
-            const match = title.match(/\bS(\d+)/i);
-            if (match) {
-                seasons.add(Number(match[1]));
-            }
+            return { ...parsedEpisode, filePath, fileExtension, addedAt };
+        });
 
-            episodes.push({
-                title,
-                filePath,
-                fileExtension,
-                addedAt,
-            });
+    const episodes = await Promise.all(episodePromises);
+
+    const tvShowMap = new Map<
+        string,
+        {
+            title: string;
+            posterUrl: string | null | undefined;
+            seasons: Map<number, TvShowEpisode[]>;
+            latestAddedAt: number;
         }
+    >();
 
-        if (episodes.length === 0) {
+    for (const episode of episodes) {
+        if (!episode) {
             continue;
         }
 
-        const posterUrl = getPosterUrl('tv-show', folder.name);
-        const latestAddedAt = Math.max(...episodes.map((e) => e.addedAt));
+        const show = tvShowMap.get(episode.title);
 
-        if (posterUrl === undefined && tmdbApiKey) {
-            enqueuePoster('tv-show', folder.name);
+        if (!show) {
+            tvShowMap.set(episode.title, {
+                title: episode.title,
+                posterUrl: getPosterUrl('tv-show', episode.title),
+                seasons: new Map([[episode.seasonNumber, [episode]]]),
+                latestAddedAt: episode.addedAt,
+            });
+
+            continue;
         }
 
-        tvShows.push({
-            title: folder.name,
-            posterUrl,
-            episodes,
-            seasonCount: seasons.size,
-            episodeCount: episodes.length,
-            latestAddedAt,
+        const season = show.seasons.get(episode.seasonNumber);
+
+        if (!season) {
+            show.seasons.set(episode.seasonNumber, [
+                {
+                    episodeNumber: episode.episodeNumber,
+                    filePath: episode.filePath,
+                    fileExtension: episode.fileExtension,
+                    addedAt: episode.addedAt,
+                },
+            ]);
+
+            show.latestAddedAt = Math.max(show.latestAddedAt, episode.addedAt);
+            continue;
+        }
+
+        season.push({
+            episodeNumber: episode.episodeNumber,
+            filePath: episode.filePath,
+            fileExtension: episode.fileExtension,
+            addedAt: episode.addedAt,
         });
+
+        show.latestAddedAt = Math.max(show.latestAddedAt, episode.addedAt);
+    }
+
+    const tvShows = Array.from(tvShowMap.values()).map((show) => {
+        const seasons = Array.from(show.seasons.entries())
+            .map(([seasonNumber, episodes]) => ({
+                seasonNumber,
+                episodes: episodes.sort(
+                    (a, b) => a.episodeNumber - b.episodeNumber
+                ),
+            }))
+            .sort((a, b) => a.seasonNumber - b.seasonNumber);
+
+        return {
+            title: show.title,
+            posterUrl: show.posterUrl,
+            latestAddedAt: show.latestAddedAt,
+            seasons,
+        };
+    });
+
+    if (tmdbApiKey) {
+        const missingPosters: QueueItem[] = tvShows
+            .filter((show) => show.posterUrl === undefined)
+            .map((show) => ({ type: 'tv-show', title: show.title }));
+
+        enqueuePosters(missingPosters);
     }
 
     return tvShows.sort((a, b) => a.title.localeCompare(b.title));

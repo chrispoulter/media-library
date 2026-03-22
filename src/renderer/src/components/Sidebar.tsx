@@ -16,10 +16,8 @@ export const Sidebar = ({ view, setView }: SidebarProps): React.JSX.Element => {
                             onClick={() => setView('recently-added')}
                             className={clsx(
                                 'w-full cursor-pointer rounded px-4 py-2 text-left hover:bg-gray-300 dark:hover:bg-gray-600',
-                                {
-                                    'bg-gray-300 dark:bg-gray-600':
-                                        view === 'recently-added',
-                                }
+                                view === 'recently-added' &&
+                                    'bg-gray-300 dark:bg-gray-600'
                             )}
                         >
                             Recently Added
@@ -30,10 +28,8 @@ export const Sidebar = ({ view, setView }: SidebarProps): React.JSX.Element => {
                             onClick={() => setView('movies')}
                             className={clsx(
                                 'w-full cursor-pointer rounded px-4 py-2 text-left hover:bg-gray-300 dark:hover:bg-gray-600',
-                                {
-                                    'bg-gray-300 dark:bg-gray-600':
-                                        view === 'movies',
-                                }
+                                view === 'movies' &&
+                                    'bg-gray-300 dark:bg-gray-600'
                             )}
                         >
                             Movies
@@ -44,10 +40,8 @@ export const Sidebar = ({ view, setView }: SidebarProps): React.JSX.Element => {
                             onClick={() => setView('tv-shows')}
                             className={clsx(
                                 'w-full cursor-pointer rounded px-4 py-2 text-left hover:bg-gray-300 dark:hover:bg-gray-600',
-                                {
-                                    'bg-gray-300 dark:bg-gray-600':
-                                        view === 'tv-shows',
-                                }
+                                view === 'tv-shows' &&
+                                    'bg-gray-300 dark:bg-gray-600'
                             )}
                         >
                             TV Shows
@@ -58,10 +52,8 @@ export const Sidebar = ({ view, setView }: SidebarProps): React.JSX.Element => {
                             onClick={() => setView('settings')}
                             className={clsx(
                                 'w-full cursor-pointer rounded px-4 py-2 text-left hover:bg-gray-300 dark:hover:bg-gray-600',
-                                {
-                                    'bg-gray-300 dark:bg-gray-600':
-                                        view === 'settings',
-                                }
+                                view === 'settings' &&
+                                    'bg-gray-300 dark:bg-gray-600'
                             )}
                         >
                             Settings
