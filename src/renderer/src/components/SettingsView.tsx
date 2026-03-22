@@ -7,7 +7,7 @@ import {
     useSaveSettingsMutation,
     useRefetchPostersMutation,
 } from '../hooks/useAppQueries';
-import { ErrorMessage } from './ErrorMessage';
+import { ErrorMessage } from './ui/ErrorMessage';
 import type { Settings } from '../../../shared/types';
 
 const directoryPathSchema = z.string().refine(

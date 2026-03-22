@@ -1,12 +1,12 @@
 import { Fragment, useMemo, useState } from 'react';
-import { useMoviesQuery } from '../hooks/useAppQueries';
-import { useDebounce } from '../hooks/useDebounce';
-import { SearchBar } from './SearchBar';
-import { AlphabetBar } from './AlphabetBar';
+import { useMoviesQuery } from '../../hooks/useAppQueries';
+import { useDebounce } from '../../hooks/useDebounce';
+import { SearchBar } from '../ui/SearchBar';
+import { AlphabetBar } from '../ui/AlphabetBar';
 import { MovieCard } from './MovieCard';
 import { MovieCardSkeleton } from './MovieCardSkeleton';
-import { Divider } from './Divider';
-import { ErrorMessage } from './ErrorMessage';
+import { Divider } from '../ui/Divider';
+import { ErrorMessage } from '../ui/ErrorMessage';
 
 export const MoviesView = (): React.JSX.Element => {
     const [search, setSearch] = useState('');

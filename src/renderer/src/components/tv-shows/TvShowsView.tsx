@@ -1,12 +1,12 @@
 import { Fragment, useMemo, useState } from 'react';
-import { useTvShowsQuery } from '../hooks/useAppQueries';
-import { useDebounce } from '../hooks/useDebounce';
-import { SearchBar } from './SearchBar';
-import { AlphabetBar } from './AlphabetBar';
+import { useTvShowsQuery } from '../../hooks/useAppQueries';
+import { useDebounce } from '../../hooks/useDebounce';
+import { SearchBar } from '../ui/SearchBar';
+import { AlphabetBar } from '../ui/AlphabetBar';
 import { TvShowCard } from './TvShowCard';
 import { TvShowCardSkeleton } from './TvShowCardSkeleton';
-import { Divider } from './Divider';
-import { ErrorMessage } from './ErrorMessage';
+import { Divider } from '../ui/Divider';
+import { ErrorMessage } from '../ui/ErrorMessage';
 
 export const TvShowsView = (): React.JSX.Element => {
     const [search, setSearch] = useState('');

@@ -1,7 +1,7 @@
-import { RecentlyAddedView } from './RecentlyAddedView';
-import { MoviesView } from './MoviesView';
-import { TvShowsView } from './TvShowsView';
-import { SettingsView } from './SettingsView';
+import { RecentlyAddedView } from '../RecentlyAddedView';
+import { MoviesView } from '../movies/MoviesView';
+import { TvShowsView } from '../tv-shows/TvShowsView';
+import { SettingsView } from '../SettingsView';
 
 type ContentProps = {
     view: string;
