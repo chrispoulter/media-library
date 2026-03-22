@@ -21,8 +21,8 @@ jobs:
                       build_script: build:win
                     # - os: macos-latest
                     #   build_script: build:mac
-                    # - os: ubuntu-latest
-                    #   build_script: build:linux
+                    - os: ubuntu-latest
+                      build_script: build:linux
 
         steps:
             - name: Checkout
