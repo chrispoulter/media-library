@@ -56,7 +56,7 @@ export const TvShowCard = ({
                         · {episodeCount}{' '}
                         {episodeCount === 1 ? 'Episode' : 'Episodes'}
                     </span>
-                    <span className="min-w-14 rounded bg-teal-500 p-1 px-2 py-1 text-center text-xs text-nowrap text-white">
+                    <span className="min-w-14 rounded border border-teal-300 bg-teal-100 px-2 py-1 text-center text-xs text-nowrap text-teal-700 dark:border-teal-700/50 dark:bg-teal-900/20 dark:text-teal-300">
                         TV Show
                     </span>
                     {isOpen ? (
@@ -91,7 +91,7 @@ export const TvShowCard = ({
                                                     {tvShow.title} {seasonLabel}
                                                     {episodeLabel}
                                                 </span>
-                                                <span className="ml-auto min-w-14 rounded bg-zinc-500 px-2 py-1 text-center text-xs text-white uppercase">
+                                                <span className="ml-auto min-w-14 rounded border border-zinc-300 bg-zinc-100 px-2 py-1 text-center text-xs text-zinc-600 uppercase dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
                                                     {episode.fileExtension}
                                                 </span>
                                                 <PlayIcon className="h-5 w-5 text-zinc-500 dark:text-zinc-300" />

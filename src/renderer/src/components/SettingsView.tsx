@@ -118,10 +118,7 @@ export const SettingsView = (): React.JSX.Element => {
                 className="flex flex-col gap-4"
             >
                 <div className="flex flex-col gap-1">
-                    <label
-                        htmlFor="theme"
-                        className="block text-sm"
-                    >
+                    <label htmlFor="theme" className="block text-sm">
                         Theme
                     </label>
                     <select
@@ -136,10 +133,7 @@ export const SettingsView = (): React.JSX.Element => {
                     </select>
                 </div>
                 <div className="flex flex-col gap-1">
-                    <label
-                        htmlFor="moviesDirectory"
-                        className="block text-sm"
-                    >
+                    <label htmlFor="moviesDirectory" className="block text-sm">
                         Movie Directory
                     </label>
                     <div className="flex gap-2">
@@ -171,10 +165,7 @@ export const SettingsView = (): React.JSX.Element => {
                     )}
                 </div>
                 <div className="flex flex-col gap-1">
-                    <label
-                        htmlFor="tvShowsDirectory"
-                        className="block text-sm"
-                    >
+                    <label htmlFor="tvShowsDirectory" className="block text-sm">
                         TV Shows Directory
                     </label>
                     <div className="flex gap-2">
@@ -206,10 +197,7 @@ export const SettingsView = (): React.JSX.Element => {
                     )}
                 </div>
                 <div className="flex flex-col gap-1">
-                    <label
-                        htmlFor="tmdbApiKey"
-                        className="block text-sm"
-                    >
+                    <label htmlFor="tmdbApiKey" className="block text-sm">
                         TMDb API Key
                     </label>
                     <input

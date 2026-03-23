@@ -38,10 +38,10 @@ export const MovieCard = ({
                 )}
             </div>
             <div className="ml-auto flex items-center gap-2">
-                <span className="min-w-14 rounded bg-purple-500 px-2 py-1 text-center text-xs text-white">
+                <span className="min-w-14 rounded border border-violet-300 bg-violet-100 px-2 py-1 text-center text-xs text-violet-700 dark:border-violet-700/50 dark:bg-violet-900/20 dark:text-violet-300">
                     Movie
                 </span>
-                <span className="min-w-14 rounded bg-zinc-500 px-2 py-1 text-center text-xs text-white uppercase">
+                <span className="min-w-14 rounded border border-zinc-300 bg-zinc-100 px-2 py-1 text-center text-xs text-zinc-600 uppercase dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
                     {movie.fileExtension}
                 </span>
                 <PlayIcon className="h-5 w-5 text-zinc-500 dark:text-zinc-300" />
