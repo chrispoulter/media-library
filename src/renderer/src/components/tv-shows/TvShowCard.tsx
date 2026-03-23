@@ -41,7 +41,7 @@ export const TvShowCard = ({
                     }}
                 />
                 <div className="truncate">
-                    <h3 className="font-bold text-zinc-900 dark:text-white">
+                    <h3 className="text-sm font-semibold text-zinc-900 dark:text-white">
                         {tvShow.title}
                     </h3>
                     {showAddedDate && (

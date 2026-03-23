@@ -20,7 +20,7 @@ export const RecentlyAddedView = (): React.JSX.Element => {
 
     return (
         <section className="flex flex-col gap-4 dark:text-white">
-            <h2 className="text-2xl font-bold">Recently Added</h2>
+            <h2 className="text-xl font-semibold">Recently Added</h2>
             <SearchBar
                 placeholder="Search recently added..."
                 value={search}

@@ -1,6 +1,10 @@
 @import 'tailwindcss';
 @custom-variant dark (&:where(.dark, .dark *));
 
+body {
+    font-family: 'Segoe UI Variable', 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
 ::-webkit-scrollbar {
     width: 4px;
     height: 4px;

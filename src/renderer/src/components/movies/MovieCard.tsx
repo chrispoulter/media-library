@@ -28,7 +28,7 @@ export const MovieCard = ({
                 }}
             />
             <div className="truncate">
-                <h3 className="font-bold text-zinc-900 dark:text-white">
+                <h3 className="text-sm font-semibold text-zinc-900 dark:text-white">
                     {movie.title}
                 </h3>
                 {showAddedDate && (
