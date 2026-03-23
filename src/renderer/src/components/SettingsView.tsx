@@ -257,7 +257,7 @@ export const SettingsView = (): React.JSX.Element => {
                         type="button"
                         disabled={isRefetching}
                         onClick={onRefetchMissingPosters}
-                        className="cursor-pointer rounded bg-amber-500 px-4 py-2 text-sm text-white hover:bg-amber-600 dark:border dark:border-zinc-600 dark:bg-zinc-700 dark:hover:bg-zinc-600"
+                        className="cursor-pointer rounded border border-zinc-300 bg-white px-4 py-2 text-sm text-zinc-800 hover:bg-zinc-50 dark:border-zinc-600 dark:bg-zinc-700 dark:text-white dark:hover:bg-zinc-600"
                     >
                         Refetch Missing Posters
                     </button>
@@ -265,7 +265,7 @@ export const SettingsView = (): React.JSX.Element => {
                         type="button"
                         disabled={isRefetching}
                         onClick={onRefetchAllPosters}
-                        className="cursor-pointer rounded bg-amber-500 px-4 py-2 text-sm text-white hover:bg-amber-600 dark:border dark:border-zinc-600 dark:bg-zinc-700 dark:hover:bg-zinc-600"
+                        className="cursor-pointer rounded border border-zinc-300 bg-white px-4 py-2 text-sm text-zinc-800 hover:bg-zinc-50 dark:border-zinc-600 dark:bg-zinc-700 dark:text-white dark:hover:bg-zinc-600"
                     >
                         Refetch All Posters
                     </button>
@@ -289,9 +289,9 @@ export const SettingsView = (): React.JSX.Element => {
                 {pendingRefetch !== null && (
                     <div
                         role="alert"
-                        className="flex flex-col gap-2 rounded border border-amber-200 bg-amber-50 px-3 py-3 dark:border-amber-800/50 dark:bg-amber-900/30"
+                        className="flex flex-col gap-2 rounded border border-zinc-200 bg-zinc-50 px-3 py-3 dark:border-zinc-600 dark:bg-zinc-800/50"
                     >
-                        <p className="text-sm text-amber-800 dark:text-amber-300">
+                        <p className="text-sm text-zinc-700 dark:text-zinc-300">
                             {pendingRefetch
                                 ? 'This will re-download posters that failed to load. Are you sure?'
                                 : 'This will clear all cached posters and re-download them. Are you sure?'}
@@ -300,7 +300,7 @@ export const SettingsView = (): React.JSX.Element => {
                             <button
                                 type="button"
                                 onClick={onConfirmRefetch}
-                                className="cursor-pointer rounded bg-amber-600 px-3 py-1 text-sm text-white hover:bg-amber-700 dark:bg-amber-700 dark:hover:bg-amber-600"
+                                className="cursor-pointer rounded bg-sky-600 px-3 py-1 text-sm text-white hover:bg-sky-700 dark:hover:bg-sky-500"
                             >
                                 Confirm
                             </button>
