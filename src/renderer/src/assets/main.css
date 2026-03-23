@@ -1,2 +1,32 @@
 @import 'tailwindcss';
 @custom-variant dark (&:where(.dark, .dark *));
+
+::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+}
+
+::-webkit-scrollbar-track {
+    background: theme(--color-gray-200);
+}
+
+::-webkit-scrollbar-thumb {
+    background: theme(--color-gray-400);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: theme(--color-gray-500);
+}
+
+.dark ::-webkit-scrollbar-track {
+    background: theme(--color-gray-900);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+    background: theme(--color-gray-600);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+    background: theme(--color-gray-500);
+}
