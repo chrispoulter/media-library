@@ -99,7 +99,7 @@ export const SettingsView = (): React.JSX.Element => {
 
     if (isLoading) {
         return (
-            <p className="animate-pulse text-base font-medium text-gray-500 dark:text-gray-400">
+            <p className="animate-pulse text-base font-medium text-gray-500 dark:text-zinc-400">
                 Loading...
             </p>
         );
@@ -128,7 +128,7 @@ export const SettingsView = (): React.JSX.Element => {
                         {...register('theme')}
                         id="theme"
                         disabled={isSaving}
-                        className="w-full rounded border border-gray-300 p-2 focus-visible:border-sky-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:focus-visible:border-sky-400"
+                        className="w-full rounded border border-gray-300 p-2 focus-visible:border-sky-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white dark:focus-visible:border-sky-400"
                     >
                         <option value="light">Light</option>
                         <option value="dark">Dark</option>
@@ -149,12 +149,12 @@ export const SettingsView = (): React.JSX.Element => {
                             type="text"
                             placeholder="/path/to/movies"
                             disabled={isSaving}
-                            className="w-full rounded border border-gray-400 p-2 focus-visible:border-sky-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:focus-visible:border-sky-400"
+                            className="w-full rounded border border-gray-400 p-2 focus-visible:border-sky-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white dark:focus-visible:border-sky-400"
                         />
                         <button
                             type="button"
                             disabled={isSaving}
-                            className="cursor-pointer rounded border border-gray-400 px-3 py-2 hover:bg-gray-200 dark:border-gray-600 dark:hover:bg-gray-700"
+                            className="cursor-pointer rounded border border-gray-400 px-3 py-2 hover:bg-gray-200 dark:border-zinc-600 dark:bg-zinc-700 dark:text-white dark:hover:bg-zinc-600"
                             onClick={() => onOpenDirectory('moviesDirectory')}
                         >
                             Browse
@@ -184,12 +184,12 @@ export const SettingsView = (): React.JSX.Element => {
                             type="text"
                             placeholder="/path/to/tv-shows"
                             disabled={isSaving}
-                            className="w-full rounded border border-gray-300 p-2 focus-visible:border-sky-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:focus-visible:border-sky-400"
+                            className="w-full rounded border border-gray-300 p-2 focus-visible:border-sky-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white dark:focus-visible:border-sky-400"
                         />
                         <button
                             type="button"
                             disabled={isSaving}
-                            className="cursor-pointer rounded border border-gray-400 px-3 py-2 hover:bg-gray-200 dark:border-gray-600 dark:hover:bg-gray-700"
+                            className="cursor-pointer rounded border border-gray-400 px-3 py-2 hover:bg-gray-200 dark:border-zinc-600 dark:bg-zinc-700 dark:text-white dark:hover:bg-zinc-600"
                             onClick={() => onOpenDirectory('tvShowsDirectory')}
                         >
                             Browse
@@ -218,7 +218,7 @@ export const SettingsView = (): React.JSX.Element => {
                         type="password"
                         placeholder="Your TMDb API Key"
                         disabled={isSaving}
-                        className="w-full rounded border border-gray-300 p-2 focus-visible:border-sky-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:focus-visible:border-sky-400"
+                        className="w-full rounded border border-gray-300 p-2 focus-visible:border-sky-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white dark:focus-visible:border-sky-400"
                     />
                     <p className="text-sm text-gray-400">
                         Enter your TMDb API key to enable metadata fetching.
@@ -228,7 +228,7 @@ export const SettingsView = (): React.JSX.Element => {
                     <button
                         type="submit"
                         disabled={isSaving}
-                        className="cursor-pointer rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
+                        className="cursor-pointer rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 dark:hover:bg-blue-500"
                     >
                         {isSaving ? 'Saving...' : 'Save Settings'}
                     </button>
@@ -236,7 +236,7 @@ export const SettingsView = (): React.JSX.Element => {
                 {isSaveSuccess && (
                     <p
                         role="status"
-                        className="rounded border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700 dark:border-green-800/50 dark:bg-green-900/20 dark:text-green-400"
+                        className="rounded border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700 dark:border-green-800/50 dark:bg-green-900/30 dark:text-green-400"
                     >
                         Settings saved successfully.
                     </p>
@@ -244,14 +244,14 @@ export const SettingsView = (): React.JSX.Element => {
                 {saveError && (
                     <p
                         role="alert"
-                        className="rounded border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700 dark:border-red-800/50 dark:bg-red-900/20 dark:text-red-400"
+                        className="rounded border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700 dark:border-red-800/50 dark:bg-red-900/30 dark:text-red-400"
                     >
                         {saveError.message}
                     </p>
                 )}
             </form>
 
-            <h2 className="mt-4 border-t border-gray-200 pt-4 text-2xl font-bold dark:border-gray-700">
+            <h2 className="mt-4 border-t border-gray-200 pt-4 text-2xl font-bold dark:border-zinc-700">
                 Maintenance
             </h2>
             <p>Tools for diagnosing and resetting application data.</p>
@@ -260,7 +260,7 @@ export const SettingsView = (): React.JSX.Element => {
                 <div className="flex flex-row gap-2">
                     <button
                         type="button"
-                        className="cursor-pointer rounded bg-gray-600 px-4 py-2 text-white hover:bg-gray-700"
+                        className="cursor-pointer rounded bg-gray-200 px-4 py-2 text-gray-800 hover:bg-gray-300 dark:border dark:border-zinc-600 dark:bg-zinc-700 dark:text-white dark:hover:bg-zinc-600"
                         onClick={() => window.api.openLogFile()}
                     >
                         Open Log File
@@ -269,7 +269,7 @@ export const SettingsView = (): React.JSX.Element => {
                         type="button"
                         disabled={isRefetching}
                         onClick={onRefetchMissingPosters}
-                        className="cursor-pointer rounded bg-amber-600 px-4 py-2 text-white hover:bg-amber-700"
+                        className="cursor-pointer rounded bg-amber-600 px-4 py-2 text-white hover:bg-amber-700 dark:border dark:border-zinc-600 dark:bg-zinc-700 dark:hover:bg-zinc-600"
                     >
                         Refetch Missing Posters
                     </button>
@@ -277,7 +277,7 @@ export const SettingsView = (): React.JSX.Element => {
                         type="button"
                         disabled={isRefetching}
                         onClick={onRefetchAllPosters}
-                        className="cursor-pointer rounded bg-amber-600 px-4 py-2 text-white hover:bg-amber-700"
+                        className="cursor-pointer rounded bg-amber-600 px-4 py-2 text-white hover:bg-amber-700 dark:border dark:border-zinc-600 dark:bg-zinc-700 dark:hover:bg-zinc-600"
                     >
                         Refetch All Posters
                     </button>
@@ -285,7 +285,7 @@ export const SettingsView = (): React.JSX.Element => {
                 {isRefetchSuccess && (
                     <p
                         role="status"
-                        className="rounded border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700 dark:border-green-800/50 dark:bg-green-900/20 dark:text-green-400"
+                        className="rounded border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700 dark:border-green-800/50 dark:bg-green-900/30 dark:text-green-400"
                     >
                         Posters will be updated shortly.
                     </p>
@@ -293,7 +293,7 @@ export const SettingsView = (): React.JSX.Element => {
                 {refetchError && (
                     <p
                         role="alert"
-                        className="rounded border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700 dark:border-red-800/50 dark:bg-red-900/20 dark:text-red-400"
+                        className="rounded border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700 dark:border-red-800/50 dark:bg-red-900/30 dark:text-red-400"
                     >
                         {refetchError.message}
                     </p>
@@ -301,7 +301,7 @@ export const SettingsView = (): React.JSX.Element => {
                 {pendingRefetch !== null && (
                     <div
                         role="alert"
-                        className="flex flex-col gap-2 rounded border border-amber-200 bg-amber-50 px-3 py-3 dark:border-amber-800/50 dark:bg-amber-900/20"
+                        className="flex flex-col gap-2 rounded border border-amber-200 bg-amber-50 px-3 py-3 dark:border-amber-800/50 dark:bg-amber-900/30"
                     >
                         <p className="text-sm text-amber-800 dark:text-amber-300">
                             {pendingRefetch
@@ -312,14 +312,14 @@ export const SettingsView = (): React.JSX.Element => {
                             <button
                                 type="button"
                                 onClick={onConfirmRefetch}
-                                className="cursor-pointer rounded bg-amber-600 px-3 py-1 text-sm text-white hover:bg-amber-700"
+                                className="cursor-pointer rounded bg-amber-600 px-3 py-1 text-sm text-white hover:bg-amber-700 dark:bg-amber-700 dark:hover:bg-amber-600"
                             >
                                 Confirm
                             </button>
                             <button
                                 type="button"
                                 onClick={onCancelRefetch}
-                                className="cursor-pointer rounded border border-gray-300 px-3 py-1 text-sm hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-gray-700"
+                                className="cursor-pointer rounded border border-gray-300 px-3 py-1 text-sm hover:bg-gray-100 dark:border-zinc-600 dark:bg-zinc-700 dark:text-white dark:hover:bg-zinc-600"
                             >
                                 Cancel
                             </button>

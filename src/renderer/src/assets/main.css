@@ -20,15 +20,15 @@
 }
 
 .dark ::-webkit-scrollbar-track {
-    background: theme(--color-gray-900);
+    background: theme(--color-zinc-950);
 }
 
 .dark ::-webkit-scrollbar-thumb {
-    background: theme(--color-gray-600);
+    background: theme(--color-zinc-700);
 }
 
 .dark ::-webkit-scrollbar-thumb:hover {
-    background: theme(--color-gray-500);
+    background: theme(--color-zinc-600);
 }
 
 *:focus-visible:not(:disabled) {

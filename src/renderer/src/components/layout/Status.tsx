@@ -18,7 +18,7 @@ export const Status = (): React.JSX.Element | null => {
     }
 
     return (
-        <p className="truncate text-xs text-gray-500 dark:text-gray-400">
+        <p className="truncate text-xs text-gray-500 dark:text-zinc-400">
             {message}
         </p>
     );

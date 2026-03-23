@@ -29,7 +29,7 @@ export const TvShowCard = ({
                 type="button"
                 onClick={() => setIsOpen(!isOpen)}
                 aria-expanded={isOpen}
-                className="flex w-full cursor-pointer items-center gap-4 rounded bg-gray-200 p-2 text-left shadow-sm transition-all duration-150 hover:bg-gray-300 hover:shadow-md dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600"
+                className="flex w-full cursor-pointer items-center gap-4 rounded bg-gray-200 p-2 text-left shadow-sm transition-all duration-150 hover:bg-gray-300 hover:shadow-md dark:bg-zinc-800 dark:text-white dark:hover:bg-zinc-700"
             >
                 <img
                     src={tvShow.posterUrl || defaultTvShowPoster}
@@ -45,13 +45,13 @@ export const TvShowCard = ({
                         {tvShow.title}
                     </h3>
                     {showAddedDate && (
-                        <span className="text-xs text-gray-500 dark:text-gray-400">
+                        <span className="text-xs text-gray-500 dark:text-zinc-400">
                             {relativeTime(tvShow.latestAddedAt)}
                         </span>
                     )}
                 </div>
                 <div className="ml-auto flex items-center gap-2">
-                    <span className="text-xs text-gray-500 dark:text-gray-400">
+                    <span className="text-xs text-gray-500 dark:text-zinc-400">
                         {seasonCount} {seasonCount === 1 ? 'Season' : 'Seasons'}{' '}
                         · {episodeCount}{' '}
                         {episodeCount === 1 ? 'Episode' : 'Episodes'}
@@ -60,9 +60,9 @@ export const TvShowCard = ({
                         TV Show
                     </span>
                     {isOpen ? (
-                        <ChevronUp className="h-5 w-5 text-gray-600 dark:text-gray-300" />
+                        <ChevronUp className="h-5 w-5 text-gray-600 dark:text-zinc-300" />
                     ) : (
-                        <ChevronDown className="h-5 w-5 text-gray-600 dark:text-gray-300" />
+                        <ChevronDown className="h-5 w-5 text-gray-600 dark:text-zinc-300" />
                     )}
                 </div>
             </button>
@@ -85,7 +85,7 @@ export const TvShowCard = ({
                                                         episode.filePath
                                                     )
                                                 }
-                                                className="flex w-full cursor-pointer items-center gap-4 rounded bg-gray-200 p-2 text-left shadow-sm transition-all duration-150 hover:bg-gray-300 hover:shadow-md dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600"
+                                                className="flex w-full cursor-pointer items-center gap-4 rounded bg-gray-200 p-2 text-left shadow-sm transition-all duration-150 hover:bg-gray-300 hover:shadow-md dark:bg-zinc-800 dark:text-white dark:hover:bg-zinc-700"
                                             >
                                                 <span className="truncate text-sm">
                                                     {tvShow.title} {seasonLabel}
@@ -94,7 +94,7 @@ export const TvShowCard = ({
                                                 <span className="ml-auto min-w-14 rounded bg-gray-500 px-2 py-1 text-center text-xs text-white uppercase">
                                                     {episode.fileExtension}
                                                 </span>
-                                                <PlayIcon className="h-5 w-5 text-gray-600 dark:text-gray-300" />
+                                                <PlayIcon className="h-5 w-5 text-gray-600 dark:text-zinc-300" />
                                             </button>
                                         );
                                     }
