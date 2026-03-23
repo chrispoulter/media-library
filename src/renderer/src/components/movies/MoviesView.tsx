@@ -64,7 +64,7 @@ export const MoviesView = (): React.JSX.Element => {
             ) : error ? (
                 <ErrorMessage error={error} />
             ) : !items?.length ? (
-                <p className="text-gray-500">
+                <p className="text-zinc-500">
                     {search
                         ? 'No movies match your search.'
                         : 'No movies found. Check your Movies folder in Settings.'}

@@ -35,7 +35,7 @@ export const RecentlyAddedView = (): React.JSX.Element => {
             ) : error ? (
                 <ErrorMessage error={error} />
             ) : !filtered?.length ? (
-                <p className="text-gray-500">
+                <p className="text-zinc-500">
                     {search
                         ? 'No items match your search.'
                         : 'No recently added items found. Check your Movies and TV Shows folders in Settings.'}

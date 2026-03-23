@@ -34,8 +34,8 @@ export const AlphabetBar = ({
                             className={clsx(
                                 'flex h-8 w-8 items-center justify-center rounded border text-xs font-semibold transition-colors',
                                 active
-                                    ? 'cursor-pointer border-gray-300 bg-white text-gray-700 hover:border-gray-400 hover:bg-gray-100 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:border-zinc-600 dark:hover:bg-zinc-700'
-                                    : 'cursor-not-allowed border-gray-200 bg-gray-100 text-gray-400 opacity-60 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-500'
+                                    ? 'cursor-pointer border-zinc-300 bg-white text-zinc-700 hover:border-zinc-400 hover:bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:border-zinc-600 dark:hover:bg-zinc-700'
+                                    : 'cursor-not-allowed border-zinc-200 bg-zinc-100 text-zinc-400 opacity-60 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-500'
                             )}
                         >
                             {l}

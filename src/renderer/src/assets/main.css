@@ -7,16 +7,16 @@
 }
 
 ::-webkit-scrollbar-track {
-    background: theme(--color-gray-200);
+    background: theme(--color-zinc-100);
 }
 
 ::-webkit-scrollbar-thumb {
-    background: theme(--color-gray-400);
+    background: theme(--color-zinc-300);
     border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: theme(--color-gray-500);
+    background: theme(--color-zinc-400);
 }
 
 .dark ::-webkit-scrollbar-track {

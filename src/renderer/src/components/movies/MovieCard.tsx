@@ -16,7 +16,7 @@ export const MovieCard = ({
         <button
             type="button"
             onClick={() => window.api.openMovieFile(movie.filePath)}
-            className="flex w-full cursor-pointer items-center gap-4 rounded bg-gray-200 p-2 text-left shadow-sm transition-all duration-150 hover:bg-gray-300 hover:shadow-md dark:bg-zinc-800 dark:text-white dark:hover:bg-zinc-700"
+            className="flex w-full cursor-pointer items-center gap-4 rounded bg-white p-2 text-left shadow-sm transition-all duration-150 hover:bg-zinc-50 hover:shadow-md dark:bg-zinc-800 dark:text-white dark:hover:bg-zinc-700"
         >
             <img
                 src={movie.posterUrl || defaultMoviePoster}
@@ -28,11 +28,11 @@ export const MovieCard = ({
                 }}
             />
             <div className="truncate">
-                <h3 className="font-bold text-gray-800 dark:text-white">
+                <h3 className="font-bold text-zinc-900 dark:text-white">
                     {movie.title}
                 </h3>
                 {showAddedDate && (
-                    <span className="text-xs text-gray-500 dark:text-zinc-400">
+                    <span className="text-xs text-zinc-500 dark:text-zinc-400">
                         {relativeTime(movie.addedAt)}
                     </span>
                 )}
@@ -41,10 +41,10 @@ export const MovieCard = ({
                 <span className="min-w-14 rounded bg-purple-500 px-2 py-1 text-center text-xs text-white">
                     Movie
                 </span>
-                <span className="min-w-14 rounded bg-gray-500 px-2 py-1 text-center text-xs text-white uppercase">
+                <span className="min-w-14 rounded bg-zinc-500 px-2 py-1 text-center text-xs text-white uppercase">
                     {movie.fileExtension}
                 </span>
-                <PlayIcon className="h-5 w-5 text-gray-600 dark:text-zinc-300" />
+                <PlayIcon className="h-5 w-5 text-zinc-500 dark:text-zinc-300" />
             </div>
         </button>
     );

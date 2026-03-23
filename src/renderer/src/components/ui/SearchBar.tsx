@@ -16,7 +16,7 @@ export const SearchBar = ({
 }: SearchBarProps): React.JSX.Element => {
     return (
         <div className="relative">
-            <SearchIcon className="pointer-events-none absolute top-1/2 left-2.5 h-4 w-4 -translate-y-1/2 text-gray-400 dark:text-zinc-400" />
+            <SearchIcon className="pointer-events-none absolute top-1/2 left-2.5 h-4 w-4 -translate-y-1/2 text-zinc-400 dark:text-zinc-400" />
             <input
                 type="text"
                 placeholder={placeholder}
@@ -32,7 +32,7 @@ export const SearchBar = ({
             {value && (
                 <button
                     onClick={() => onChange('')}
-                    className="absolute top-1/2 right-2 -translate-y-1/2 rounded text-gray-400 hover:text-gray-600 dark:hover:text-zinc-200"
+                    className="absolute top-1/2 right-2 -translate-y-1/2 rounded text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200"
                     aria-label="Clear search"
                     disabled={disabled}
                 >

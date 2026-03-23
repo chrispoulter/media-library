@@ -64,7 +64,7 @@ export const TvShowsView = (): React.JSX.Element => {
             ) : error ? (
                 <ErrorMessage error={error} />
             ) : !items?.length ? (
-                <p className="text-gray-500">
+                <p className="text-zinc-500">
                     {search
                         ? 'No shows match your search.'
                         : 'No TV shows found. Check your TV Shows folder in Settings.'}
