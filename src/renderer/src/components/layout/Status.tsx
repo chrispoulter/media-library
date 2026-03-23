@@ -1,15 +1,21 @@
+import clsx from 'clsx';
 import { useEventsQuery } from '../../hooks/useAppQueries';
 
 export const Status = (): React.JSX.Element | null => {
     const { data: event } = useEventsQuery();
 
+    let isSuccess: boolean | undefined = undefined;
     let message: string | undefined = undefined;
 
     switch (event?.kind) {
         case 'poster-updated':
-            message = event.posterUrl
-                ? `Poster updated for "${event.title}"`
-                : `Failed to fetch poster for "${event.title}"`;
+            if (event.posterUrl) {
+                isSuccess = true;
+                message = `Poster updated for "${event.title}"`;
+            } else {
+                isSuccess = false;
+                message = `Failed to fetch poster for "${event.title}"`;
+            }
             break;
     }
 
@@ -18,7 +24,14 @@ export const Status = (): React.JSX.Element | null => {
     }
 
     return (
-        <p className="truncate text-xs text-gray-500 dark:text-gray-400">
+        <p
+            className={clsx(
+                'truncate text-xs',
+                isSuccess
+                    ? 'text-green-600 dark:text-green-400'
+                    : 'text-red-500 dark:text-red-400'
+            )}
+        >
             {message}
         </p>
     );

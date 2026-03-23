@@ -20,7 +20,7 @@ export const RecentlyAddedView = (): React.JSX.Element => {
 
     return (
         <section className="flex flex-col gap-4 dark:text-white">
-            <h2 className="text-2xl font-bold">Recently Added</h2>
+            <h2 className="text-xl font-semibold">Recently Added</h2>
             <SearchBar
                 placeholder="Search recently added..."
                 value={search}
@@ -35,7 +35,7 @@ export const RecentlyAddedView = (): React.JSX.Element => {
             ) : error ? (
                 <ErrorMessage error={error} />
             ) : !filtered?.length ? (
-                <p className="text-gray-500">
+                <p className="text-zinc-500">
                     {search
                         ? 'No items match your search.'
                         : 'No recently added items found. Check your Movies and TV Shows folders in Settings.'}

@@ -1,34 +1,43 @@
 @import 'tailwindcss';
 @custom-variant dark (&:where(.dark, .dark *));
 
+body {
+    font-family:
+        'Segoe UI Variable',
+        'Segoe UI',
+        system-ui,
+        -apple-system,
+        sans-serif;
+}
+
 ::-webkit-scrollbar {
     width: 4px;
     height: 4px;
 }
 
 ::-webkit-scrollbar-track {
-    background: theme(--color-gray-200);
+    background: theme(--color-zinc-100);
 }
 
 ::-webkit-scrollbar-thumb {
-    background: theme(--color-gray-400);
+    background: theme(--color-zinc-300);
     border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: theme(--color-gray-500);
+    background: theme(--color-zinc-400);
 }
 
 .dark ::-webkit-scrollbar-track {
-    background: theme(--color-gray-900);
+    background: theme(--color-zinc-950);
 }
 
 .dark ::-webkit-scrollbar-thumb {
-    background: theme(--color-gray-600);
+    background: theme(--color-zinc-700);
 }
 
 .dark ::-webkit-scrollbar-thumb:hover {
-    background: theme(--color-gray-500);
+    background: theme(--color-zinc-600);
 }
 
 *:focus-visible:not(:disabled) {

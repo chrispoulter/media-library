@@ -1,6 +1,6 @@
 # TODO
 
-- update the tailwind css theme to look more professional
+-
 
 ## Bugfix
 

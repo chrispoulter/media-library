@@ -48,7 +48,7 @@ export const MoviesView = (): React.JSX.Element => {
 
     return (
         <section className="flex flex-col gap-4 dark:text-white">
-            <h2 className="text-2xl font-bold">Movies</h2>
+            <h2 className="text-xl font-semibold">Movies</h2>
             <SearchBar
                 placeholder="Search movies..."
                 value={search}
@@ -64,7 +64,7 @@ export const MoviesView = (): React.JSX.Element => {
             ) : error ? (
                 <ErrorMessage error={error} />
             ) : !items?.length ? (
-                <p className="text-gray-500">
+                <p className="text-zinc-500">
                     {search
                         ? 'No movies match your search.'
                         : 'No movies found. Check your Movies folder in Settings.'}
