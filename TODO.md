@@ -1,5 +1,6 @@
 # TODO
 
+- consistent focus styling
 - update the tailwind css theme to look more professional
 
 ## Bugfix
