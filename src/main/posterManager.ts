@@ -10,29 +10,6 @@ export type QueueItem = { type: 'movie' | 'tv-show'; title: string };
 const queue: QueueItem[] = [];
 let isProcessing = false;
 
-export const enqueuePoster = (
-    type: 'movie' | 'tv-show',
-    title: string
-): void => {
-    log.debug('Enqueuing poster:', { type, title });
-
-    const { tmdbApiKey } = getSettings();
-
-    if (!tmdbApiKey) {
-        return;
-    }
-
-    if (queue.some((item) => item.type === type && item.title === title)) {
-        return;
-    }
-
-    queue.push({ title, type });
-
-    if (!isProcessing) {
-        processQueue();
-    }
-};
-
 export const enqueuePosters = (items: QueueItem[]): void => {
     log.debug('Enqueuing posters:', items);
 
@@ -74,7 +51,7 @@ const processQueue = async (): Promise<void> => {
         }
 
         if (queue.length > 0) {
-            await new Promise((resolve) => setTimeout(resolve, 1000));
+            await new Promise((resolve) => setTimeout(resolve, 500));
         }
     }
 

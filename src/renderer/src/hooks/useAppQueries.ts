@@ -6,7 +6,6 @@ import {
     type UseMutationResult,
     type UseQueryResult,
 } from '@tanstack/react-query';
-import log from 'electron-log/renderer';
 import { applyTheme } from '../utils/theme';
 import type { Movie, TvShow, Settings, Event } from '../../../shared/types';
 
@@ -92,8 +91,6 @@ export const useEventsListener = (): void => {
 
     useEffect(() => {
         const unsubscribe = window.api.onEvent((event: Event): void => {
-            log.debug('Event received:', event);
-
             queryClient.setQueryData(['events'], event);
 
             switch (event.kind) {
