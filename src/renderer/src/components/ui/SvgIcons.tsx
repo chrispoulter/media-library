@@ -106,14 +106,16 @@ export const ClockIcon = ({
     <svg
         xmlns="http://www.w3.org/2000/svg"
         className={className}
-        viewBox="0 0 20 20"
-        fill="currentColor"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={1.5}
         aria-hidden="true"
     >
         <path
-            fillRule="evenodd"
-            d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
-            clipRule="evenodd"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
         />
     </svg>
 );
@@ -126,14 +128,16 @@ export const FilmIcon = ({
     <svg
         xmlns="http://www.w3.org/2000/svg"
         className={className}
-        viewBox="0 0 20 20"
-        fill="currentColor"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={1.5}
         aria-hidden="true"
     >
         <path
-            fillRule="evenodd"
-            d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm3 2h6v4H7V5zm8 8v2h2v-2h-2zm-2-2H7v4h6v-4zm2 0h2v-2h-2v2zM3 13v2h2v-2H3zm2-2v-2H3v2h2zm0-4V5H3v2h2zm0 0h2V5H5v2zm8-2v2h2V5h-2zm0 4h2V7h-2v2z"
-            clipRule="evenodd"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M3.375 19.5h17.25m-17.25 0a1.125 1.125 0 0 1-1.125-1.125M3.375 19.5h1.5C5.496 19.5 6 18.996 6 18.375m-3.75.125v-5.25M6 18.375V6.375M3.375 6.375h17.25m-17.25 0A1.125 1.125 0 0 0 2.25 7.5v1.5M21 6.375h-1.5C18.504 6.375 18 6.879 18 7.5v.875M21 6.375v5.25m0 5.25v-5.25M18 7.5v5.25m0 5.25V12m0 0v-.375M18 12h-6m-3-3h6m-6 6h6M6 18.375V7.5M6 7.5h.001"
         />
     </svg>
 );
@@ -146,14 +150,16 @@ export const TvIcon = ({
     <svg
         xmlns="http://www.w3.org/2000/svg"
         className={className}
-        viewBox="0 0 20 20"
-        fill="currentColor"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={1.5}
         aria-hidden="true"
     >
         <path
-            fillRule="evenodd"
-            d="M3 5a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2h-2.22l.123.489.804.804A1 1 0 0113 17H7a1 1 0 01-.707-1.707l.804-.804L7.22 14H5a2 2 0 01-2-2V5zm5.771 7H5V5h10v7H8.771z"
-            clipRule="evenodd"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M6 20.25h12m-7.5-3v3m3-3v3m-10.125-3h17.25c.621 0 1.125-.504 1.125-1.125V4.875c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125Z"
         />
     </svg>
 );
@@ -166,14 +172,21 @@ export const CogIcon = ({
     <svg
         xmlns="http://www.w3.org/2000/svg"
         className={className}
-        viewBox="0 0 20 20"
-        fill="currentColor"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={1.5}
         aria-hidden="true"
     >
         <path
-            fillRule="evenodd"
-            d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"
-            clipRule="evenodd"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z"
+        />
+        <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
         />
     </svg>
 );
