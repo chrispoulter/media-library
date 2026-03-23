@@ -29,7 +29,7 @@ export const TvShowCard = ({
                 type="button"
                 onClick={() => setIsOpen(!isOpen)}
                 aria-expanded={isOpen}
-                className="flex w-full cursor-pointer items-center gap-4 rounded bg-white p-2 text-left shadow-sm transition-all duration-150 hover:bg-zinc-50 hover:shadow-md dark:bg-zinc-800 dark:text-white dark:hover:bg-zinc-700"
+                className="flex w-full cursor-pointer items-center gap-4 rounded-lg border border-zinc-200 bg-white p-2 text-left transition-all duration-150 hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white dark:hover:bg-zinc-700"
             >
                 <img
                     src={tvShow.posterUrl || defaultTvShowPoster}
@@ -85,7 +85,7 @@ export const TvShowCard = ({
                                                         episode.filePath
                                                     )
                                                 }
-                                                className="flex w-full cursor-pointer items-center gap-4 rounded bg-white p-2 text-left shadow-sm transition-all duration-150 hover:bg-zinc-50 hover:shadow-md dark:bg-zinc-800 dark:text-white dark:hover:bg-zinc-700"
+                                                className="flex w-full cursor-pointer items-center gap-4 rounded-lg border border-zinc-200 bg-white p-2 text-left transition-all duration-150 hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white dark:hover:bg-zinc-700"
                                             >
                                                 <span className="truncate text-sm">
                                                     {tvShow.title} {seasonLabel}

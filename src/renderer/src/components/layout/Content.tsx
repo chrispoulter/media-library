@@ -29,7 +29,7 @@ export const Content = ({ view }: ContentProps): React.JSX.Element => {
     return (
         <main
             key={view}
-            className="flex-1 overflow-auto bg-zinc-100 p-4 dark:bg-zinc-900"
+            className="flex-1 overflow-auto bg-zinc-100 p-6 dark:bg-zinc-900"
         >
             {activeView}
         </main>

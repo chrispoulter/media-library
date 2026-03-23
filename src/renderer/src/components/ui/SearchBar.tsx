@@ -25,7 +25,7 @@ export const SearchBar = ({
                 onChange={(e) => onChange(e.target.value)}
                 disabled={disabled}
                 className={clsx(
-                    'w-full rounded border p-2 pl-8 focus-visible:border-sky-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white dark:placeholder-zinc-400 dark:focus-visible:border-sky-400',
+                    'w-full rounded-lg border border-zinc-300 p-2 pl-8 focus-visible:border-sky-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white dark:placeholder-zinc-400 dark:focus-visible:border-sky-400',
                     value && 'pr-8'
                 )}
             />
