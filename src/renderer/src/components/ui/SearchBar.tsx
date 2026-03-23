@@ -25,14 +25,14 @@ export const SearchBar = ({
                 onChange={(e) => onChange(e.target.value)}
                 disabled={disabled}
                 className={clsx(
-                    'w-full rounded border p-2 pl-8 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400',
+                    'w-full rounded border p-2 pl-8 focus-visible:border-sky-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus-visible:border-sky-400',
                     value && 'pr-8'
                 )}
             />
             {value && (
                 <button
                     onClick={() => onChange('')}
-                    className="absolute top-1/2 right-2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
+                    className="absolute top-1/2 right-2 -translate-y-1/2 rounded text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
                     aria-label="Clear search"
                     disabled={disabled}
                 >

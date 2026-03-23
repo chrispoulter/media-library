@@ -30,3 +30,12 @@
 .dark ::-webkit-scrollbar-thumb:hover {
     background: theme(--color-gray-500);
 }
+
+*:focus-visible:not(:disabled) {
+    outline: 2px solid theme(--color-sky-500);
+    outline-offset: 2px;
+}
+
+.dark *:focus-visible:not(:disabled) {
+    outline-color: theme(--color-sky-400);
+}

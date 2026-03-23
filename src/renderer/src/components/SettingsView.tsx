@@ -128,7 +128,7 @@ export const SettingsView = (): React.JSX.Element => {
                         {...register('theme')}
                         id="theme"
                         disabled={isSaving}
-                        className="w-full rounded border border-gray-300 p-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                        className="w-full rounded border border-gray-300 p-2 focus-visible:border-sky-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:focus-visible:border-sky-400"
                     >
                         <option value="light">Light</option>
                         <option value="dark">Dark</option>
@@ -149,7 +149,7 @@ export const SettingsView = (): React.JSX.Element => {
                             type="text"
                             placeholder="/path/to/movies"
                             disabled={isSaving}
-                            className="w-full rounded border border-gray-400 p-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                            className="w-full rounded border border-gray-400 p-2 focus-visible:border-sky-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:focus-visible:border-sky-400"
                         />
                         <button
                             type="button"
@@ -184,7 +184,7 @@ export const SettingsView = (): React.JSX.Element => {
                             type="text"
                             placeholder="/path/to/tv-shows"
                             disabled={isSaving}
-                            className="w-full rounded border border-gray-300 p-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                            className="w-full rounded border border-gray-300 p-2 focus-visible:border-sky-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:focus-visible:border-sky-400"
                         />
                         <button
                             type="button"
@@ -218,7 +218,7 @@ export const SettingsView = (): React.JSX.Element => {
                         type="password"
                         placeholder="Your TMDb API Key"
                         disabled={isSaving}
-                        className="w-full rounded border border-gray-300 p-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                        className="w-full rounded border border-gray-300 p-2 focus-visible:border-sky-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:focus-visible:border-sky-400"
                     />
                     <p className="text-sm text-gray-400">
                         Enter your TMDb API key to enable metadata fetching.

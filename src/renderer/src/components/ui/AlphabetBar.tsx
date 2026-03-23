@@ -10,7 +10,7 @@ export const AlphabetBar = ({
     availableLetters,
 }: AlphabetBarProps): React.JSX.Element => {
     return (
-        <nav aria-label="Jump to letter" className="overflow-x-auto pb-2">
+        <nav aria-label="Jump to letter" className="overflow-x-auto p-1">
             <div className="flex min-w-max items-center gap-1">
                 {ALL_LETTERS.map((l) => {
                     const active = availableLetters?.has(l);
