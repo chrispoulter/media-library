@@ -19,7 +19,7 @@ export const enqueuePosters = (items: QueueItem[]): void => {
         return;
     }
 
-    const newItems = items.filter(
+    const unqueuedItems = items.filter(
         (item) =>
             !queue.some(
                 (queuedItem) =>
@@ -28,7 +28,11 @@ export const enqueuePosters = (items: QueueItem[]): void => {
             )
     );
 
-    queue.push(...newItems);
+    if (!unqueuedItems.length) {
+        return;
+    }
+
+    queue.push(...unqueuedItems);
 
     if (!isProcessing) {
         processQueue();

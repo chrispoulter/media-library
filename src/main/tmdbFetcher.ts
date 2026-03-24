@@ -55,13 +55,14 @@ export const fetchPosterUrl = async (
         }
 
         const data: TmdbSearchResponse = await response.json();
+        const posterPath = data.results?.[0]?.poster_path;
 
-        if (data.results && data.results.length > 0) {
-            const posterPath = data.results[0].poster_path;
-            return posterPath ? `${IMAGE_URL}${posterPath}` : null;
+        if (!posterPath) {
+            log.warn('No poster found for:', { endpoint, title });
+            return null;
         }
 
-        return null;
+        return `${IMAGE_URL}${posterPath}`;
     } catch (error) {
         log.error('Error fetching poster:', error);
         return null;

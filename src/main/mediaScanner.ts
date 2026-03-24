@@ -95,7 +95,9 @@ export const getMovies = async (): Promise<Movie[]> => {
             .filter((movie) => movie.posterUrl === undefined)
             .map((movie) => ({ type: 'movie', title: movie.title }));
 
-        enqueuePosters(missingPosters);
+        if (missingPosters.length) {
+            enqueuePosters(missingPosters);
+        }
     }
 
     return movies.sort((a, b) => a.title.localeCompare(b.title));
@@ -218,7 +220,9 @@ export const getTvShows = async (): Promise<TvShow[]> => {
             .filter((show) => show.posterUrl === undefined)
             .map((show) => ({ type: 'tv-show', title: show.title }));
 
-        enqueuePosters(missingPosters);
+        if (missingPosters.length) {
+            enqueuePosters(missingPosters);
+        }
     }
 
     return tvShows.sort((a, b) => a.title.localeCompare(b.title));
