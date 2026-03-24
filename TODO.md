@@ -4,8 +4,6 @@
 
 ## Bugfix
 
-- tv show groupings case sensitive
-- updating directory not clearing cache
 - CI/CD mac-os release failing on retry
 
 ## Future
