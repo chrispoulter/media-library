@@ -12,3 +12,4 @@
 ## Future
 
 - cache scanning results
+- show media length, resolution etc
