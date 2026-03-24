@@ -6,7 +6,7 @@ A desktop application for organizing and browsing your personal collection of mo
 
 - **Movies** — Browse your movie collection with real-time search filtering
 - **TV Shows** — Browse TV shows with expandable episode and season listings
-- **Recently Added** — View the 20 most recently added items across both libraries
+- **Recently Added** — View the most recently added items across both libraries
 - **Settings** — Configure media directories, theme preference, and TMDb API key
 - **Light / Dark / System theme** — Follows system preference or can be set manually
 - **Persistent window state** — Position, size, and maximized state are saved across restarts
