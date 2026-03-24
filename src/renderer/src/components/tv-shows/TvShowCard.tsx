@@ -1,6 +1,7 @@
 import { Fragment, useState } from 'react';
 import defaultTvShowPoster from '../../assets/default-tv-show.svg';
 import { Divider } from '../ui/Divider';
+import { PosterImage } from '../ui/PosterImage';
 import { ChevronDown, ChevronUp, PlayIcon } from '../ui/SvgIcons';
 import { relativeTime } from '../../utils/time';
 import type { TvShow } from '../../../../shared/types';
@@ -31,14 +32,10 @@ export const TvShowCard = ({
                 aria-expanded={isOpen}
                 className="flex w-full cursor-pointer items-center gap-4 rounded-lg border border-zinc-200 bg-white p-2 text-left transition-all duration-150 hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white dark:hover:bg-zinc-700"
             >
-                <img
-                    src={tvShow.posterUrl || defaultTvShowPoster}
+                <PosterImage
+                    src={tvShow.posterUrl}
                     alt={tvShow.title}
-                    className="h-auto w-full max-w-8 rounded"
-                    onError={(e) => {
-                        e.currentTarget.src = defaultTvShowPoster;
-                        e.currentTarget.onerror = null;
-                    }}
+                    fallbackSrc={defaultTvShowPoster}
                 />
                 <div className="truncate">
                     <h3 className="text-sm font-semibold text-zinc-900 dark:text-white">

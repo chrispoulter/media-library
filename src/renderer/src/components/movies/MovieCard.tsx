@@ -1,4 +1,5 @@
 import defaultMoviePoster from '../../assets/default-movie.svg';
+import { PosterImage } from '../ui/PosterImage';
 import { PlayIcon } from '../ui/SvgIcons';
 import { relativeTime } from '../../utils/time';
 import type { Movie } from '../../../../shared/types';
@@ -18,14 +19,10 @@ export const MovieCard = ({
             onClick={() => window.api.openMovieFile(movie.filePath)}
             className="flex w-full cursor-pointer items-center gap-4 rounded-lg border border-zinc-200 bg-white p-2 text-left transition-all duration-150 hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white dark:hover:bg-zinc-700"
         >
-            <img
-                src={movie.posterUrl || defaultMoviePoster}
+            <PosterImage
+                src={movie.posterUrl}
                 alt={movie.title}
-                className="h-auto w-full max-w-8 rounded"
-                onError={(e) => {
-                    e.currentTarget.src = defaultMoviePoster;
-                    e.currentTarget.onerror = null;
-                }}
+                fallbackSrc={defaultMoviePoster}
             />
             <div className="truncate">
                 <h3 className="text-sm font-semibold text-zinc-900 dark:text-white">

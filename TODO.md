@@ -1,6 +1,6 @@
 # TODO
 
-- zoom poster
+-
 
 ## Bugfix
 
