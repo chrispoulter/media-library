@@ -31,7 +31,9 @@ export const MoviesView = (): React.JSX.Element => {
         const availableLetters = new Set<string>();
 
         const items = filtered.map((movie) => {
-            const letter = movie.title[0]?.toUpperCase() ?? '#';
+            const firstChar = movie.title[0]?.toUpperCase() ?? '';
+            const letter =
+                firstChar >= 'A' && firstChar <= 'Z' ? firstChar : '#';
             const showDivider = letter !== lastLetter;
 
             lastLetter = letter;

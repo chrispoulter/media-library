@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 
-const ALL_LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ#'.split('');
+const ALL_LETTERS = '#ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 
 type AlphabetBarProps = {
     availableLetters?: Set<string>;

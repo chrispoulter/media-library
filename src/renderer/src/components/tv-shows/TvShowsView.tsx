@@ -31,7 +31,9 @@ export const TvShowsView = (): React.JSX.Element => {
         const availableLetters = new Set<string>();
 
         const items = filtered.map((tvShow) => {
-            const letter = tvShow.title[0]?.toUpperCase() ?? '#';
+            const firstChar = tvShow.title[0]?.toUpperCase() ?? '';
+            const letter =
+                firstChar >= 'A' && firstChar <= 'Z' ? firstChar : '#';
             const showDivider = letter !== lastLetter;
 
             lastLetter = letter;
