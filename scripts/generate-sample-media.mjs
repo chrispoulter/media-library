@@ -13,6 +13,10 @@ const START_AT = new Date('2026-03-12T09:00:00Z').getTime();
 const STEP_MS = 1000 * 60 * 60 * 6;
 
 const movies = [
+    { folder: '#', file: '2001 - A Space Odyssey (1968).mkv' },
+    { folder: '#', file: '12 Angry Men (1957).mkv' },
+    { folder: '#', file: '300 (2006).mp4' },
+    { folder: '#', file: '28 Days Later (2002).mkv' },
     { folder: 'A', file: 'Alien (1979).mkv' },
     { folder: 'A', file: 'Amadeus (1984).mkv' },
     { folder: 'A', file: 'Annihilation (2018).mp4' },
@@ -121,7 +125,6 @@ const movies = [
     { folder: 'T', file: 'The Truman Show (1998).mkv' },
     { folder: 'T', file: 'The Witch (2015).mp4' },
     { folder: 'T', file: 'The Zone of Interest (2023).mkv' },
-    { folder: 'T', file: 'The Unknown Movie (1999).mkv' },
     {
         folder: 'T',
         file: 'Three Billboards Outside Ebbing Missouri (2017).mkv',
@@ -220,6 +223,23 @@ const generateEpisodes = (title, seasons, ext = 'mkv') =>
     );
 
 const tvShows = [
+    { folder: '24', episodes: generateEpisodes('24', [24, 24], 'mkv') },
+    {
+        folder: '30 Rock',
+        episodes: generateEpisodes(
+            '30 Rock',
+            [21, 15, 23, 22, 22, 22, 13],
+            'mp4'
+        ),
+    },
+    {
+        folder: '3rd Rock from the Sun',
+        episodes: generateEpisodes(
+            '3rd Rock from the Sun',
+            [23, 22, 22, 22, 22, 22],
+            'mkv'
+        ),
+    },
     {
         folder: 'Abbott Elementary',
         episodes: generateEpisodes('Abbott Elementary', [6, 8, 8], 'mp4'),
