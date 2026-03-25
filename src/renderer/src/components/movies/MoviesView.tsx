@@ -3,6 +3,7 @@ import { useMoviesQuery } from '../../hooks/useAppQueries';
 import { useDebounce } from '../../hooks/useDebounce';
 import { AlphabetBar } from '../ui/AlphabetBar';
 import { Divider } from '../ui/Divider';
+import { DividerSkeleton } from '../ui/DividerSkeleton';
 import { ErrorMessage } from '../ui/ErrorMessage';
 import { SearchBar } from '../ui/SearchBar';
 import { MovieCard } from './MovieCard';
@@ -59,9 +60,15 @@ export const MoviesView = (): React.JSX.Element => {
             <AlphabetBar availableLetters={availableLetters} />
             {isLoading ? (
                 <div className="flex flex-col gap-2">
-                    {Array.from({ length: 15 }).map((_, i) => (
-                        <MovieCardSkeleton key={i} />
-                    ))}
+                    <DividerSkeleton />
+                    <MovieCardSkeleton />
+                    <MovieCardSkeleton />
+                    <DividerSkeleton />
+                    <MovieCardSkeleton />
+                    <MovieCardSkeleton />
+                    <DividerSkeleton />
+                    <MovieCardSkeleton />
+                    <MovieCardSkeleton />
                 </div>
             ) : error ? (
                 <ErrorMessage error={error} />

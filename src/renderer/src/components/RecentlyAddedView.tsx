@@ -6,6 +6,7 @@ import { SearchBar } from './ui/SearchBar';
 import { MovieCard } from './movies/MovieCard';
 import { MovieCardSkeleton } from './movies/MovieCardSkeleton';
 import { TvShowCard } from './tv-shows/TvShowCard';
+import { TvShowCardSkeleton } from './tv-shows/TvShowCardSkeleton';
 
 export const RecentlyAddedView = (): React.JSX.Element => {
     const [search, setSearch] = useState('');
@@ -28,9 +29,14 @@ export const RecentlyAddedView = (): React.JSX.Element => {
             />
             {isLoading ? (
                 <div className="flex flex-col gap-2">
-                    {Array.from({ length: 15 }).map((_, i) => (
-                        <MovieCardSkeleton key={i} />
-                    ))}
+                    <MovieCardSkeleton />
+                    <TvShowCardSkeleton />
+                    <MovieCardSkeleton />
+                    <TvShowCardSkeleton />
+                    <MovieCardSkeleton />
+                    <TvShowCardSkeleton />
+                    <MovieCardSkeleton />
+                    <TvShowCardSkeleton />
                 </div>
             ) : error ? (
                 <ErrorMessage error={error} />
