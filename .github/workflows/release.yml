@@ -18,11 +18,11 @@ jobs:
             matrix:
                 include:
                     - os: windows-latest
-                      build_script: build:win
+                      build_script: release:win
                     # - os: macos-latest
-                    #   build_script: build:mac
+                    #   build_script: release:mac
                     - os: ubuntu-latest
-                      build_script: build:linux
+                      build_script: release:linux
 
         steps:
             - name: Checkout

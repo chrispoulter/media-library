@@ -32,7 +32,7 @@ linux:
     target:
         - AppImage
         - deb
-    maintainer: electronjs.org
+    maintainer: Chris Poulter
     category: Utility
 appImage:
     artifactName: ${name}-${version}.${ext}
