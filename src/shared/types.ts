@@ -5,6 +5,8 @@ export type Settings = {
     tmdbApiKey: string;
 };
 
+export type MediaType = 'movie' | 'tv-show';
+
 export type Movie = {
     title: string;
     posterUrl: string | undefined | null;
@@ -34,7 +36,7 @@ export type TvShow = {
 
 export type Event = {
     kind: 'poster-updated';
-    type: 'movie' | 'tv-show';
+    type: MediaType;
     title: string;
     posterUrl: string | null | undefined;
 };

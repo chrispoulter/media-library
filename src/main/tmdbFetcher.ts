@@ -1,5 +1,6 @@
 import log from 'electron-log/main';
 import { getSettings } from './settingsStore';
+import type { MediaType } from '../shared/types';
 
 type TmdbSearchResponse = {
     results: {
@@ -22,15 +23,29 @@ const parseQueryAndYear = (title: string): { query: string; year: string } => {
 };
 
 export const fetchPosterUrl = async (
-    endpoint: 'movie' | 'tv',
+    type: MediaType,
     title: string
 ): Promise<string | null | undefined> => {
-    log.info('Fetching poster:', { endpoint, title });
+    log.info('Fetching poster:', { type, title });
 
     const { tmdbApiKey } = getSettings();
 
     if (!tmdbApiKey) {
         return undefined;
+    }
+
+    let endpoint: string;
+
+    switch (type) {
+        case 'movie':
+            endpoint = 'movie';
+            break;
+        case 'tv-show':
+            endpoint = 'tv';
+            break;
+        default:
+            endpoint = 'multi';
+            break;
     }
 
     const { query, year } = parseQueryAndYear(title);
@@ -58,7 +73,7 @@ export const fetchPosterUrl = async (
         const posterPath = data.results?.[0]?.poster_path;
 
         if (!posterPath) {
-            log.warn('No poster found for:', { endpoint, title });
+            log.warn('No poster found for:', { type, title });
             return null;
         }
 

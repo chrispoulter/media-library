@@ -3,9 +3,9 @@ import log from 'electron-log/main';
 import { setPosterUrl } from './posterStore';
 import { getSettings } from './settingsStore';
 import { fetchPosterUrl } from './tmdbFetcher';
-import type { Event } from '../shared/types';
+import type { Event, MediaType } from '../shared/types';
 
-export type QueueItem = { type: 'movie' | 'tv-show'; title: string };
+export type QueueItem = { type: MediaType; title: string };
 
 const queue: QueueItem[] = [];
 let isProcessing = false;
@@ -62,21 +62,9 @@ const processQueue = async (): Promise<void> => {
     isProcessing = false;
 };
 
-const processItem = async ({ title, type }: QueueItem): Promise<void> => {
-    let posterUrl: string | null | undefined;
-
-    switch (type) {
-        case 'movie':
-            posterUrl = await fetchPosterUrl('movie', title);
-            break;
-
-        case 'tv-show':
-            posterUrl = await fetchPosterUrl('tv', title);
-            break;
-    }
-
+const processItem = async ({ type, title }: QueueItem): Promise<void> => {
+    const posterUrl = await fetchPosterUrl(type, title);
     setPosterUrl(type, title, posterUrl);
-
     broadcast({ kind: 'poster-updated', type, title, posterUrl });
 };
 

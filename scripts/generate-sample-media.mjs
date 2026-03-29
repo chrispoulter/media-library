@@ -125,10 +125,6 @@ const movies = [
     { folder: 'T', file: 'The Truman Show (1998).mkv' },
     { folder: 'T', file: 'The Witch (2015).mp4' },
     { folder: 'T', file: 'The Zone of Interest (2023).mkv' },
-    {
-        folder: 'T',
-        file: 'Three Billboards Outside Ebbing Missouri (2017).mkv',
-    },
     { folder: 'T', file: 'Tenet (2020).mkv' },
     { folder: 'T', file: 'Toy Story (1995).mp4' },
     { folder: 'U', file: 'Uncut Gems (2019).mkv' },
@@ -144,73 +140,6 @@ const movies = [
     { folder: 'Y', file: 'Yi Yi (2000).mkv' },
     { folder: 'Z', file: 'Zootopia (2016).mp4' },
     { folder: 'Z', file: 'Zero Dark Thirty (2012).mkv' },
-    // More A entries
-    { folder: 'A', file: 'About Time (2013).mkv' },
-    { folder: 'A', file: 'Argo (2012).mp4' },
-    { folder: 'A', file: 'Ad Astra (2019).mkv' },
-    { folder: 'A', file: 'Almost Famous (2000).m4v' },
-    // More B entries
-    { folder: 'B', file: 'Big Fish (2003).mkv' },
-    { folder: 'B', file: 'Barbie (2023).mp4' },
-    { folder: 'B', file: 'Burning (2018).mkv' },
-    { folder: 'B', file: 'Blue Valentine (2010).mkv' },
-    // More C entries
-    { folder: 'C', file: 'Carol (2015).mkv' },
-    { folder: 'C', file: 'Cold War (2018).mp4' },
-    { folder: 'C', file: 'Cloud Atlas (2012).mkv' },
-    // More D entries
-    { folder: 'D', file: 'Darkest Hour (2017).mkv' },
-    { folder: 'D', file: 'Dancer in the Dark (2000).mkv' },
-    // More E entries
-    { folder: 'E', file: 'Enemy (2013).mkv' },
-    { folder: 'E', file: 'Eyes Wide Shut (1999).mp4' },
-    // More F entries
-    { folder: 'F', file: 'First Man (2018).mkv' },
-    { folder: 'F', file: 'Face-Off (1997).avi' },
-    // More G entries
-    { folder: 'G', file: 'Gone Girl (2014).mkv' },
-    { folder: 'G', file: 'Ghost in the Shell (1995).mkv' },
-    // More H entries
-    { folder: 'H', file: 'Hereditary (2018).mkv' },
-    { folder: 'H', file: 'Hacksaw Ridge (2016).mp4' },
-    // More I entries
-    { folder: 'I', file: 'I, Tonya (2017).mkv' },
-    { folder: 'I', file: 'Into the Wild (2007).mp4' },
-    // More J entries
-    { folder: 'J', file: 'Jackie (2016).mkv' },
-    { folder: 'J', file: 'Jaws (1975).mp4' },
-    // More K entries
-    { folder: 'K', file: 'Kingdom of Heaven (2005).mkv' },
-    // More L entries
-    { folder: 'L', file: 'Lost in Translation (2003).mkv' },
-    { folder: 'L', file: 'Life of Pi (2012).mp4' },
-    // More M entries
-    { folder: 'M', file: 'Moonrise Kingdom (2012).mkv' },
-    { folder: 'M', file: 'Magnolia (1999).mkv' },
-    // More N entries
-    { folder: 'N', file: 'Never Let Me Go (2010).mkv' },
-    // More O entries
-    { folder: 'O', file: 'Okja (2017).mkv' },
-    // More P entries
-    { folder: 'P', file: 'Portrait of a Lady on Fire (2019).mkv' },
-    { folder: 'P', file: 'Phantom Thread (2017).mp4' },
-    // More R entries
-    { folder: 'R', file: "Rosemary's Baby (1968).mkv" },
-    // More S entries
-    { folder: 'S', file: 'Suspiria (2018).mkv' },
-    { folder: 'S', file: 'Se7en (1995).mkv' },
-    { folder: 'S', file: 'Silver Linings Playbook (2012).mp4' },
-    // More T entries
-    { folder: 'T', file: 'There Will Be Blood (2007).mkv' },
-    { folder: 'T', file: 'Top Gun - Maverick (2022).mp4' },
-    { folder: 'T', file: 'Tick Tick Boom (2021).mkv' },
-    // More U entries
-    { folder: 'U', file: 'Us (2019).mkv' },
-    // More W entries
-    { folder: 'W', file: 'When Harry Met Sally (1989).mkv' },
-    { folder: 'W', file: 'War Horse (2011).mp4' },
-    // Extra placeholder
-    { folder: 'M', file: 'metadata-file.nfo' },
 ];
 
 const generateEpisodes = (title, seasons, ext = 'mkv') =>
@@ -226,25 +155,16 @@ const tvShows = [
     { folder: '24', episodes: generateEpisodes('24', [24, 24], 'mkv') },
     {
         folder: '30 Rock',
-        episodes: generateEpisodes(
-            '30 Rock',
-            [21, 15, 23, 22, 22, 22, 13],
-            'mp4'
-        ),
+        episodes: generateEpisodes('30 Rock', [21, 15, 23], 'mp4'),
     },
     {
         folder: '3rd Rock from the Sun',
-        episodes: generateEpisodes(
-            '3rd Rock from the Sun',
-            [23, 22, 22, 22, 22, 22],
-            'mkv'
-        ),
+        episodes: generateEpisodes('3rd Rock from the Sun', [23, 22], 'mkv'),
     },
     {
         folder: 'Abbott Elementary',
         episodes: generateEpisodes('Abbott Elementary', [6, 8, 8], 'mp4'),
     },
-    { folder: 'Andor', episodes: generateEpisodes('Andor', [12, 12], 'mkv') },
     {
         folder: 'Arrested Development',
         episodes: generateEpisodes('Arrested Development', [22, 18, 13], 'mp4'),
@@ -263,11 +183,7 @@ const tvShows = [
     },
     {
         folder: 'Better Call Saul',
-        episodes: generateEpisodes(
-            'Better Call Saul',
-            [10, 10, 10, 10, 10, 13],
-            'mkv'
-        ),
+        episodes: generateEpisodes('Better Call Saul', [10], 'mkv'),
     },
     {
         folder: 'Black Mirror',
@@ -275,11 +191,7 @@ const tvShows = [
     },
     {
         folder: 'Bojack Horseman',
-        episodes: generateEpisodes(
-            'Bojack Horseman',
-            [12, 13, 12, 12, 13, 16],
-            'mkv'
-        ),
+        episodes: generateEpisodes('Bojack Horseman', [12, 13, 12], 'mkv'),
     },
     {
         folder: 'Breaking Bad',
@@ -297,7 +209,6 @@ const tvShows = [
         folder: 'Cobra Kai',
         episodes: generateEpisodes('Cobra Kai', [10, 10, 10, 10, 10], 'mp4'),
     },
-    { folder: 'Dark', episodes: generateEpisodes('Dark', [10, 8, 8], 'mkv') },
     {
         folder: 'Dark Matter',
         episodes: generateEpisodes('Dark Matter', [9], 'mkv'),
@@ -310,7 +221,6 @@ const tvShows = [
         folder: 'Euphoria',
         episodes: generateEpisodes('Euphoria', [8, 8], 'mkv'),
     },
-    { folder: 'Fleabag', episodes: generateEpisodes('Fleabag', [6, 6], 'mkv') },
     {
         folder: 'For All Mankind',
         episodes: generateEpisodes('For All Mankind', [10, 10, 10, 10], 'mkv'),
@@ -321,11 +231,7 @@ const tvShows = [
     },
     {
         folder: 'Game of Thrones',
-        episodes: generateEpisodes(
-            'Game of Thrones',
-            [10, 10, 10, 10, 10, 10, 7, 6],
-            'mkv'
-        ),
+        episodes: generateEpisodes('Game of Thrones', [10, 10, 10], 'mkv'),
     },
     {
         folder: 'Ghosts',
@@ -336,24 +242,12 @@ const tvShows = [
         episodes: generateEpisodes('Girls', [10, 11, 12, 12, 10, 10], 'mkv'),
     },
     {
-        folder: 'Halt and Catch Fire',
-        episodes: generateEpisodes(
-            'Halt and Catch Fire',
-            [10, 10, 10, 10],
-            'mkv'
-        ),
-    },
-    {
         folder: 'Hannibal',
         episodes: generateEpisodes('Hannibal', [13, 13, 13], 'mkv'),
     },
     {
         folder: 'House of Cards',
-        episodes: generateEpisodes(
-            'House of Cards',
-            [13, 13, 13, 13, 13, 13],
-            'mp4'
-        ),
+        episodes: generateEpisodes('House of Cards', [13], 'mp4'),
     },
     {
         folder: 'House of the Dragon',
@@ -368,37 +262,20 @@ const tvShows = [
         episodes: generateEpisodes('Industry', [8, 8, 8], 'mkv'),
     },
     {
-        folder: "It's Always Sunny in Philadelphia",
-        episodes: generateEpisodes(
-            "It's Always Sunny in Philadelphia",
-            [7, 10, 15, 13, 10, 10, 10, 10, 10, 10],
-            'mp4'
-        ),
-    },
-    {
         folder: 'Justified',
-        episodes: generateEpisodes(
-            'Justified',
-            [13, 13, 13, 13, 13, 13],
-            'mkv'
-        ),
+        episodes: generateEpisodes('Justified', [13, 13, 13], 'mkv'),
     },
     {
         folder: 'Killing Eve',
         episodes: generateEpisodes('Killing Eve', [8, 8, 8, 8], 'mkv'),
     },
-    { folder: 'Loki', episodes: generateEpisodes('Loki', [6, 6], 'mkv') },
     {
         folder: 'Lost',
         episodes: generateEpisodes('Lost', [25, 24, 23, 14, 17, 18], 'mkv'),
     },
     {
         folder: 'Mad Men',
-        episodes: generateEpisodes(
-            'Mad Men',
-            [13, 13, 13, 13, 13, 13, 14],
-            'mkv'
-        ),
+        episodes: generateEpisodes('Mad Men', [13, 13, 13, 13], 'mkv'),
     },
     {
         folder: 'Mare of Easttown',
@@ -421,14 +298,6 @@ const tvShows = [
         episodes: generateEpisodes('Normal People', [12], 'mkv'),
     },
     {
-        folder: 'Only Murders in the Building',
-        episodes: generateEpisodes(
-            'Only Murders in the Building',
-            [10, 10, 10],
-            'mp4'
-        ),
-    },
-    {
         folder: 'Oz',
         episodes: generateEpisodes('Oz', [8, 8, 8, 16, 8, 8], 'avi'),
     },
@@ -438,13 +307,8 @@ const tvShows = [
     },
     {
         folder: 'Person of Interest',
-        episodes: generateEpisodes(
-            'Person of Interest',
-            [23, 22, 23, 22, 13],
-            'mp4'
-        ),
+        episodes: generateEpisodes('Person of Interest', [23, 22, 23], 'mp4'),
     },
-    { folder: 'Pose', episodes: generateEpisodes('Pose', [8, 10, 7], 'mkv') },
     {
         folder: 'Reservation Dogs',
         episodes: generateEpisodes('Reservation Dogs', [8, 8, 8], 'mkv'),
@@ -453,14 +317,6 @@ const tvShows = [
     {
         folder: 'Russian Doll',
         episodes: generateEpisodes('Russian Doll', [8, 8], 'mkv'),
-    },
-    {
-        folder: "Schitt's Creek",
-        episodes: generateEpisodes(
-            "Schitt's Creek",
-            [10, 13, 13, 13, 14, 14],
-            'mp4'
-        ),
     },
     { folder: 'Sense8', episodes: generateEpisodes('Sense8', [12, 11], 'mkv') },
     {
@@ -472,22 +328,6 @@ const tvShows = [
         episodes: generateEpisodes('Sharp Objects', [8], 'mkv'),
     },
     { folder: 'Shogun', episodes: generateEpisodes('Shogun', [10], 'mkv') },
-    {
-        folder: 'Silicon Valley',
-        episodes: generateEpisodes(
-            'Silicon Valley',
-            [8, 10, 10, 10, 10, 7],
-            'mp4'
-        ),
-    },
-    {
-        folder: 'Six Feet Under',
-        episodes: generateEpisodes(
-            'Six Feet Under',
-            [13, 13, 13, 12, 12],
-            'mkv'
-        ),
-    },
     {
         folder: 'Slow Horses',
         episodes: generateEpisodes('Slow Horses', [6, 6, 6, 6], 'mkv'),
@@ -513,40 +353,20 @@ const tvShows = [
         episodes: generateEpisodes('Ted Lasso', [10, 12, 12], 'mp4'),
     },
     {
-        folder: 'The Americans',
-        episodes: generateEpisodes(
-            'The Americans',
-            [13, 13, 13, 13, 13, 10],
-            'mkv'
-        ),
-    },
-    {
         folder: 'The Bear',
         episodes: generateEpisodes('The Bear', [8, 10, 6], 'm4v'),
     },
     {
         folder: 'The Crown',
-        episodes: generateEpisodes(
-            'The Crown',
-            [10, 10, 10, 10, 10, 10],
-            'mkv'
-        ),
+        episodes: generateEpisodes('The Crown', [10], 'mkv'),
     },
     {
         folder: 'The Expanse',
-        episodes: generateEpisodes(
-            'The Expanse',
-            [10, 13, 13, 13, 10, 6],
-            'mkv'
-        ),
+        episodes: generateEpisodes('The Expanse', [10, 13, 13, 13], 'mkv'),
     },
     {
         folder: "The Handmaid's Tale",
-        episodes: generateEpisodes(
-            "The Handmaid's Tale",
-            [10, 13, 13, 10, 10, 10],
-            'mkv'
-        ),
+        episodes: generateEpisodes("The Handmaid's Tale", [10, 13, 13], 'mkv'),
     },
     {
         folder: 'The Last of Us',
@@ -555,14 +375,6 @@ const tvShows = [
     {
         folder: 'The Leftovers',
         episodes: generateEpisodes('The Leftovers', [10, 10, 8], 'mkv'),
-    },
-    {
-        folder: 'The Office',
-        episodes: generateEpisodes(
-            'The Office',
-            [6, 22, 23, 19, 28, 26, 26, 24, 25],
-            'mp4'
-        ),
     },
     {
         folder: 'The Rings of Power',
@@ -592,23 +404,13 @@ const tvShows = [
         folder: 'Twin Peaks',
         episodes: generateEpisodes('Twin Peaks', [8, 22, 18], 'mkv'),
     },
-    { folder: 'Undone', episodes: generateEpisodes('Undone', [8, 8], 'mkv') },
     {
         folder: 'Veep',
         episodes: generateEpisodes('Veep', [8, 10, 10, 10, 10, 10, 7], 'mp4'),
     },
-    { folder: 'Watchmen', episodes: generateEpisodes('Watchmen', [9], 'mkv') },
     {
         folder: 'Westworld',
         episodes: generateEpisodes('Westworld', [10, 10, 8, 8], 'mkv'),
-    },
-    {
-        folder: 'White Collar',
-        episodes: generateEpisodes(
-            'White Collar',
-            [14, 16, 16, 16, 13, 6],
-            'mp4'
-        ),
     },
     {
         folder: 'Years and Years',
@@ -622,7 +424,6 @@ const tvShows = [
         folder: 'Yellowjackets',
         episodes: generateEpisodes('Yellowjackets', [10, 9, 8], 'mkv'),
     },
-    { folder: 'Zen', episodes: generateEpisodes('Zen', [3, 3], 'm4v') },
     {
         folder: 'Justified - City Primeval',
         episodes: generateEpisodes('Justified - City Primeval', [8], 'mkv'),
@@ -631,7 +432,6 @@ const tvShows = [
         folder: 'Interview with the Vampire',
         episodes: generateEpisodes('Interview with the Vampire', [7, 8], 'mkv'),
     },
-    { folder: 'From', episodes: generateEpisodes('From', [10, 10, 10], 'mkv') },
     {
         folder: 'Deadwood',
         episodes: generateEpisodes('Deadwood', [12, 12, 12], 'mkv'),
@@ -642,11 +442,7 @@ const tvShows = [
     },
     {
         folder: 'Battlestar Galactica',
-        episodes: generateEpisodes(
-            'Battlestar Galactica',
-            [13, 20, 20, 22],
-            'mkv'
-        ),
+        episodes: generateEpisodes('Battlestar Galactica', [13], 'mkv'),
     },
     {
         folder: 'Ash vs Evil Dead',

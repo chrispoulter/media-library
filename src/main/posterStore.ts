@@ -1,5 +1,6 @@
 import log from 'electron-log/main';
 import Store from 'electron-store';
+import type { MediaType } from '../shared/types';
 
 const store = new Store<Record<string, string | null>>({
     name: 'posters',
@@ -7,12 +8,12 @@ const store = new Store<Record<string, string | null>>({
 });
 
 export const getPosterUrl = (
-    type: 'movie' | 'tv-show',
+    type: MediaType,
     key: string
 ): string | null | undefined => store.get(`${type}:${key}`);
 
 export const setPosterUrl = (
-    type: 'movie' | 'tv-show',
+    type: MediaType,
     key: string,
     posterUrl: string | null | undefined
 ): void => {
