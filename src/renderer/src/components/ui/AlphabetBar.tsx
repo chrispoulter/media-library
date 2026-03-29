@@ -12,16 +12,16 @@ export const AlphabetBar = ({
     return (
         <nav aria-label="Jump to letter" className="overflow-x-auto p-1">
             <div className="flex min-w-max items-center gap-1">
-                {ALL_LETTERS.map((l) => {
-                    const active = availableLetters?.has(l);
+                {ALL_LETTERS.map((letter) => {
+                    const active = availableLetters?.has(letter);
 
                     return (
                         <button
-                            key={l}
+                            key={letter}
                             type="button"
                             onClick={() => {
                                 const sectionElement = document.getElementById(
-                                    `letter-${l}`
+                                    `letter-${letter}`
                                 );
 
                                 sectionElement?.scrollIntoView({
@@ -30,7 +30,7 @@ export const AlphabetBar = ({
                                 });
                             }}
                             disabled={!active}
-                            aria-label={`Jump to ${l} section`}
+                            aria-label={`Jump to ${letter} section`}
                             className={clsx(
                                 'flex h-8 w-8 items-center justify-center rounded-lg border text-xs font-semibold transition-colors',
                                 active
@@ -38,7 +38,7 @@ export const AlphabetBar = ({
                                     : 'cursor-not-allowed border-zinc-200 bg-zinc-100 text-zinc-400 opacity-60 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-500'
                             )}
                         >
-                            {l}
+                            {letter}
                         </button>
                     );
                 })}

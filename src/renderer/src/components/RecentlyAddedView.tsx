@@ -48,11 +48,11 @@ export const RecentlyAddedView = (): React.JSX.Element => {
                 </p>
             ) : (
                 <div className="flex flex-col gap-2">
-                    {filtered.map((item, index) => {
+                    {filtered.map((item) => {
                         if ('seasons' in item) {
                             return (
                                 <TvShowCard
-                                    key={index}
+                                    key={`tv-show-${item.title}`}
                                     tvShow={item}
                                     showAddedDate
                                 />
@@ -60,7 +60,7 @@ export const RecentlyAddedView = (): React.JSX.Element => {
                         } else {
                             return (
                                 <MovieCard
-                                    key={index}
+                                    key={`movie-${item.title}`}
                                     movie={item}
                                     showAddedDate
                                 />

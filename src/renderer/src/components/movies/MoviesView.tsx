@@ -82,7 +82,7 @@ export const MoviesView = (): React.JSX.Element => {
                 <div className="flex flex-col gap-2">
                     {items.map(({ movie, letter, showDivider }) => {
                         return (
-                            <Fragment key={movie.filePath}>
+                            <Fragment key={movie.title}>
                                 {showDivider && (
                                     <Divider
                                         id={`letter-${letter}`}

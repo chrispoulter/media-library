@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { Fragment, memo, useState } from 'react';
 import defaultTvShowPoster from '../../assets/default-tv-show.svg';
 import { Divider } from '../ui/Divider';
 import { PosterImage } from '../ui/PosterImage';
@@ -11,7 +11,7 @@ type TvShowCardProps = {
     showAddedDate?: boolean;
 };
 
-export const TvShowCard = ({
+const TvShowCardComponent = ({
     tvShow,
     showAddedDate,
 }: TvShowCardProps): React.JSX.Element => {
@@ -65,37 +65,35 @@ export const TvShowCard = ({
             </button>
             {isOpen && (
                 <div className="mx-5 flex flex-col gap-1">
-                    {tvShow.seasons.map((season, seasonIndex) => {
+                    {tvShow.seasons.map((season) => {
                         const seasonLabel = `S${season.seasonNumber.toString().padStart(2, '0')}`;
                         return (
-                            <Fragment key={seasonIndex}>
+                            <Fragment key={season.seasonNumber}>
                                 <Divider label={seasonLabel} />
-                                {season.episodes.map(
-                                    (episode, episodeIndex) => {
-                                        const episodeLabel = `E${episode.episodeNumber.toString().padStart(2, '0')}`;
-                                        return (
-                                            <button
-                                                type="button"
-                                                key={`${seasonIndex}-${episodeIndex}`}
-                                                onClick={() =>
-                                                    window.api.openTvShowFile(
-                                                        episode.filePath
-                                                    )
-                                                }
-                                                className="flex w-full cursor-pointer items-center gap-4 rounded-lg border border-zinc-200 bg-white p-2 text-left transition-all duration-150 hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white dark:hover:bg-zinc-700"
-                                            >
-                                                <span className="truncate text-sm">
-                                                    {tvShow.title} {seasonLabel}
-                                                    {episodeLabel}
-                                                </span>
-                                                <span className="ml-auto min-w-14 rounded border border-zinc-300 bg-zinc-100 px-2 py-1 text-center text-xs text-zinc-600 uppercase dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
-                                                    {episode.fileExtension}
-                                                </span>
-                                                <PlayIcon className="h-5 w-5 text-zinc-500 dark:text-zinc-300" />
-                                            </button>
-                                        );
-                                    }
-                                )}
+                                {season.episodes.map((episode) => {
+                                    const episodeLabel = `E${episode.episodeNumber.toString().padStart(2, '0')}`;
+                                    return (
+                                        <button
+                                            type="button"
+                                            key={`${season.seasonNumber}-${episode.episodeNumber}`}
+                                            onClick={() =>
+                                                window.api.openTvShowFile(
+                                                    episode.filePath
+                                                )
+                                            }
+                                            className="flex w-full cursor-pointer items-center gap-4 rounded-lg border border-zinc-200 bg-white p-2 text-left transition-all duration-150 hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white dark:hover:bg-zinc-700"
+                                        >
+                                            <span className="truncate text-sm">
+                                                {tvShow.title} {seasonLabel}
+                                                {episodeLabel}
+                                            </span>
+                                            <span className="ml-auto min-w-14 rounded border border-zinc-300 bg-zinc-100 px-2 py-1 text-center text-xs text-zinc-600 uppercase dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
+                                                {episode.fileExtension}
+                                            </span>
+                                            <PlayIcon className="h-5 w-5 text-zinc-500 dark:text-zinc-300" />
+                                        </button>
+                                    );
+                                })}
                             </Fragment>
                         );
                     })}
@@ -104,3 +102,5 @@ export const TvShowCard = ({
         </article>
     );
 };
+
+export const TvShowCard = memo(TvShowCardComponent);

@@ -11,30 +11,34 @@ export const PosterImage = ({
     alt,
     fallbackSrc,
 }: PosterImageProps): React.JSX.Element => {
-    const resolvedSrc = src || fallbackSrc;
-
     const handleError = (e: React.SyntheticEvent<HTMLImageElement>): void => {
         e.currentTarget.src = fallbackSrc;
         e.currentTarget.onerror = null;
     };
 
-    const sharedProps = { src: resolvedSrc, alt, onError: handleError };
-    const smallClass = 'h-auto w-full max-w-8 rounded';
-    const largeClass = 'm-2 h-auto w-40 rounded';
-
     if (!src) {
-        return <img {...sharedProps} className={smallClass} />;
+        return <img src={fallbackSrc} alt={alt} className="h-12 w-8 rounded" />;
     }
 
     return (
         <Tooltip.Provider>
             <Tooltip.Root>
                 <Tooltip.Trigger asChild>
-                    <img {...sharedProps} className={smallClass} />
+                    <img
+                        src={src}
+                        alt={alt}
+                        onError={handleError}
+                        className="h-12 w-8 rounded"
+                    />
                 </Tooltip.Trigger>
                 <Tooltip.Portal>
                     <Tooltip.Content side="right">
-                        <img {...sharedProps} className={largeClass} />
+                        <img
+                            src={src}
+                            alt={alt}
+                            onError={handleError}
+                            className="m-2 h-60 w-40 rounded"
+                        />
                     </Tooltip.Content>
                 </Tooltip.Portal>
             </Tooltip.Root>

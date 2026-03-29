@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import defaultMoviePoster from '../../assets/default-movie.svg';
 import { PosterImage } from '../ui/PosterImage';
 import { PlayIcon } from '../ui/SvgIcons';
@@ -9,7 +10,7 @@ type MovieCardProps = {
     showAddedDate?: boolean;
 };
 
-export const MovieCard = ({
+const MovieCardComponent = ({
     movie,
     showAddedDate,
 }: MovieCardProps): React.JSX.Element => {
@@ -46,3 +47,5 @@ export const MovieCard = ({
         </button>
     );
 };
+
+export const MovieCard = memo(MovieCardComponent);
