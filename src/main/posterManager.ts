@@ -68,7 +68,7 @@ const processItem = async ({ type, title }: QueueItem): Promise<void> => {
     broadcast({ kind: 'poster-updated', type, title, posterUrl });
 };
 
-const broadcast = (event: Event): void =>
-    BrowserWindow.getAllWindows().forEach((win) =>
-        win.webContents.send('event', event)
-    );
+const broadcast = (event: Event): void => {
+    const mainWindow = BrowserWindow.getAllWindows()[0];
+    mainWindow.webContents.send('event', event);
+};

@@ -1,4 +1,4 @@
-import { app, shell, ipcMain, dialog } from 'electron';
+import { app, shell, ipcMain, dialog, BrowserWindow } from 'electron';
 import log from 'electron-log/main';
 import { resolve, sep } from 'path';
 import { getMovies, getRecentlyAdded, getTvShows } from './mediaScanner';
@@ -15,7 +15,9 @@ export const registerHandlers = (): void => {
     );
 
     ipcMain.handle('select-directory', async (_, defaultPath?: string) => {
-        const result = await dialog.showOpenDialog({
+        const mainWindow = BrowserWindow.getAllWindows()[0];
+
+        const result = await dialog.showOpenDialog(mainWindow, {
             properties: ['openDirectory'],
             defaultPath,
         });
@@ -74,7 +76,25 @@ export const registerHandlers = (): void => {
     ipcMain.handle('get-movies', () => getMovies());
     ipcMain.handle('get-tv-shows', () => getTvShows());
 
-    ipcMain.handle('refetch-posters', async (_, failedOnly?: boolean) =>
-        clearPosterUrls(failedOnly)
-    );
+    ipcMain.handle('refetch-posters', async (_, failedOnly?: boolean) => {
+        const mainWindow = BrowserWindow.getAllWindows()[0];
+
+        const result = await dialog.showMessageBox(mainWindow, {
+            type: 'question',
+            buttons: ['Yes', 'No'],
+            defaultId: 1,
+            title: 'Confirm Poster Refetch',
+            message: `Are you sure you want to refetch ${
+                failedOnly ? 'missing' : 'all'
+            } posters?`,
+        });
+
+        const confirmed = result.response === 0;
+
+        if (confirmed) {
+            clearPosterUrls(failedOnly);
+        }
+
+        return confirmed;
+    });
 };

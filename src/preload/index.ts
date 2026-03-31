@@ -19,7 +19,7 @@ const api = {
         ipcRenderer.invoke('get-recently-added'),
     getMovies: (): Promise<Movie[]> => ipcRenderer.invoke('get-movies'),
     getTvShows: (): Promise<TvShow[]> => ipcRenderer.invoke('get-tv-shows'),
-    refetchPosters: (failedOnly?: boolean): Promise<void> =>
+    refetchPosters: (failedOnly?: boolean): Promise<boolean> =>
         ipcRenderer.invoke('refetch-posters', failedOnly),
     onEvent: (callback: (event: Event) => void) => {
         const listener = (_: Electron.IpcRendererEvent, event: Event): void =>
