@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -8,6 +8,7 @@ import {
     useRefetchPostersMutation,
 } from '../hooks/useAppQueries';
 import { ErrorMessage } from './ui/ErrorMessage';
+import { Modal } from './ui/Modal';
 import type { Settings } from '../../../shared/types';
 
 const directoryPathSchema = z.string().refine(
@@ -36,6 +37,8 @@ const settingsSchema = z.object({
 });
 
 export const SettingsView = (): React.JSX.Element => {
+    const [pendingRefetch, setPendingRefetch] = useState<boolean | null>(null);
+
     const { data: settings, isLoading, error: loadError } = useSettingsQuery();
 
     const {
@@ -49,7 +52,6 @@ export const SettingsView = (): React.JSX.Element => {
         mutate: refetchPosters,
         isPending: isRefetching,
         isSuccess: isRefetchSuccess,
-        data: refetchConfirmed,
         error: refetchError,
     } = useRefetchPostersMutation();
 
@@ -81,8 +83,20 @@ export const SettingsView = (): React.JSX.Element => {
 
     const onSaveSettings = (data: Settings): void => saveSettings(data);
 
-    const onRefetchPosters = (failedOnly?: boolean): void =>
-        refetchPosters(failedOnly);
+    const onRefetchMissingPosters = (): void => setPendingRefetch(true);
+
+    const onRefetchAllPosters = (): void => setPendingRefetch(false);
+
+    const onConfirmRefetch = (): void => {
+        if (pendingRefetch === null) {
+            return;
+        }
+
+        refetchPosters(pendingRefetch);
+        setPendingRefetch(null);
+    };
+
+    const onCancelRefetch = (): void => setPendingRefetch(null);
 
     if (isLoading) {
         return (
@@ -243,7 +257,7 @@ export const SettingsView = (): React.JSX.Element => {
                     <button
                         type="button"
                         disabled={isRefetching}
-                        onClick={() => onRefetchPosters(true)}
+                        onClick={onRefetchMissingPosters}
                         className="cursor-pointer rounded border border-zinc-300 bg-white px-4 py-2 text-sm text-zinc-800 hover:bg-zinc-50 dark:border-zinc-600 dark:bg-zinc-700 dark:text-white dark:hover:bg-zinc-600"
                     >
                         Refetch Missing Posters
@@ -251,13 +265,13 @@ export const SettingsView = (): React.JSX.Element => {
                     <button
                         type="button"
                         disabled={isRefetching}
-                        onClick={() => onRefetchPosters(false)}
+                        onClick={onRefetchAllPosters}
                         className="cursor-pointer rounded border border-zinc-300 bg-white px-4 py-2 text-sm text-zinc-800 hover:bg-zinc-50 dark:border-zinc-600 dark:bg-zinc-700 dark:text-white dark:hover:bg-zinc-600"
                     >
                         Refetch All Posters
                     </button>
                 </div>
-                {isRefetchSuccess && refetchConfirmed && (
+                {isRefetchSuccess && (
                     <p
                         role="status"
                         className="rounded border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700 dark:border-green-800/50 dark:bg-green-900/30 dark:text-green-400"
@@ -272,6 +286,34 @@ export const SettingsView = (): React.JSX.Element => {
                     >
                         {refetchError.message}
                     </p>
+                )}
+                {pendingRefetch !== null && (
+                    <Modal
+                        onClose={onCancelRefetch}
+                        className="flex flex-col gap-4"
+                    >
+                        <p className="text-sm text-zinc-700 dark:text-zinc-300">
+                            {pendingRefetch
+                                ? 'This will re-download posters that failed to load. Are you sure?'
+                                : 'This will clear all cached posters and re-download them. Are you sure?'}
+                        </p>
+                        <div className="flex flex-row justify-end gap-2">
+                            <button
+                                type="button"
+                                onClick={onCancelRefetch}
+                                className="cursor-pointer rounded border border-zinc-300 bg-white px-3 py-1 text-sm hover:bg-zinc-50 dark:border-zinc-600 dark:bg-zinc-700 dark:text-white dark:hover:bg-zinc-600"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                type="button"
+                                onClick={onConfirmRefetch}
+                                className="cursor-pointer rounded bg-sky-600 px-3 py-1 text-sm text-white hover:bg-sky-700 dark:hover:bg-sky-500"
+                            >
+                                Confirm
+                            </button>
+                        </div>
+                    </Modal>
                 )}
             </div>
         </section>

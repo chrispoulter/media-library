@@ -76,25 +76,7 @@ export const registerHandlers = (): void => {
     ipcMain.handle('get-movies', () => getMovies());
     ipcMain.handle('get-tv-shows', () => getTvShows());
 
-    ipcMain.handle('refetch-posters', async (_, failedOnly?: boolean) => {
-        const mainWindow = BrowserWindow.getAllWindows()[0];
-
-        const result = await dialog.showMessageBox(mainWindow, {
-            type: 'question',
-            buttons: ['Yes', 'No'],
-            defaultId: 1,
-            title: 'Confirm Poster Refetch',
-            message: `Are you sure you want to refetch ${
-                failedOnly ? 'missing' : 'all'
-            } posters?`,
-        });
-
-        const confirmed = result.response === 0;
-
-        if (confirmed) {
-            clearPosterUrls(failedOnly);
-        }
-
-        return confirmed;
-    });
+    ipcMain.handle('refetch-posters', async (_, failedOnly?: boolean) =>
+        clearPosterUrls(failedOnly)
+    );
 };
