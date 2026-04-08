@@ -1,12 +1,12 @@
 import clsx from 'clsx';
 import { SearchIcon, XIcon } from './SvgIcons';
 
-type SearchBarProps = {
+interface SearchBarProps {
     value: string;
     onChange: (value: string) => void;
     placeholder?: string;
     disabled?: boolean;
-};
+}
 
 export const SearchBar = ({
     value,

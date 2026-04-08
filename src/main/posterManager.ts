@@ -5,7 +5,10 @@ import { getSettings } from './settingsStore';
 import { fetchPosterUrl } from './tmdbFetcher';
 import type { Event, MediaType } from '../shared/types';
 
-export type QueueItem = { type: MediaType; title: string };
+export interface QueueItem {
+    type: MediaType;
+    title: string;
+}
 
 const queue: QueueItem[] = [];
 let isProcessing = false;

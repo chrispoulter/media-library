@@ -3,9 +3,9 @@ import { TvShowsView } from '../tv-shows/TvShowsView';
 import { RecentlyAddedView } from '../RecentlyAddedView';
 import { SettingsView } from '../SettingsView';
 
-type ContentProps = {
+interface ContentProps {
     view: string;
-};
+}
 
 export const Content = ({ view }: ContentProps): React.JSX.Element => {
     let activeView: React.JSX.Element;

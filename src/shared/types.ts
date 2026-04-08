@@ -1,42 +1,42 @@
-export type Settings = {
+export interface Settings {
     theme: 'light' | 'dark' | 'system';
     moviesDirectory: string;
     tvShowsDirectory: string;
     tmdbApiKey: string;
-};
+}
 
 export type MediaType = 'movie' | 'tv-show';
 
-export type Movie = {
+export interface Movie {
     title: string;
     posterUrl: string | undefined | null;
     filePath: string;
     fileExtension: string;
     addedAt: number;
-};
+}
 
-export type TvShowEpisode = {
+export interface TvShowEpisode {
     episodeNumber: number;
     filePath: string;
     fileExtension: string;
     addedAt: number;
-};
+}
 
-export type TvShowSeason = {
+export interface TvShowSeason {
     seasonNumber: number;
     episodes: TvShowEpisode[];
-};
+}
 
-export type TvShow = {
+export interface TvShow {
     title: string;
     posterUrl: string | undefined | null;
     seasons: TvShowSeason[];
     latestAddedAt: number;
-};
+}
 
-export type Event = {
+export interface Event {
     kind: 'poster-updated';
     type: MediaType;
     title: string;
     posterUrl: string | null | undefined;
-};
+}

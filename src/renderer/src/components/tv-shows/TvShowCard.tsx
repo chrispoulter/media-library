@@ -6,10 +6,10 @@ import { ChevronDown, ChevronUp, PlayIcon } from '../ui/SvgIcons';
 import { relativeTime } from '../../utils/time';
 import type { TvShow } from '../../../../shared/types';
 
-type TvShowCardProps = {
+interface TvShowCardProps {
     tvShow: TvShow;
     showAddedDate?: boolean;
-};
+}
 
 const TvShowCardComponent = ({
     tvShow,

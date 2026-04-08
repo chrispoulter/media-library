@@ -2,11 +2,11 @@ import React from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import clsx from 'clsx';
 
-type ModalProps = {
+interface ModalProps {
     onClose: () => void;
     children: React.ReactNode;
     className?: string;
-};
+}
 
 export const Modal = ({
     onClose,

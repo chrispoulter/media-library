@@ -5,10 +5,10 @@ import { PlayIcon } from '../ui/SvgIcons';
 import { relativeTime } from '../../utils/time';
 import type { Movie } from '../../../../shared/types';
 
-type MovieCardProps = {
+interface MovieCardProps {
     movie: Movie;
     showAddedDate?: boolean;
-};
+}
 
 const MovieCardComponent = ({
     movie,

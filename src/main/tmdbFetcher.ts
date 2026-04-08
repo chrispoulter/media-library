@@ -2,11 +2,11 @@ import log from 'electron-log/main';
 import { getSettings } from './settingsStore';
 import type { MediaType } from '../shared/types';
 
-type TmdbSearchResponse = {
+interface TmdbSearchResponse {
     results: {
         poster_path: string | null;
     }[];
-};
+}
 
 const API_URL = 'https://api.themoviedb.org/3';
 const IMAGE_URL = 'https://image.tmdb.org/t/p/w300';

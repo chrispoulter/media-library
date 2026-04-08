@@ -2,13 +2,13 @@ import { BrowserWindow } from 'electron';
 import log from 'electron-log/main';
 import Store from 'electron-store';
 
-type WindowState = {
+interface WindowState {
     width: number;
     height: number;
     x: number | undefined;
     y: number | undefined;
     isMaximized: boolean;
-};
+}
 
 const store = new Store<WindowState>({
     name: 'window-state',

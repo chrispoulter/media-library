@@ -2,9 +2,9 @@ import clsx from 'clsx';
 
 const ALL_LETTERS = '#ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 
-type AlphabetBarProps = {
+interface AlphabetBarProps {
     availableLetters?: Set<string>;
-};
+}
 
 export const AlphabetBar = ({
     availableLetters,

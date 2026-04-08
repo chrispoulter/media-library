@@ -1,7 +1,7 @@
-type DividerProps = {
+interface DividerProps {
     id?: string;
     label: string;
-};
+}
 
 export const Divider = ({ id, label }: DividerProps): React.JSX.Element => (
     <h3

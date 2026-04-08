@@ -1,10 +1,10 @@
 import * as Tooltip from '@radix-ui/react-tooltip';
 
-type PosterImageProps = {
+interface PosterImageProps {
     src: string | null | undefined;
     alt: string;
     fallbackSrc: string;
-};
+}
 
 export const PosterImage = ({
     src,

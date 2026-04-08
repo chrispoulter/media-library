@@ -3,10 +3,10 @@ import { ClockIcon, FilmIcon, TvIcon, CogIcon } from '../ui/SvgIcons';
 import { Status } from './Status';
 import { Footer } from './Footer';
 
-type SidebarProps = {
+interface SidebarProps {
     view: string;
     setView: (view: string) => void;
-};
+}
 
 const options = [
     { label: 'Recently Added', value: 'recently-added', icon: ClockIcon },

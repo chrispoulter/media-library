@@ -1,6 +1,6 @@
-type ErrorMessage = {
+interface ErrorMessage {
     error: Error;
-};
+}
 
 export const ErrorMessage = ({ error }: ErrorMessage): React.JSX.Element => {
     return (
