@@ -51,11 +51,11 @@ export const fetchPosterUrl = async (
     const params = new URLSearchParams({ query, year });
 
     const controller = new AbortController();
-    const id = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
+    const timeoutId = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
 
     try {
         const response = await fetch(
-            `${API_URL}/search/${endpoint}?${params.toString()}`,
+            `${API_URL}/search/${endpoint}?${params}`,
             {
                 headers: { Authorization: `Bearer ${tmdbApiKey}` },
                 signal: controller.signal,
@@ -81,6 +81,6 @@ export const fetchPosterUrl = async (
         log.error('Error fetching poster:', error);
         return null;
     } finally {
-        clearTimeout(id);
+        clearTimeout(timeoutId);
     }
 };
