@@ -44,8 +44,7 @@ export const fetchPosterUrl = async (
             endpoint = 'tv';
             break;
         default:
-            endpoint = 'multi';
-            break;
+            throw new Error(`Unsupported media type: ${type}`);
     }
 
     const { query, year } = parseQueryAndYear(title);
