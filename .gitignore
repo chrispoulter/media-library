@@ -3,5 +3,5 @@ dist
 out
 .eslintcache
 
-.claude/settings.local.json
+.claude
 test-media
