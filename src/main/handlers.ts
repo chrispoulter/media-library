@@ -1,6 +1,6 @@
 import { app, shell, ipcMain, dialog, BrowserWindow } from 'electron';
 import log from 'electron-log/main';
-import { resolve, sep } from 'path';
+import { resolve, sep } from 'node:path';
 import { getMovies, getRecentlyAdded, getTvShows } from './mediaScanner';
 import { clearQueue } from './posterManager';
 import { clearPosterUrls } from './posterStore';

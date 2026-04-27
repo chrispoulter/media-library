@@ -1,5 +1,5 @@
-import { readdir, stat } from 'fs/promises';
-import { extname, join } from 'path';
+import { readdir, stat } from 'node:fs/promises';
+import { extname, join } from 'node:path';
 import log from 'electron-log/main';
 import { enqueuePosters, type QueueItem } from './posterManager';
 import { getPosterUrl } from './posterStore';

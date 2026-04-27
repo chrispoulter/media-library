@@ -1,7 +1,7 @@
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
 import { app, shell, BrowserWindow } from 'electron';
 import log from 'electron-log/main';
-import { join } from 'path';
+import { join } from 'node:path';
 import icon from '../../resources/icon.png?asset';
 import { getWindowState, setWindowState } from './windowStateStore';
 import { setupAutoUpdater } from './updater';
