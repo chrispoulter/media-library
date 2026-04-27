@@ -1,6 +1,6 @@
-import { readFileSync, writeFileSync, mkdirSync } from 'fs';
-import { join, dirname } from 'path';
-import { fileURLToPath } from 'url';
+import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { join, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
 import pngToIco from 'png-to-ico';
 import png2icons from 'png2icons';
