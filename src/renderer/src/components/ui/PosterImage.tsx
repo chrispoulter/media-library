@@ -17,7 +17,14 @@ export const PosterImage = ({
     };
 
     if (!src) {
-        return <img src={fallbackSrc} alt={alt} className="h-12 w-8 rounded" />;
+        return (
+            <img
+                src={fallbackSrc}
+                alt={alt}
+                loading="lazy"
+                className="h-12 w-8 rounded"
+            />
+        );
     }
 
     return (
@@ -27,6 +34,7 @@ export const PosterImage = ({
                     <img
                         src={src}
                         alt={alt}
+                        loading="lazy"
                         onError={handleError}
                         className="h-12 w-8 rounded"
                     />
@@ -36,6 +44,7 @@ export const PosterImage = ({
                         <img
                             src={src}
                             alt={alt}
+                            loading="lazy"
                             onError={handleError}
                             className="m-2 h-60 w-40 rounded"
                         />
