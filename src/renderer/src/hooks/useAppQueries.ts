@@ -9,16 +9,25 @@ import {
 import { applyTheme } from '../utils/theme';
 import type { Movie, TvShow, Settings, Event } from '../../../shared/types';
 
+const queryKeys = {
+    version: ['version'] as const,
+    settings: ['settings'] as const,
+    movies: ['movies'] as const,
+    tvShows: ['tv-shows'] as const,
+    recentlyAdded: ['recently-added'] as const,
+    events: ['events'] as const,
+};
+
 export const useVersionQuery = (): UseQueryResult<string> =>
     useQuery({
-        queryKey: ['version'],
+        queryKey: queryKeys.version,
         queryFn: () => window.api.getVersion(),
         staleTime: Infinity,
     });
 
 export const useSettingsQuery = (): UseQueryResult<Settings> =>
     useQuery({
-        queryKey: ['settings'],
+        queryKey: queryKeys.settings,
         queryFn: () => window.api.getSettings(),
         staleTime: Infinity,
     });
@@ -33,31 +42,33 @@ export const useSaveSettingsMutation = (): UseMutationResult<
         mutationFn: (settings: Settings) => window.api.setSettings(settings),
         onSuccess: (_, settings) => {
             applyTheme(settings.theme);
-            queryClient.setQueryData(['settings'], settings);
-            queryClient.invalidateQueries({ queryKey: ['movies'] });
-            queryClient.invalidateQueries({ queryKey: ['tv-shows'] });
-            queryClient.invalidateQueries({ queryKey: ['recently-added'] });
+            queryClient.setQueryData(queryKeys.settings, settings);
+            queryClient.invalidateQueries({ queryKey: queryKeys.movies });
+            queryClient.invalidateQueries({ queryKey: queryKeys.tvShows });
+            queryClient.invalidateQueries({
+                queryKey: queryKeys.recentlyAdded,
+            });
         },
     });
 };
 
 export const useMoviesQuery = (): UseQueryResult<Movie[]> =>
     useQuery({
-        queryKey: ['movies'],
+        queryKey: queryKeys.movies,
         queryFn: () => window.api.getMovies(),
         staleTime: Infinity,
     });
 
 export const useTvShowsQuery = (): UseQueryResult<TvShow[]> =>
     useQuery({
-        queryKey: ['tv-shows'],
+        queryKey: queryKeys.tvShows,
         queryFn: () => window.api.getTvShows(),
         staleTime: Infinity,
     });
 
 export const useRecentlyAddedQuery = (): UseQueryResult<(Movie | TvShow)[]> =>
     useQuery({
-        queryKey: ['recently-added'],
+        queryKey: queryKeys.recentlyAdded,
         queryFn: () => window.api.getRecentlyAdded(),
         staleTime: Infinity,
     });
@@ -72,16 +83,18 @@ export const useRefetchPostersMutation = (): UseMutationResult<
         mutationFn: (failedOnly?: boolean) =>
             window.api.refetchPosters(failedOnly),
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['movies'] });
-            queryClient.invalidateQueries({ queryKey: ['tv-shows'] });
-            queryClient.invalidateQueries({ queryKey: ['recently-added'] });
+            queryClient.invalidateQueries({ queryKey: queryKeys.movies });
+            queryClient.invalidateQueries({ queryKey: queryKeys.tvShows });
+            queryClient.invalidateQueries({
+                queryKey: queryKeys.recentlyAdded,
+            });
         },
     });
 };
 
 export const useEventsQuery = (): UseQueryResult<Event | null> =>
     useQuery({
-        queryKey: ['events'],
+        queryKey: queryKeys.events,
         queryFn: () => null,
         staleTime: Infinity,
     });
@@ -91,7 +104,7 @@ export const useEventsListener = (): void => {
 
     useEffect(() => {
         const unsubscribe = window.api.onEvent((event: Event): void => {
-            queryClient.setQueryData(['events'], event);
+            queryClient.setQueryData(queryKeys.events, event);
 
             switch (event.kind) {
                 case 'poster-updated':
@@ -100,21 +113,23 @@ export const useEventsListener = (): void => {
                     }
 
                     if (event.type === 'movie') {
-                        queryClient.setQueryData<Movie[]>(['movies'], (old) =>
-                            old?.map((m) =>
-                                event.title === m.title
-                                    ? {
-                                          ...m,
-                                          posterUrl: event.posterUrl,
-                                      }
-                                    : m
-                            )
+                        queryClient.setQueryData<Movie[]>(
+                            queryKeys.movies,
+                            (old) =>
+                                old?.map((m) =>
+                                    event.title === m.title
+                                        ? {
+                                              ...m,
+                                              posterUrl: event.posterUrl,
+                                          }
+                                        : m
+                                )
                         );
                     }
 
                     if (event.type === 'tv-show') {
                         queryClient.setQueryData<TvShow[]>(
-                            ['tv-shows'],
+                            queryKeys.tvShows,
                             (old) =>
                                 old?.map((s) =>
                                     event.title === s.title
@@ -128,7 +143,7 @@ export const useEventsListener = (): void => {
                     }
 
                     queryClient.setQueryData<(Movie | TvShow)[]>(
-                        ['recently-added'],
+                        queryKeys.recentlyAdded,
                         (old) =>
                             old?.map((r) =>
                                 event.title === r.title
