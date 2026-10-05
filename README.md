@@ -113,3 +113,7 @@ src/
 │       └── utils/        # Theme and time formatting helpers
 └── shared/         # Shared TypeScript types
 ```
+
+## License
+
+MIT. See [LICENSE](LICENSE).
