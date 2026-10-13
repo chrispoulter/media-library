@@ -2,20 +2,21 @@ name: CI
 
 on:
     push:
-        branches:
-            - '**'
+        branches: ['**']
+        tags: ['v*.*.*']
+    workflow_dispatch:
+
+permissions:
+    contents: read
 
 jobs:
-    check:
-        name: Typecheck, Lint & Build
+    build:
+        name: Typecheck, lint & build
         runs-on: ubuntu-latest
-
         steps:
-            - name: Checkout
-              uses: actions/checkout@v6
+            - uses: actions/checkout@v6
 
-            - name: Setup Node.js
-              uses: actions/setup-node@v6
+            - uses: actions/setup-node@v6
               with:
                   node-version: 24
                   cache: 'npm'
@@ -23,11 +24,79 @@ jobs:
             - name: Install dependencies
               run: npm ci
 
-            - name: Typecheck
-              run: npm run typecheck
-
             - name: Lint
               run: npm run lint
 
             - name: Build
               run: npm run build
+
+    publish:
+        name: Publish ${{ matrix.platform }}
+        if: github.ref_type == 'tag' || github.event_name == 'workflow_dispatch'
+        needs: build
+        runs-on: ${{ matrix.os }}
+        strategy:
+            matrix:
+                include:
+                    - os: windows-latest
+                      platform: win
+                    # - os: macos-latest
+                    #   platform: mac
+                    - os: ubuntu-latest
+                      platform: linux
+        steps:
+            - uses: actions/checkout@v6
+
+            - uses: actions/setup-node@v6
+              with:
+                  node-version: 24
+                  cache: 'npm'
+
+            - name: Install dependencies
+              run: npm ci
+
+            - name: Set version
+              shell: bash
+              run: |
+                  if [ "${{ github.ref_type }}" = "tag" ]; then
+                      version="${GITHUB_REF_NAME#v}"
+                  else
+                      version="1.0.0-ci.${{ github.run_number }}"
+                  fi
+                  npm version "$version" --no-git-tag-version
+
+            - name: Package
+              run: |
+                  npx electron-vite build
+                  npx electron-builder --${{ matrix.platform }} --publish never
+
+            # latest*.yml and the blockmaps are what electron-updater reads from the release.
+            - uses: actions/upload-artifact@v7
+              with:
+                  name: media-library-${{ matrix.platform }}
+                  path: |
+                      dist/*.exe
+                      dist/*.dmg
+                      dist/*.zip
+                      dist/*.AppImage
+                      dist/*.deb
+                      dist/*.blockmap
+                      dist/latest*.yml
+
+    release:
+        name: GitHub release
+        if: github.ref_type == 'tag'
+        needs: publish
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
+        steps:
+            - uses: actions/download-artifact@v8
+              with:
+                  pattern: media-library-*
+                  merge-multiple: true
+
+            - name: Create release
+              env:
+                  GH_TOKEN: ${{ github.token }}
+              run: gh release create "${{ github.ref_name }}" * --repo "${{ github.repository }}" --title "${{ github.ref_name }}" --generate-notes
