@@ -1,14 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
-  <rect width="512" height="512" rx="96" ry="96" fill="#e3801c"/>
-  <line x1="86" y1="404" x2="426" y2="404" stroke="#ffffff" stroke-width="20" stroke-linecap="round"/>
-  <rect x="96" y="150" width="70" height="232" rx="14" fill="none" stroke="#ffffff" stroke-width="20"/>
-  <rect x="116" y="196" width="30" height="16" rx="4" fill="#ffffff"/>
-  <rect x="116" y="320" width="30" height="16" rx="4" fill="#ffffff"/>
-  <rect x="186" y="110" width="70" height="272" rx="14" fill="none" stroke="#ffffff" stroke-width="20"/>
-  <polygon points="207,222 207,270 239,246" fill="#ffffff"/>
+  <rect width="512" height="512" rx="96" ry="96" fill="#2b2d3a"/>
+  <line x1="86" y1="404" x2="426" y2="404" stroke="#f2a93b" stroke-width="20" stroke-linecap="round"/>
+  <rect x="96" y="150" width="70" height="232" rx="14" fill="none" stroke="#f2a93b" stroke-width="20"/>
+  <rect x="116" y="196" width="30" height="16" rx="4" fill="#f2a93b"/>
+  <rect x="116" y="320" width="30" height="16" rx="4" fill="#f2a93b"/>
+  <rect x="186" y="110" width="70" height="272" rx="14" fill="none" stroke="#f2a93b" stroke-width="20"/>
+  <polygon points="207,222 207,270 239,246" fill="#f2a93b"/>
   <g transform="rotate(-18 348 382)">
-    <rect x="348" y="150" width="70" height="232" rx="14" fill="none" stroke="#ffffff" stroke-width="20"/>
-    <rect x="368" y="196" width="30" height="16" rx="4" fill="#ffffff"/>
-    <rect x="368" y="320" width="30" height="16" rx="4" fill="#ffffff"/>
+    <rect x="348" y="150" width="70" height="232" rx="14" fill="none" stroke="#f2a93b" stroke-width="20"/>
+    <rect x="368" y="196" width="30" height="16" rx="4" fill="#f2a93b"/>
+    <rect x="368" y="320" width="30" height="16" rx="4" fill="#f2a93b"/>
   </g>
 </svg>
