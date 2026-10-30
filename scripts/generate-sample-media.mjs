@@ -1,9 +1,7 @@
 import { mkdir, rm, utimes, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
-import { fileURLToPath } from 'node:url';
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-const repoRoot = dirname(__dirname);
+const repoRoot = dirname(import.meta.dirname);
 const testMediaRoot = join(repoRoot, 'test-media');
 const moviesRoot = join(testMediaRoot, 'movies');
 const tvShowsRoot = join(testMediaRoot, 'tv-shows');

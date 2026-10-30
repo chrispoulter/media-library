@@ -1,12 +1,10 @@
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
-import { join, dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { join } from 'node:path';
 import sharp from 'sharp';
 import pngToIco from 'png-to-ico';
 import png2icons from 'png2icons';
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-const root = join(__dirname, '..');
+const root = join(import.meta.dirname, '..');
 
 const svgPath = join(root, 'resources', 'icon.svg');
 const pngPath = join(root, 'resources', 'icon.png');
